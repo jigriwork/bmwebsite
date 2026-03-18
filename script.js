@@ -58,4 +58,40 @@ document.addEventListener('DOMContentLoaded', () => {
     animatedElements.forEach(el => {
         observer.observe(el);
     });
+
+    // Audio Player Logic
+    const audioPlayer = document.getElementById('audioPlayer');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const rewindBtn = document.getElementById('rewindBtn');
+    const forwardBtn = document.getElementById('forwardBtn');
+    const bgMusic = document.getElementById('bgMusic');
+    
+    if (audioPlayer && bgMusic) {
+        // Play/Pause completely toggles
+        playPauseBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (bgMusic.paused) {
+                bgMusic.play().then(() => {
+                    audioPlayer.classList.add('playing');
+                }).catch(error => {
+                    console.error("Audio playback failed:", error);
+                });
+            } else {
+                bgMusic.pause();
+                audioPlayer.classList.remove('playing');
+            }
+        });
+
+        // Rewind 10 seconds
+        rewindBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            bgMusic.currentTime = Math.max(0, bgMusic.currentTime - 10);
+        });
+
+        // Forward 10 seconds
+        forwardBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            bgMusic.currentTime = Math.min(bgMusic.duration, bgMusic.currentTime + 10);
+        });
+    }
 });
