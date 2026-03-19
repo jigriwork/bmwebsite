@@ -94,4 +94,48 @@ document.addEventListener('DOMContentLoaded', () => {
             bgMusic.currentTime = Math.min(bgMusic.duration, bgMusic.currentTime + 10);
         });
     }
+
+    // Instagram Live Feed Integration (Instafeed.js)
+    const instafeedContainer = document.getElementById('instafeed');
+    // NOTE TO OWNER: To make this live, you need an Instagram Long-Term Access Token.
+    // Generate one via Facebook Developer -> Instagram Basic Display.
+    // Paste it inside the quotes below. Until then, it shows the premium static fallback grid.
+    const INSTAGRAM_ACCESS_TOKEN = ''; 
+
+    if (instafeedContainer && typeof Instafeed !== 'undefined' && INSTAGRAM_ACCESS_TOKEN !== '') {
+        try {
+            var feed = new Instafeed({
+                accessToken: INSTAGRAM_ACCESS_TOKEN,
+                limit: 6,
+                template: '<div class="insta-item"><a href="{{link}}" target="_blank" rel="noopener"><img title="{{caption}}" src="{{image}}" alt="Instagram post" /><div class="insta-overlay"><i data-lucide="instagram"></i></div></a></div>',
+                after: function() {
+                    lucide.createIcons();
+                }
+            });
+            instafeedContainer.innerHTML = '';
+            feed.run();
+        } catch (error) {
+            console.error("Instafeed initialization failed:", error);
+        }
+    }
+
+    // Scroll to Top Logic
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    if (scrollTopBtn) {
+        window.addEventListener('scroll', () => {
+            const scrollPos = window.scrollY || document.documentElement.scrollTop;
+            if (scrollPos > 400) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+        
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
 });

@@ -26,9 +26,10 @@
     <meta name="twitter:image" content="https://brandmarkfashion.com/assets/images/brandmark-logo.png">
     <meta name="twitter:image:alt" content="Brand Mark Logo">
 
-    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/bm-favicon.png?v=2">
-    <link rel="shortcut icon" href="/assets/images/bm-favicon.png?v=2">
-    <link rel="apple-touch-icon" href="/assets/images/bm-favicon.png?v=2">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/bm-favicon.png?v=3">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/bm-favicon.png?v=3">
+    <link rel="shortcut icon" type="image/png" href="assets/images/bm-favicon.png?v=3">
+    <link rel="apple-touch-icon" href="assets/images/bm-favicon.png?v=3">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -40,6 +41,7 @@
     <link rel="stylesheet" href="styles.css">
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/instafeed.js@2.0.0/dist/instafeed.min.js"></script>
 </head>
 
 <body>
@@ -47,14 +49,17 @@
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <a href="#" class="brand-logo" style="display: flex; align-items: center;">
+            <a href="#home" class="brand-logo" style="display: flex; align-items: center;">
                 <img src="assets/images/brandmark-logo.png" alt="Brand Mark Logo"
                     style="height: 100px; width: auto; object-fit: contain;">
             </a>
             <div class="nav-links">
+                <a href="#about">Our Story</a>
                 <a href="#categories">Collections</a>
                 <a href="#brands">Brands</a>
                 <a href="#experience">Experience</a>
+                <a href="#book-styling">Book Visit</a>
+                <a href="#instagram">Instagram</a>
                 <a href="#visit">Visit Us</a>
             </div>
             <button class="mobile-menu-btn">
@@ -67,9 +72,12 @@
     <div class="mobile-menu">
         <button class="close-menu-btn"><i data-lucide="x"></i></button>
         <div class="mobile-links">
+            <a href="#about">Our Story</a>
             <a href="#categories">Collections</a>
             <a href="#brands">Brands</a>
             <a href="#experience">Experience</a>
+            <a href="#book-styling">Book Visit</a>
+            <a href="#instagram">Instagram</a>
             <a href="#visit">Visit Us</a>
         </div>
     </div>
@@ -94,7 +102,50 @@
         </div>
     </section>
 
+    <!-- About Us Section -->
+    <section class="section about bw-theme" id="about">
+        <div class="container">
+            <div class="split-layout">
+                <div class="split-content fade-in-left">
+                    <h2 class="section-title">Our Story</h2>
+                    <div class="section-divider-left bw-divider"></div>
+                    <p class="about-desc">
+                        Brand Mark is a premium multi-brand fashion store based in Berhampur, built on years of trust,
+                        experience, and understanding of what customers truly want.
+                    </p>
+                    <p class="about-desc">
+                        Our roots go back to a family business that started even before India’s independence. Over the
+                        years, we have grown step by step, building strong relationships and a reputation for quality
+                        and reliability.
+                    </p>
+                    <p class="about-desc">
+                        In 2007, we expanded with <strong>Go Planet</strong>, a large-format fashion store serving a
+                        wide range of customers. With that experience and trust, Brand Mark was created as a dedicated
+                        premium space for those looking for better brands, better styling, and a better overall shopping
+                        experience.
+                    </p>
+                    <p class="about-desc">
+                        At Brand Mark, we bring together some of the most trusted and popular fashion brands for men and
+                        women. Our focus is simple: good quality, latest styles, and a store experience that feels
+                        comfortable and well-organized.
+                    </p>
+                    <p class="about-desc">
+                        We also proudly offer our own label, <strong>MITTY</strong>, where we focus on creating premium
+                        products with modern designs and strong attention to quality.
+                    </p>
+                    <p class="about-desc signature-text">
+                        Today, Brand Mark continues to grow as a trusted name in Berhampur for premium fashion.
+                    </p>
+                </div>
+                <div class="split-image fade-in-right about-image">
+                    <img src="assets/images/bm store pic.png" alt="Brand Mark Store Front">
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- What We Offer Section -->
+    <div id="collections" aria-hidden="true"></div>
     <section class="section offerings" id="categories">
         <div class="container">
             <div class="section-header text-center fade-in">
@@ -333,7 +384,8 @@
                         style="font-size: 1.1rem; margin-bottom: 1.5rem; line-height: 1.6; font-style: italic;">"Premium
                         quality collection of both men and women's wear. The location is great, exactly at Spectrum
                         Center. Truly highly recommended!"</p>
-                    <p class="testimonial-author" style="font-size: 0.9rem; color: #aaa; font-weight: 500;">— Ananya Patra</p>
+                    <p class="testimonial-author" style="font-size: 0.9rem; color: #aaa; font-weight: 500;">— Ananya
+                        Patra</p>
                 </div>
                 <div class="testimonial-card"
                     style="background: rgba(255,255,255,0.03); padding: 2rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
@@ -341,8 +393,11 @@
                     <i data-lucide="quote" class="quote-icon"
                         style="color: #D4AF37; margin-bottom: 1rem; opacity: 0.5;"></i>
                     <p class="testimonial-text"
-                        style="font-size: 1.1rem; margin-bottom: 1.5rem; line-height: 1.6; font-style: italic;">"Brand Mark's styling consultation is truly wonderful. They helped me find the perfect outfit for my brother's wedding. Excellent collection!"</p>
-                    <p class="testimonial-author" style="font-size: 0.9rem; color: #aaa; font-weight: 500;">— Priyanshu Mohanty</p>
+                        style="font-size: 1.1rem; margin-bottom: 1.5rem; line-height: 1.6; font-style: italic;">"Brand
+                        Mark's styling consultation is truly wonderful. They helped me find the perfect outfit for my
+                        brother's wedding. Excellent collection!"</p>
+                    <p class="testimonial-author" style="font-size: 0.9rem; color: #aaa; font-weight: 500;">— Priyanshu
+                        Mohanty</p>
                 </div>
                 <div class="testimonial-card"
                     style="background: rgba(255,255,255,0.03); padding: 2rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
@@ -350,8 +405,11 @@
                     <i data-lucide="quote" class="quote-icon"
                         style="color: #D4AF37; margin-bottom: 1rem; opacity: 0.5;"></i>
                     <p class="testimonial-text"
-                        style="font-size: 1.1rem; margin-bottom: 1.5rem; line-height: 1.6; font-style: italic;">"Found some exclusive international brands here that I usually have to order online. The fabrics and fits are absolutely premium."</p>
-                    <p class="testimonial-author" style="font-size: 0.9rem; color: #aaa; font-weight: 500;">— Sujata Sahu</p>
+                        style="font-size: 1.1rem; margin-bottom: 1.5rem; line-height: 1.6; font-style: italic;">"Found
+                        some exclusive international brands here that I usually have to order online. The fabrics and
+                        fits are absolutely premium."</p>
+                    <p class="testimonial-author" style="font-size: 0.9rem; color: #aaa; font-weight: 500;">— Sujata
+                        Sahu</p>
                 </div>
                 <div class="testimonial-card"
                     style="background: rgba(255,255,255,0.03); padding: 2rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);">
@@ -359,50 +417,202 @@
                     <i data-lucide="quote" class="quote-icon"
                         style="color: #D4AF37; margin-bottom: 1rem; opacity: 0.5;"></i>
                     <p class="testimonial-text"
-                        style="font-size: 1.1rem; margin-bottom: 1.5rem; line-height: 1.6; font-style: italic;">"A shopping experience like no other in Berhampur. Beautifully designed store and their footwear collection is just outstanding."</p>
-                    <p class="testimonial-author" style="font-size: 0.9rem; color: #aaa; font-weight: 500;">— Deepak Mishra</p>
+                        style="font-size: 1.1rem; margin-bottom: 1.5rem; line-height: 1.6; font-style: italic;">"A
+                        shopping experience like no other in Berhampur. Beautifully designed store and their footwear
+                        collection is just outstanding."</p>
+                    <p class="testimonial-author" style="font-size: 0.9rem; color: #aaa; font-weight: 500;">— Deepak
+                        Mishra</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Instagram Section -->
-    <section class="section instagram bg-darker">
+    <section class="section instagram bg-darker" id="instagram">
         <div class="container">
             <div class="section-header text-center fade-in">
-                <h2 class="section-title">Follow Our Journey</h2>
+                <h2 class="section-title">Brand Mark on Instagram</h2>
                 <div class="section-divider"></div>
                 <a href="https://instagram.com/brandmarkindia" target="_blank" class="insta-handle">@brandmarkindia</a>
             </div>
 
-            <div class="insta-grid fade-in">
+            <!-- Auto-Updating Instagram Feed -->
+            <div id="instafeed" class="insta-grid fade-in">
+                <!-- Static fallbacks until token is added -->
                 <div class="insta-item">
-                    <img src="assets/images/category_men_1773831997840.png" alt="Insta 1">
-                    <div class="insta-overlay"><i data-lucide="instagram"></i></div>
+                    <a href="https://instagram.com/brandmarkindia" target="_blank">
+                        <img src="assets/images/category_men_1773831997840.png" alt="Insta 1">
+                        <div class="insta-overlay"><i data-lucide="instagram"></i></div>
+                    </a>
                 </div>
                 <div class="insta-item">
-                    <img src="assets/images/category_women_1773832012966.png" alt="Insta 2">
-                    <div class="insta-overlay"><i data-lucide="instagram"></i></div>
+                    <a href="https://instagram.com/brandmarkindia" target="_blank">
+                        <img src="assets/images/category_women_1773832012966.png" alt="Insta 2">
+                        <div class="insta-overlay"><i data-lucide="instagram"></i></div>
+                    </a>
                 </div>
                 <div class="insta-item">
-                    <img src="assets/images/category_accessories_1773832028589.png" alt="Insta 3">
-                    <div class="insta-overlay"><i data-lucide="instagram"></i></div>
+                    <a href="https://instagram.com/brandmarkindia" target="_blank">
+                        <img src="assets/images/category_accessories_1773832028589.png" alt="Insta 3">
+                        <div class="insta-overlay"><i data-lucide="instagram"></i></div>
+                    </a>
                 </div>
                 <div class="insta-item">
-                    <img src="assets/images/bm store pic.png" alt="Insta 4">
-                    <div class="insta-overlay"><i data-lucide="instagram"></i></div>
+                    <a href="https://instagram.com/brandmarkindia" target="_blank">
+                        <img src="assets/images/bm store pic.png" alt="Insta 4">
+                        <div class="insta-overlay"><i data-lucide="instagram"></i></div>
+                    </a>
+                </div>
+                <div class="insta-item">
+                    <a href="https://instagram.com/brandmarkindia" target="_blank">
+                        <img src="assets/images/category_footwear.png" alt="Insta 5">
+                        <div class="insta-overlay"><i data-lucide="instagram"></i></div>
+                    </a>
+                </div>
+                <div class="insta-item">
+                    <a href="https://instagram.com/brandmarkindia" target="_blank">
+                        <img src="assets/images/category_perfumes.png" alt="Insta 6">
+                        <div class="insta-overlay"><i data-lucide="instagram"></i></div>
+                    </a>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Store Visit Conversion Section -->
+    <section class="section visit-conversion" id="book-styling">
+        <div class="container">
+            <div class="section-header text-center fade-in">
+                <h2 class="section-title">Plan Your Store Visit</h2>
+                <div class="section-divider"></div>
+                <p class="section-desc">Book a styling session, call us instantly, and find the best time to visit Brand
+                    Mark.</p>
+            </div>
+
+            <div class="visit-grid fade-in">
+                <div class="visit-card">
+                    <h3>Book Styling Session</h3>
+                    <p>Get one-on-one outfit recommendations for weddings, festivals, office wear, and premium casual
+                        looks.</p>
+                    <a class="btn btn-primary"
+                        href="https://wa.me/917327820235?text=Hi%20Brand%20Mark%2C%20I%20want%20to%20book%20a%20styling%20session."
+                        target="_blank" rel="noopener">Book on WhatsApp</a>
+                </div>
+
+                <div class="visit-card">
+                    <h3>Quick Contact</h3>
+                    <p><strong>Call Now:</strong> <a href="tel:+917327820235">+91 73278 20235</a></p>
+                    <p><strong>Opening Hours:</strong> 10:00 AM – 9:30 PM (Daily)</p>
+                    <p><strong>Best Time to Visit:</strong> Weekdays, 11:00 AM – 5:00 PM for a relaxed shopping
+                        experience.</p>
+                    <div class="visit-actions">
+                        <a class="btn btn-outline" href="tel:+917327820235">Call Now</a>
+                        <a class="btn btn-secondary" href="https://wa.me/917327820235" target="_blank"
+                            rel="noopener">Chat on WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="map-wrap fade-in">
+                <iframe title="Brand Mark Berhampur Map"
+                    src="https://www.google.com/maps?q=Brand+Mark+Berhampur&output=embed" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust & FAQ Section -->
+    <section class="section trust-faq bg-darker" id="faq">
+        <div class="container">
+            <div class="section-header text-center fade-in">
+                <h2 class="section-title">Customer Trust & FAQs</h2>
+                <div class="section-divider"></div>
+                <p class="section-desc">Have questions before visiting? Here are quick answers from Team Brand Mark.</p>
+            </div>
+
+            <div class="trust-grid fade-in">
+                <div class="trust-card">
+                    <h3>Google Reviews</h3>
+                    <p>You already have strong customer reviews. Let visitors check your latest Google rating and
+                        feedback directly.</p>
+                    <a class="btn btn-primary" href="https://www.google.com/search?q=Brand+Mark+Berhampur+reviews"
+                        target="_blank" rel="noopener">View Google Reviews</a>
+                </div>
+
+                <div class="trust-card">
+                    <h3>Frequently Asked Questions</h3>
+                    <div class="faq-list">
+                        <details>
+                            <summary>Do you offer both men’s and women’s collections?</summary>
+                            <p>Yes. We offer premium collections for men and women, including apparel, footwear,
+                                accessories, and perfumes.</p>
+                        </details>
+                        <details>
+                            <summary>Can I book a personal styling consultation?</summary>
+                            <p>Absolutely. Use the “Book on WhatsApp” button above and our team will help schedule your
+                                styling session.</p>
+                        </details>
+                        <details>
+                            <summary>Where is the store located?</summary>
+                            <p>Brand Mark is located at Spectrum Center, Old Bus Stand, Berhampur, Odisha – 760001.</p>
+                        </details>
+                        <details>
+                            <summary>Do you have exchange/return support?</summary>
+                            <p>Yes. Please refer to our Shipping & Returns policy page or contact us on WhatsApp for
+                                quick assistance.</p>
+                        </details>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visit Us Section -->
+    <section class="section visit-conversion" id="visit">
+        <div class="container">
+            <div class="section-header text-center fade-in">
+                <h2 class="section-title">Visit Us</h2>
+                <div class="section-divider"></div>
+                <p class="section-desc">Find us at Spectrum Center, Berhampur. Drop in for premium fashion and personal
+                    styling support.</p>
+            </div>
+
+            <div class="visit-grid fade-in">
+                <div class="visit-card">
+                    <h3>Store Details</h3>
+                    <p><strong>Address:</strong> Spectrum Center, Old Bus Stand, Berhampur, Odisha – 760001</p>
+                    <p><strong>Opening Hours:</strong> 10:00 AM – 9:30 PM (Daily)</p>
+                    <p><strong>Phone:</strong> <a href="tel:+917327820235">+91 73278 20235</a></p>
+                    <p><strong>Email:</strong> <a
+                            href="mailto:hello@brandmarkfashion.com">hello@brandmarkfashion.com</a></p>
+                </div>
+                <div class="visit-card">
+                    <h3>Get Directions</h3>
+                    <p>Use Google Maps for the fastest route to Brand Mark, Berhampur.</p>
+                    <div class="visit-actions">
+                        <a class="btn btn-primary" href="https://share.google/sib9q5mYbjVPyr9la" target="_blank"
+                            rel="noopener">Open in Maps</a>
+                        <a class="btn btn-outline" href="https://wa.me/917327820235" target="_blank" rel="noopener">Chat
+                            on WhatsApp</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="map-wrap fade-in">
+                <iframe title="Visit Brand Mark Berhampur"
+                    src="https://www.google.com/maps?q=Brand+Mark+Berhampur&output=embed" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </section>
+
     <!-- Visit Us / Footer -->
-    <footer class="footer" id="visit">
+    <footer class="footer" id="footer">
         <!-- ... existing footer content ... -->
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col brand-col">
-                    <a href="#" class="footer-brand" style="display: inline-block; margin-bottom: 1.5rem;">
+                    <a href="#home" class="footer-brand" style="display: inline-block; margin-bottom: 1.5rem;">
                         <img src="assets/images/brandmark-logo.png" alt="Brand Mark Logo"
                             style="height: 160px; width: auto; object-fit: contain;">
                     </a>
@@ -411,17 +621,15 @@
                     <div class="social-links">
                         <a href="https://instagram.com/brandmarkindia" target="_blank"><i
                                 data-lucide="instagram"></i></a>
-                        <a href="#"><i data-lucide="facebook"></i></a>
-                        <a href="#"><i data-lucide="twitter"></i></a>
                     </div>
                 </div>
 
                 <div class="footer-col">
                     <h3 class="footer-heading">Quick Links</h3>
                     <ul class="footer-links">
-                        <li><a href="#collections">Men</a></li>
-                        <li><a href="#collections">Women</a></li>
-                        <li><a href="#collections">Footwear & Accessories</a></li>
+                        <li><a href="#categories">Men</a></li>
+                        <li><a href="#categories">Women</a></li>
+                        <li><a href="#categories">Footwear & Accessories</a></li>
                         <li><a href="#brands">Our Brands</a></li>
                         <li><a href="#experience">The Experience</a></li>
                     </ul>
@@ -430,10 +638,10 @@
                 <div class="footer-col">
                     <h3 class="footer-heading">Customer Care</h3>
                     <ul class="footer-links">
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Shipping & Returns</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="https://wa.me/917327820235" target="_blank" rel="noopener">Contact Us</a></li>
+                        <li><a href="shipping-returns.html">Shipping & Returns</a></li>
+                        <li><a href="privacy-policy.html">Privacy Policy</a></li>
+                        <li><a href="terms-of-service.html">Terms of Service</a></li>
                     </ul>
                 </div>
 
@@ -449,7 +657,8 @@
                         </div>
                         <div class="contact-item">
                             <i data-lucide="mail"></i>
-                            <p>hello@brandmarkfashion.com</p>
+                            <p><a href="mailto:hello@brandmarkfashion.com"
+                                    style="color: inherit; text-decoration: none;">hello@brandmarkfashion.com</a></p>
                         </div>
                         <div class="footer-actions">
                             <a href="https://share.google/sib9q5mYbjVPyr9la" target="_blank"
@@ -481,7 +690,7 @@
     </div>
 
     <!-- Floating WhatsApp Desktop -->
-    <a href="https://wa.me/917328720235" class="floating-whatsapp desktop-wa" target="_blank">
+    <a href="https://wa.me/917327820235" class="floating-whatsapp desktop-wa" target="_blank">
         <i data-lucide="message-circle" style="width:24px;height:24px;"></i>
         <span class="wa-text">Chat with Us</span>
     </a>
@@ -491,10 +700,15 @@
         <a href="https://share.google/sib9q5mYbjVPyr9la" class="fab fab-nav" target="_blank" title="Get Directions">
             <i data-lucide="map-pin"></i>
         </a>
-        <a href="https://wa.me/917328720235" class="fab fab-wa" target="_blank" title="Chat on WhatsApp">
+        <a href="https://wa.me/917327820235" class="fab fab-wa" target="_blank" title="Chat on WhatsApp">
             <i data-lucide="message-circle"></i>
         </a>
     </div>
+
+    <!-- Scroll to Top Content -->
+    <button id="scrollTopBtn" class="scroll-top-btn" title="Back to Top">
+        <i data-lucide="chevron-up"></i>
+    </button>
 
     <script src="script.js"></script>
 </body>
