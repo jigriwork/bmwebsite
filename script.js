@@ -59,13 +59,25 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
 
+    // Hero Background Rotation (slow premium motion)
+    const heroSlides = document.querySelectorAll('.hero-slide');
+    if (heroSlides.length > 1) {
+        let currentSlideIndex = 0;
+
+        setInterval(() => {
+            heroSlides[currentSlideIndex].classList.remove('active');
+            currentSlideIndex = (currentSlideIndex + 1) % heroSlides.length;
+            heroSlides[currentSlideIndex].classList.add('active');
+        }, 6500);
+    }
+
     // Audio Player Logic
     const audioPlayer = document.getElementById('audioPlayer');
     const playPauseBtn = document.getElementById('playPauseBtn');
     const rewindBtn = document.getElementById('rewindBtn');
     const forwardBtn = document.getElementById('forwardBtn');
     const bgMusic = document.getElementById('bgMusic');
-    
+
     if (audioPlayer && bgMusic) {
         // Play/Pause completely toggles
         playPauseBtn.addEventListener('click', (e) => {
@@ -100,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // NOTE TO OWNER: To make this live, you need an Instagram Long-Term Access Token.
     // Generate one via Facebook Developer -> Instagram Basic Display.
     // Paste it inside the quotes below. Until then, it shows the premium static fallback grid.
-    const INSTAGRAM_ACCESS_TOKEN = ''; 
+    const INSTAGRAM_ACCESS_TOKEN = '';
 
     if (instafeedContainer && typeof Instafeed !== 'undefined' && INSTAGRAM_ACCESS_TOKEN !== '') {
         try {
@@ -108,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 accessToken: INSTAGRAM_ACCESS_TOKEN,
                 limit: 6,
                 template: '<div class="insta-item"><a href="{{link}}" target="_blank" rel="noopener"><img title="{{caption}}" src="{{image}}" alt="Instagram post" /><div class="insta-overlay"><i data-lucide="instagram"></i></div></a></div>',
-                after: function() {
+                after: function () {
                     lucide.createIcons();
                 }
             });
@@ -130,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 scrollTopBtn.classList.remove('visible');
             }
         });
-        
+
         scrollTopBtn.addEventListener('click', () => {
             window.scrollTo({
                 top: 0,

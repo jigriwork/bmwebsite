@@ -84,17 +84,19 @@
 
     <!-- Hero Section -->
     <section class="hero" id="home">
-        <div class="hero-bg"></div>
+        <div class="hero-media">
+            <div class="hero-slide active" style="background-image: url('assets/images/bm store pic.png');"></div>
+            <div class="hero-slide" style="background-image: url('assets/images/experience_bg_1773831977401.png');">
+            </div>
+            <div class="hero-slide" style="background-image: url('assets/images/hero_bg_1773831960346.png');"></div>
+        </div>
         <div class="hero-overlay"></div>
         <div class="hero-content fade-in-up">
             <div class="hero-subtitle">WELCOME TO</div>
             <h1 class="hero-title">Brand Mark</h1>
-            <p class="hero-tagline">Premium Fashion & Ethnic Elegance for Him & Her</p>
-            <p class="hero-subtext">
-                Curated fashion from the world’s finest brands,<br>
-                crafted for those who value style and presence.<br>
-                From Berhampur, Odisha ❤️
-            </p>
+            <p class="hero-tagline">Where Premium Fashion Meets Timeless Presence</p>
+            <p class="hero-subtext">Curated multi-brand fashion, styled for modern luxury.</p>
+            <p class="hero-location">From Berhampur, Odisha</p>
             <div class="hero-actions">
                 <a href="#categories" class="btn btn-primary">Explore Collection</a>
                 <a href="#visit" class="btn btn-secondary">Visit Store</a>
@@ -238,6 +240,64 @@
         </div>
     </section>
 
+    <!-- Store Moments -->
+    <section class="section store-moments bg-darker" id="moments">
+        <div class="container">
+            <div class="section-header text-center fade-in">
+                <h2 class="section-title">Inside Brand Mark</h2>
+                <div class="section-divider"></div>
+                <p class="section-desc">Real moments from our store: interiors, trial spaces, product zones, and happy
+                    customers.</p>
+            </div>
+
+            <div class="moments-grid">
+                <figure class="moment-card fade-in">
+                    <img src="assets/images/bm store pic.png" alt="Brand Mark storefront in Berhampur">
+                    <figcaption>Store Front</figcaption>
+                </figure>
+                <figure class="moment-card fade-in delay-1">
+                    <img src="assets/images/experience_bg_1773831977401.png" alt="Brand Mark interior experience">
+                    <figcaption>Premium Interior</figcaption>
+                </figure>
+                <figure class="moment-card fade-in delay-2">
+                    <img src="assets/images/category_women_1773832012966.png"
+                        alt="Women's collection zone at Brand Mark">
+                    <figcaption>Product Sections</figcaption>
+                </figure>
+                <figure class="moment-card fade-in delay-3">
+                    <img src="assets/images/category_men_1773831997840.png"
+                        alt="Customer styling moments at Brand Mark">
+                    <figcaption>Customer Moments</figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fresh This Week -->
+    <section class="section fresh-week" id="fresh-week">
+        <div class="container">
+            <div class="section-header text-center fade-in">
+                <h2 class="section-title">Fresh This Week</h2>
+                <div class="section-divider"></div>
+                <p class="section-desc">New picks curated for visual impact. No tags. Just style.</p>
+            </div>
+            <div class="fresh-grid">
+                <div class="fresh-item fade-in"><img src="assets/images/category_men_1773831997840.png"
+                        alt="Fresh men's fashion pick"></div>
+                <div class="fresh-item fade-in delay-1"><img src="assets/images/category_women_1773832012966.png"
+                        alt="Fresh women's fashion pick"></div>
+                <div class="fresh-item fade-in delay-2"><img src="assets/images/category_footwear.png"
+                        alt="Fresh footwear pick"></div>
+                <div class="fresh-item fade-in"><img src="assets/images/category_accessories.png"
+                        alt="Fresh accessories pick"></div>
+                <div class="fresh-item fade-in delay-1"><img src="assets/images/category_perfumes.png"
+                        alt="Fresh perfumes pick"></div>
+                <div class="fresh-item fade-in delay-2"><img src="assets/images/category_accessories_1773832028589.png"
+                        alt="Fresh curated style pick"></div>
+            </div>
+        </div>
+    </section>
+
     <!-- Brands Section -->
     <section class="section brands bg-darker" id="brands">
         <div class="container">
@@ -313,30 +373,18 @@
                 <div class="section-divider"></div>
             </div>
 
-            <div class="features-grid">
+            <div class="features-grid concise-features">
                 <div class="feature-card fade-in">
-                    <i data-lucide="award" class="feature-icon"></i>
-                    <h3 class="feature-title">100% Authentic Products</h3>
-                    <p class="feature-desc">Every piece in our collection is guaranteed authentic, sourced directly from
-                        the brands and authorized distributors.</p>
+                    <h3 class="feature-title">Premium Multi-Brand Experience</h3>
                 </div>
                 <div class="feature-card fade-in delay-1">
-                    <i data-lucide="crown" class="feature-icon"></i>
-                    <h3 class="feature-title">Curated Selection</h3>
-                    <p class="feature-desc">Our expert stylists handpick collections tailored for luxury, quality, and
-                        contemporary aesthetics.</p>
+                    <h3 class="feature-title">100% Authentic Products</h3>
                 </div>
                 <div class="feature-card fade-in delay-2">
-                    <i data-lucide="sparkles" class="feature-icon"></i>
-                    <h3 class="feature-title">Personalized Styling</h3>
-                    <p class="feature-desc">Experience one-on-one styling consultations to find pieces that perfectly
-                        express your individuality.</p>
+                    <h3 class="feature-title">Latest Fashion Collections</h3>
                 </div>
                 <div class="feature-card fade-in delay-3">
-                    <i data-lucide="gem" class="feature-icon"></i>
-                    <h3 class="feature-title">Premium Ambiance</h3>
-                    <p class="feature-desc">Enjoy a serene, spacious, and luxurious environment designed for a relaxed
-                        shopping experience.</p>
+                    <h3 class="feature-title">Personalized Styling</h3>
                 </div>
             </div>
         </div>
@@ -439,15 +487,17 @@
             <!-- Auto-Updating Instagram Feed -->
             <div id="instafeed" class="insta-grid fade-in">
                 <!-- Static fallbacks until token is added -->
-                <div class="insta-item">
+                <div class="insta-item featured-reel">
                     <a href="https://instagram.com/brandmarkindia" target="_blank">
                         <img src="assets/images/category_men_1773831997840.png" alt="Insta 1">
+                        <span class="reel-badge">Best Reel</span>
                         <div class="insta-overlay"><i data-lucide="instagram"></i></div>
                     </a>
                 </div>
-                <div class="insta-item">
+                <div class="insta-item featured-reel">
                     <a href="https://instagram.com/brandmarkindia" target="_blank">
                         <img src="assets/images/category_women_1773832012966.png" alt="Insta 2">
+                        <span class="reel-badge">Best Reel</span>
                         <div class="insta-overlay"><i data-lucide="instagram"></i></div>
                     </a>
                 </div>
@@ -476,39 +526,28 @@
                     </a>
                 </div>
             </div>
+            <p class="insta-cta fade-in">Seen something you like? Visit store to explore more</p>
         </div>
     </section>
 
-    <!-- Store Visit Conversion Section -->
+    <!-- Strong Conversion Section -->
     <section class="section visit-conversion" id="book-styling">
         <div class="container">
             <div class="section-header text-center fade-in">
-                <h2 class="section-title">Plan Your Store Visit</h2>
+                <h2 class="section-title">Experience Brand Mark in Person</h2>
                 <div class="section-divider"></div>
-                <p class="section-desc">Book a styling session, call us instantly, and find the best time to visit Brand
-                    Mark.</p>
+                <p class="section-desc">Step into our premium space in Berhampur and discover the collection up close.
+                </p>
             </div>
 
-            <div class="visit-grid fade-in">
-                <div class="visit-card">
-                    <h3>Book Styling Session</h3>
-                    <p>Get one-on-one outfit recommendations for weddings, festivals, office wear, and premium casual
-                        looks.</p>
-                    <a class="btn btn-primary"
-                        href="https://wa.me/917327820235?text=Hi%20Brand%20Mark%2C%20I%20want%20to%20book%20a%20styling%20session."
-                        target="_blank" rel="noopener">Book on WhatsApp</a>
-                </div>
-
-                <div class="visit-card">
-                    <h3>Quick Contact</h3>
-                    <p><strong>Call Now:</strong> <a href="tel:+917327820235">+91 73278 20235</a></p>
-                    <p><strong>Opening Hours:</strong> 10:00 AM – 9:30 PM (Daily)</p>
-                    <p><strong>Best Time to Visit:</strong> Weekdays, 11:00 AM – 5:00 PM for a relaxed shopping
-                        experience.</p>
+            <div class="visit-grid fade-in single-conversion">
+                <div class="visit-card conversion-card">
+                    <h3>Spectrum Center, Old Bus Stand, Berhampur</h3>
+                    <p>Open daily: 10:00 AM – 9:30 PM</p>
                     <div class="visit-actions">
+                        <a class="btn btn-primary" href="https://share.google/sib9q5mYbjVPyr9la" target="_blank"
+                            rel="noopener">Get Directions</a>
                         <a class="btn btn-outline" href="tel:+917327820235">Call Now</a>
-                        <a class="btn btn-secondary" href="https://wa.me/917327820235" target="_blank"
-                            rel="noopener">Chat on WhatsApp</a>
                     </div>
                 </div>
             </div>
