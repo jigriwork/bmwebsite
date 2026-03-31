@@ -720,9 +720,18 @@ h6 {
 
 /* Instagram */
 .insta-handle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     font-size: 1.2rem;
     color: var(--accent-gold);
     letter-spacing: 1px;
+}
+
+.insta-handle-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--accent-gold);
 }
 
 .insta-handle:hover {
@@ -803,12 +812,84 @@ h6 {
     transform: scale(1);
 }
 
+.insta-overlay svg,
+.insta-item .insta-overlay i svg {
+    width: 36px;
+    height: 36px;
+    stroke: #ffffff;
+    color: #ffffff;
+    opacity: 1;
+}
+
 .insta-cta {
     margin-top: 24px;
     text-align: center;
     color: #f1f1f1;
     font-size: 1rem;
     letter-spacing: 0.8px;
+}
+
+/* Temporary Home Sale Section (isolated, removable after 05 April 2026) */
+.home-sale-section {
+    padding: 72px 0;
+    background: var(--bg-darker);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sale-panel {
+    display: grid;
+    grid-template-columns: minmax(220px, 320px) minmax(0, 1fr);
+    gap: 40px;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    padding: 32px;
+}
+
+.sale-media {
+    display: flex;
+    justify-content: center;
+}
+
+.sale-media img {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    object-fit: contain;
+}
+
+.sale-title {
+    font-size: clamp(1.8rem, 3.4vw, 2.6rem);
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+.sale-highlight {
+    font-family: var(--font-heading);
+    font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+    color: var(--accent-gold);
+    margin-bottom: 12px;
+}
+
+.sale-details {
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+}
+
+.sale-meta {
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    font-size: 0.95rem;
+}
+
+.sale-actions {
+    margin-top: 18px;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
 }
 
 /* Store Moments */
@@ -1558,6 +1639,21 @@ h6 {
 
     .insta-grid {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .home-sale-section {
+        padding: 60px 0;
+    }
+
+    .sale-panel {
+        grid-template-columns: 1fr;
+        gap: 24px;
+        padding: 24px;
+        text-align: center;
+    }
+
+    .sale-actions {
+        justify-content: center;
     }
 
     .fresh-grid {
