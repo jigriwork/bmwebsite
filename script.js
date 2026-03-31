@@ -119,7 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
             var feed = new Instafeed({
                 accessToken: INSTAGRAM_ACCESS_TOKEN,
                 limit: 6,
-                template: '<div class="insta-item"><a href="{{link}}" target="_blank" rel="noopener"><img title="{{caption}}" src="{{image}}" alt="Instagram post" /><div class="insta-overlay"><i data-lucide="instagram"></i></div></a></div>',
+                template: '<div class="insta-item"><a href="{{link}}" target="_blank" rel="noopener"><img title="{{caption}}" src="{{image}}" alt="Instagram post" /><div class="insta-overlay"><img src="assets/images/Instagram-Logosu.png" alt="Instagram logo" class="insta-overlay-icon" /></div></a></div>',
                 after: function () {
                     lucide.createIcons();
                 }

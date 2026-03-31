@@ -729,9 +729,11 @@ h6 {
 }
 
 .insta-handle-icon {
-    width: 20px;
-    height: 20px;
-    color: var(--accent-gold);
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    display: block;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
 }
 
 .insta-handle:hover {
@@ -792,10 +794,12 @@ h6 {
     transition: var(--transition-smooth);
 }
 
-.insta-overlay i {
+.insta-overlay i,
+.insta-overlay .insta-overlay-icon {
     color: var(--text-primary);
     width: 36px;
     height: 36px;
+    object-fit: contain;
     transform: scale(0.8);
     transition: var(--transition-smooth);
 }
@@ -808,7 +812,8 @@ h6 {
     opacity: 1;
 }
 
-.insta-item:hover .insta-overlay i {
+.insta-item:hover .insta-overlay i,
+.insta-item:hover .insta-overlay .insta-overlay-icon {
     transform: scale(1);
 }
 
@@ -819,6 +824,13 @@ h6 {
     stroke: #ffffff;
     color: #ffffff;
     opacity: 1;
+}
+
+.footer-social-icon {
+    width: 20px;
+    height: 20px;
+    object-fit: contain;
+    display: block;
 }
 
 .insta-cta {
