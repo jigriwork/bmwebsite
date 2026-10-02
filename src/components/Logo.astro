@@ -1,39 +1,22 @@
 ---
-/**
- * Brand Mark logo matching the supplied black/white brand lockup.
- */
 interface Props {
   class?: string;
   label?: string;
-  tagline?: boolean;
 }
 
-const { class: cls, label = 'Brand Mark', tagline = true } = Astro.props;
-
-const svg = `
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 910 520" role="img" aria-label="${label}">
-    <rect width="910" height="520" fill="#000000"/>
-    <rect x="120" y="90" width="670" height="220" fill="#ffffff"/>
-    <rect x="120" y="90" width="335" height="220" fill="#000000"/>
-    <text x="287" y="230" fill="#ffffff" text-anchor="middle" font-family="Archivo Variable, Archivo, sans-serif" font-weight="800" font-size="104" letter-spacing="-4">BRAND</text>
-    <text x="620" y="230" fill="#000000" text-anchor="middle" font-family="Archivo Variable, Archivo, sans-serif" font-weight="800" font-size="104" letter-spacing="-4">MARK</text>
-    ${tagline ? `<text x="455" y="390" fill="#ffffff" text-anchor="middle" font-family="Archivo Variable, Archivo, sans-serif" font-weight="700" font-size="42" letter-spacing="2">FASHION &amp; FOOTWEAR</text>` : ''}
-  </svg>
-`;
+const { class: cls, label = 'Brand Mark' } = Astro.props;
+const logoSrc = '/brand/Brand%20Mark%20logo_20261002_223741_0000.png';
 ---
 
-<span class:list={['bm-logo', cls]} set:html={svg} />
+<img class:list={['bm-logo', cls]} src={logoSrc} alt={label} />
 
 <style>
   .bm-logo {
-    display: inline-block;
-    line-height: 0;
-  }
-
-  .bm-logo :global(svg) {
     display: block;
     width: 100%;
     height: auto;
+    max-width: 100%;
+    object-fit: contain;
     background: transparent;
   }
 </style>
