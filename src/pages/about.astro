@@ -3,7 +3,8 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Icon from '../components/Icon.astro';
-import { site } from '../data/site';
+import Stores from '../components/Stores.astro';
+import { site, goPlanet } from '../data/site';
 import storefront from '../assets/photos/storefront.jpg';
 import rack from '../assets/photos/new-jackets.jpg';
 import shirts from '../assets/photos/new-shirts.jpg';
@@ -11,9 +12,10 @@ import hero from '../assets/photos/story-rack.jpg';
 
 const timeline = [
   { year: String(site.familySince), title: 'A family in retail', text: 'Our family opens its first shop in Berhampur and learns the trade the only way that works: one customer at a time.' },
-  { year: String(site.goPlanetSince), title: 'Go Planet', text: 'Go Planet brings branded fashion to the city and becomes a name families trust for festivals, weddings and everyday wear.' },
+  { year: String(site.goPlanetSince), title: 'Go Planet', text: `Go Planet opens at City Mall, Berhampur, bringing branded fashion to the city. Today it is a full fashion and lifestyle store, and online at ${goPlanet.urlLabel}.` },
   { year: 'Then', title: 'Brand Mark', text: 'A bigger, better space at Spectrum Center, Old Bus Stand. More brands, a proper sneaker wall, and room to try things on without rushing.' },
   { year: 'Now', title: 'MITTY', text: 'Our own menswear label, designed from everything our customers taught us. On our floor and online at mitty.co.in.' },
+  { year: 'Next', title: 'A new location', text: 'We are expanding. A new Brand Mark store is coming soon. Follow us on Instagram to be the first to know where.' },
 ];
 ---
 
@@ -48,6 +50,8 @@ const timeline = [
       </ol>
     </div>
   </section>
+
+  <Stores />
 
   <section class="section">
     <div class="wrap vals">

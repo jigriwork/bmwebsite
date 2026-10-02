@@ -3,13 +3,13 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Icon from '../components/Icon.astro';
-import { site, wa } from '../data/site';
+import { site, wa, goPlanet } from '../data/site';
 import storefront from '../assets/photos/storefront.jpg';
 
 const faqs = [
   {
     q: 'Do you sell online?',
-    a: 'Brand Mark is an in-store experience, so you can see, touch and try everything. Our own label MITTY is also available online at mitty.co.in.',
+    a: `Brand Mark is an in-store experience, so you can see, touch and try everything. You can shop Brand Mark Luxe, our premium edit, online at ${goPlanet.urlLabel}, and our own label MITTY at mitty.co.in.`,
   },
   {
     q: 'Can I check if something is in stock before I visit?',
@@ -61,6 +61,25 @@ const faqs = [
           <div><dt><Icon name="mail" /> Email</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
           <div><dt><Icon name="instagram" /> Instagram</dt><dd><a href={site.instagram} target="_blank" rel="noopener">{site.instagramHandle}</a></dd></div>
         </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="other section">
+    <div class="wrap other__grid">
+      <div>
+        <p class="eyebrow" data-fade>Our other store</p>
+        <h2 class="display h2" data-split>Go Planet,<br /><span class="serif">since {goPlanet.since}.</span></h2>
+      </div>
+      <div class="other__info" data-stagger>
+        <p class="lead muted">Where the Brand Mark story began. Clothing for men and women, ethnic wear, footwear and fragrances.</p>
+        <p><Icon name="pin" /> {goPlanet.address}</p>
+        <p><Icon name="phone" /> <a href={goPlanet.phoneHref}>{goPlanet.phone}</a></p>
+        <div class="other__btns">
+          <a href={goPlanet.mapsLink} target="_blank" rel="noopener" class="btn" data-magnetic><Icon name="pin" /> Directions</a>
+          <a href={goPlanet.url} target="_blank" rel="noopener" class="link">Shop online at {goPlanet.urlLabel} <Icon name="arrow-up" /></a>
+        </div>
+        <p class="other__soon"><span></span> A new Brand Mark location is coming soon.</p>
       </div>
     </div>
   </section>
@@ -189,6 +208,55 @@ const faqs = [
     }
     .vs__map {
       min-height: 100%;
+    }
+  }
+  .other {
+    border-top: 1px solid var(--line-l);
+  }
+  .other__grid {
+    display: grid;
+    gap: 32px;
+  }
+  .other__info {
+    display: grid;
+    gap: 14px;
+    align-content: start;
+  }
+  .other__info > p {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .other__info :global(svg) {
+    width: 16px;
+    height: 16px;
+    flex: none;
+  }
+  .other__btns {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 26px;
+    margin-top: 8px;
+  }
+  .other__soon {
+    margin-top: 16px;
+    font-size: var(--fs-small);
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #b06f12;
+  }
+  .other__soon span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--amber);
+  }
+  @media (min-width: 1000px) {
+    .other__grid {
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: clamp(40px, 6vw, 100px);
     }
   }
   .faq__grid {

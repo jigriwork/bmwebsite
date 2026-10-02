@@ -1,6 +1,6 @@
 ---
 import Icon from './Icon.astro';
-import { site, wa } from '../data/site';
+import { site, wa, goPlanet } from '../data/site';
 import { departments } from '../data/departments';
 const year = new Date().getFullYear();
 ---
@@ -27,6 +27,7 @@ const year = new Date().getFullYear();
         <p class="ftr__h">Visit</p>
         <p>{site.address.line1}<br />{site.address.city}, {site.address.region}</p>
         <p class="muted">{site.hours.days} · {site.hours.label}</p>
+        <p class="ftr__also">Also visit <a href={goPlanet.url} target="_blank" rel="noopener">Go Planet</a>, {goPlanet.address.split(',')[0]}</p>
       </div>
       <div>
         <p class="ftr__h">Talk to us</p>
@@ -105,6 +106,16 @@ const year = new Date().getFullYear();
   }
   .ftr__grid a:hover {
     color: var(--amber);
+  }
+  .ftr__also {
+    margin-top: 16px !important;
+    font-size: var(--fs-small);
+    color: var(--stone);
+  }
+  .ftr__also a {
+    color: var(--paper);
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
   .ftr__h {
     font-size: var(--fs-micro);

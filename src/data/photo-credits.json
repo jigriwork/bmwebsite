@@ -83,10 +83,6 @@
   "src": "https://images.unsplash.com/photo-1636886407345-bc0007e90bbc",
   "alt": "a rack of clothes on a wooden floor"
  },
- "story-hanger": {
-  "src": "https://images.unsplash.com/photo-1637999244654-2cfb11105c59",
-  "alt": "a pair of wooden clothes hangers in a dark room"
- },
  "women-saree": {
   "src": "https://images.unsplash.com/photo-1708182564325-fb1d3a3864d3",
   "alt": "a woman in a green and orange sari"
@@ -94,5 +90,17 @@
  "men-polo": {
   "src": "https://images.unsplash.com/photo-1610295841613-442b448da5b7",
   "alt": "man in black and gray polo shirt wearing black sunglasses"
+ },
+ "story-shelves": {
+  "src": "https://images.unsplash.com/photo-1724701414649-318868fa0e1f",
+  "alt": "A closet filled with lots of folded clothes"
+ },
+ "perfume-black": {
+  "src": "https://images.unsplash.com/photo-1598634222670-87c5f558119c",
+  "alt": "clear glass perfume bottle with black background"
+ },
+ "shoes-leather": {
+  "src": "https://images.unsplash.com/photo-1708515792135-09a95d8e9119",
+  "alt": "a pair of brown shoes sitting on top of a black cloth"
  }
 }

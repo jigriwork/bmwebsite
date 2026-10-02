@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import BrandLogo from '../components/BrandLogo.astro';
+import Stores from '../components/Stores.astro';
 import { site, wa } from '../data/site';
 import { brands } from '../data/brands';
 import { departments } from '../data/departments';
@@ -14,7 +15,8 @@ import heroMan from '../assets/photos/hero-man.jpg';
 import heroWoman from '../assets/photos/dept-women.jpg';
 import heroSneaker from '../assets/photos/hero-sneaker.jpg';
 import storyRack from '../assets/photos/story-rack.jpg';
-import storyHanger from '../assets/photos/story-hanger.jpg';
+import storyShelves from '../assets/photos/story-shelves.jpg';
+import heroShoes from '../assets/photos/shoes-leather.jpg';
 import occWedding from '../assets/photos/occ-wedding.jpg';
 import occOffice from '../assets/photos/occ-office.jpg';
 import occWeekend from '../assets/photos/occ-weekend.jpg';
@@ -37,22 +39,21 @@ const yearsOfRetail = new Date().getFullYear() - site.familySince;
   <section class="hero dark grain" data-hero>
     <div class="hero__glow" aria-hidden="true"></div>
 
-    <div class="hero__cards" aria-hidden="true">
-      <div class="hero__card hero__card--a" data-hero-float="1.2" data-hero-drift="1.4">
-        <div class="media" data-reveal="hero" data-delay="0.1">
-          <Image src={heroMan} alt="" widths={[360, 560, 760]} sizes="(min-width: 900px) 22vw, 34vw" loading="eager" fetchpriority="high" />
-        </div>
-      </div>
-      <div class="hero__card hero__card--b" data-hero-float="0.7" data-hero-drift="-1">
-        <div class="media" data-reveal="hero" data-delay="0.25">
-          <Image src={heroWoman} alt="" widths={[360, 560, 760]} sizes="(min-width: 900px) 20vw, 34vw" loading="eager" />
-        </div>
-      </div>
-      <div class="hero__card hero__card--c" data-hero-float="1.6" data-hero-drift="2">
-        <div class="media" data-reveal="hero" data-delay="0.4">
-          <Image src={heroSneaker} alt="" widths={[300, 500]} sizes="(min-width: 900px) 14vw, 28vw" loading="eager" />
-        </div>
-      </div>
+    <div class="hero__cards wrap" aria-hidden="true">
+      {
+        [
+          { img: heroWoman, cls: 'b', d: 0.05, sp: 0.6 },
+          { img: heroMan, cls: 'a', d: 0.15, sp: 1.2 },
+          { img: heroSneaker, cls: 'c', d: 0.25, sp: 0.4 },
+          { img: heroShoes, cls: 'd', d: 0.35, sp: 0.9 },
+        ].map((c, i) => (
+          <div class={`hero__card hero__card--${c.cls}`} data-hero-float={c.sp}>
+            <div class="media" data-reveal="hero" data-delay={c.d}>
+              <Image src={c.img} alt="" widths={[300, 500, 760]} sizes="(min-width: 900px) 24vw, 32vw" loading="eager" fetchpriority={i < 2 ? 'high' : 'auto'} />
+            </div>
+          </div>
+        ))
+      }
     </div>
 
     <div class="hero__inner wrap" data-hero-inner>
@@ -75,7 +76,6 @@ const yearsOfRetail = new Date().getFullYear() - site.familySince;
       </div>
     </div>
 
-    <div class="hero__scroll" aria-hidden="true"><span>Scroll</span><i></i></div>
   </section>
 
   <!-- ═══════════ BRAND MARQUEE ═══════════ -->
@@ -114,7 +114,7 @@ const yearsOfRetail = new Date().getFullYear() - site.familySince;
           <li><strong><span data-count="7">7</span></strong><span>Days a week, 10 AM to 9:30 PM</span></li>
         </ul>
         <div class="statement__img statement__img--b">
-          <div class="media" data-parallax="0.1"><Image src={storyHanger} alt="" widths={[400, 700]} sizes="(min-width: 900px) 20vw, 50vw" /></div>
+          <div class="media" data-parallax="0.1"><Image src={storyShelves} alt="Folded shirts on store shelves" widths={[400, 700]} sizes="(min-width: 900px) 20vw, 50vw" /></div>
         </div>
       </div>
     </div>
@@ -230,7 +230,7 @@ const yearsOfRetail = new Date().getFullYear() - site.familySince;
         <p class="lead muted" data-fade>Tell us where you're headed. Our team pulls together the outfit, shoes and finishing touches before you even walk in.</p>
       </div>
 
-      <ul class="occ__list">
+      <ul class="occ__list" data-stagger>
         {
           occasions.map((o, i) => (
             <li>
@@ -271,6 +271,9 @@ const yearsOfRetail = new Date().getFullYear() - site.familySince;
     </div>
   </section>
 
+  <!-- ═══════════ FAMILY OF STORES ═══════════ -->
+  <Stores />
+
   <!-- ═══════════ VISIT ═══════════ -->
   <section class="visit bone section" id="visit">
     <div class="wrap visit__grid">
@@ -309,7 +312,7 @@ const yearsOfRetail = new Date().getFullYear() - site.familySince;
     flex-direction: column;
     justify-content: flex-end;
     overflow: hidden;
-    padding-top: 110px;
+    padding-top: 100px;
   }
   .hero__glow {
     position: absolute;
@@ -317,6 +320,53 @@ const yearsOfRetail = new Date().getFullYear() - site.familySince;
     height: 80%;
     background: radial-gradient(closest-side, rgba(240, 168, 60, 0.22), transparent 70%);
     pointer-events: none;
+  }
+  /* Photo row: sits above the title and never overlaps it */
+  .hero__cards {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1.25fr 0.85fr;
+    align-items: end;
+    gap: 10px;
+    margin-bottom: clamp(18px, 3vh, 34px);
+  }
+  .hero__card .media {
+    width: 100%;
+    height: 100%;
+  }
+  .hero__card--b {
+    aspect-ratio: 3 / 4;
+  }
+  .hero__card--a {
+    aspect-ratio: 3 / 4.3;
+  }
+  .hero__card--c {
+    aspect-ratio: 3 / 3.4;
+  }
+  .hero__card--d {
+    display: none;
+  }
+  @media (min-width: 900px) {
+    .hero__cards {
+      grid-template-columns: 1fr 1.2fr 0.8fr 1fr;
+      gap: clamp(12px, 1.4vw, 24px);
+    }
+    .hero__card {
+      aspect-ratio: auto !important;
+    }
+    .hero__card--b {
+      height: clamp(180px, 30vh, 330px);
+    }
+    .hero__card--a {
+      height: clamp(220px, 40vh, 440px);
+    }
+    .hero__card--c {
+      height: clamp(140px, 22vh, 250px);
+    }
+    .hero__card--d {
+      display: block;
+      height: clamp(170px, 28vh, 310px);
+    }
   }
   .hero__inner {
     position: relative;
@@ -328,17 +378,20 @@ const yearsOfRetail = new Date().getFullYear() - site.familySince;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
-    margin-bottom: clamp(10px, 2vh, 22px);
+    margin-bottom: clamp(10px, 2vh, 20px);
     color: rgba(242, 238, 231, 0.8);
   }
-  .hero__kicker .odia {
-    font-size: 1.05rem;
-  }
   .hero__title {
-    font-size: clamp(4.2rem, 15.4vw, 17.5rem);
-    line-height: 0.84;
+    font-size: clamp(4rem, 17vw, 7rem);
+    line-height: 0.86;
     letter-spacing: -0.055em;
     margin-left: -0.04em;
+  }
+  @media (min-width: 900px) {
+    .hero__title {
+      font-size: clamp(5rem, 10.2vw, 15rem);
+      white-space: nowrap;
+    }
   }
   .hero__brand {
     display: inline-block;
@@ -350,8 +403,8 @@ const yearsOfRetail = new Date().getFullYear() - site.familySince;
   .hero__foot {
     display: grid;
     gap: 22px;
-    margin-top: clamp(22px, 4vh, 44px);
-    padding-top: clamp(20px, 3vh, 32px);
+    margin-top: clamp(20px, 3.5vh, 40px);
+    padding-top: clamp(18px, 3vh, 30px);
     border-top: 1px solid var(--line-d);
   }
   .hero__lead {
@@ -374,108 +427,10 @@ const yearsOfRetail = new Date().getFullYear() - site.familySince;
       align-items: end;
     }
   }
-
-  .hero__cards {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-  }
-  .hero__card {
-    position: absolute;
-    z-index: 1;
-  }
-  .hero__card .media {
-    width: 100%;
-    height: 100%;
-    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
-  }
-  .hero__card--a {
-    width: clamp(130px, 19vw, 330px);
-    aspect-ratio: 3 / 4;
-    top: clamp(100px, 15vh, 160px);
-    right: 3.5vw;
-    z-index: 3;
-  }
-  .hero__card--b {
-    width: clamp(110px, 11vw, 200px);
-    aspect-ratio: 4 / 5;
-    bottom: clamp(170px, 20vh, 220px);
-    left: 63vw;
-    z-index: 3;
-  }
-  .hero__card--c {
-    width: clamp(90px, 10vw, 170px);
-    aspect-ratio: 1;
-    top: 96px;
-    left: 38vw;
-  }
-  @media (max-width: 899px) {
-    .hero {
-      justify-content: flex-start;
-      padding-top: 96px;
-    }
+  @media (max-height: 700px) and (min-width: 900px) {
     .hero__cards {
-      position: relative;
-      inset: auto;
-      clip-path: none;
-      display: grid;
-      grid-template-columns: 1fr 1.3fr 0.9fr;
-      align-items: end;
-      gap: 10px;
-      padding-inline: var(--gutter);
-      margin-bottom: 28px;
+      display: none;
     }
-    .hero__card {
-      position: relative;
-      inset: auto;
-      width: auto;
-      z-index: 1;
-    }
-    .hero__card--a {
-      grid-column: 2;
-      grid-row: 1;
-      aspect-ratio: 3 / 4;
-    }
-    .hero__card--b {
-      grid-column: 1;
-      grid-row: 1;
-      aspect-ratio: 3 / 4;
-      margin-bottom: 18px;
-    }
-    .hero__card--c {
-      grid-column: 3;
-      grid-row: 1;
-      aspect-ratio: 3 / 4;
-      margin-bottom: 36px;
-    }
-  }
-
-  .hero__scroll {
-    position: absolute;
-    right: var(--gutter);
-    bottom: 50%;
-    z-index: 2;
-    display: none;
-    align-items: center;
-    gap: 12px;
-    writing-mode: vertical-rl;
-    font-size: var(--fs-micro);
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--stone);
-  }
-  .hero__scroll i {
-    width: 1px;
-    height: 60px;
-    background: linear-gradient(var(--paper), transparent);
-    animation: drip 2.2s var(--ease) infinite;
-    transform-origin: top;
-  }
-  @keyframes drip {
-    0% { transform: scaleY(0); }
-    50% { transform: scaleY(1); transform-origin: top; }
-    51% { transform-origin: bottom; }
-    100% { transform: scaleY(0); transform-origin: bottom; }
   }
 
   /* ── Brand strip ── */
@@ -560,11 +515,14 @@ const yearsOfRetail = new Date().getFullYear() - site.familySince;
     }
   }
 
-  /* ── Departments ── */
+  /* ── Departments (pinned sideways scroll on every screen size) ── */
   .depts {
     position: relative;
-    padding-top: clamp(80px, 10vw, 130px);
-    padding-bottom: clamp(60px, 8vw, 100px);
+    height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-block: 84px 28px;
     overflow: hidden;
   }
   .depts__head {
@@ -572,16 +530,21 @@ const yearsOfRetail = new Date().getFullYear() - site.familySince;
     justify-content: space-between;
     align-items: flex-end;
     gap: 24px;
-    margin-bottom: clamp(36px, 5vw, 64px);
+    margin-bottom: clamp(22px, 4vh, 56px);
   }
   .depts__head .eyebrow {
     color: var(--amber);
-    margin-bottom: 18px;
+    margin-bottom: 14px;
+  }
+  .depts__head .h2 {
+    font-size: clamp(1.9rem, 4.8vw, 4.75rem);
   }
   .depts__progress {
-    display: none;
-    width: 220px;
+    display: block;
+    flex: none;
+    width: clamp(70px, 15vw, 220px);
     height: 2px;
+    margin-bottom: 10px;
     background: var(--line-d);
   }
   .depts__progress i {
@@ -592,19 +555,25 @@ const yearsOfRetail = new Date().getFullYear() - site.familySince;
     transform: scaleX(0);
   }
   .depts__track {
-    display: grid;
-    gap: 48px;
-    padding-inline: var(--gutter);
+    display: flex;
+    gap: clamp(14px, 3vw, 48px);
+    width: max-content;
+    padding-inline: var(--gutter) 10vw;
   }
   .dept {
     display: grid;
-    gap: 18px;
+    gap: 14px;
+    flex: none;
+    width: 74vw;
   }
   .dept__media {
-    aspect-ratio: 4 / 5;
+    height: min(50svh, 440px);
   }
   .dept__media :global(img) {
-    transition: transform 1.2s var(--ease), filter 0.6s;
+    width: 125%;
+    max-width: none;
+    margin-left: -12.5%;
+    transition: filter 0.6s;
   }
   .dept:hover .dept__media :global(img) {
     filter: brightness(1.08);
@@ -612,8 +581,15 @@ const yearsOfRetail = new Date().getFullYear() - site.familySince;
   .dept__info {
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: 4px 16px;
+    gap: 4px 14px;
     align-items: baseline;
+  }
+  .dept__info .h3 {
+    font-size: clamp(1.3rem, 2.6vw, 2.5rem);
+    transition: color 0.3s;
+  }
+  .dept__info .muted {
+    font-size: var(--fs-small);
   }
   .dept__num {
     grid-row: span 2;
@@ -621,22 +597,19 @@ const yearsOfRetail = new Date().getFullYear() - site.familySince;
     color: var(--amber);
     font-weight: 600;
   }
-  .dept__info .h3 {
-    transition: color 0.3s;
-  }
   .dept:hover .h3 {
     color: var(--amber);
   }
   .dept--end {
     align-content: center;
-    gap: 24px;
-    padding: 40px 0;
+    gap: 22px;
+    width: 70vw;
   }
   .dept--end .eyebrow {
     color: var(--stone);
   }
   .dept--end .h3 {
-    font-size: clamp(1.5rem, 2.2vw, 2.1rem);
+    font-size: clamp(1.4rem, 2.2vw, 2.1rem);
     max-width: 16ch;
     line-height: 1.08;
   }
@@ -646,32 +619,13 @@ const yearsOfRetail = new Date().getFullYear() - site.familySince;
   @media (min-width: 900px) {
     .depts {
       height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
       padding-block: 100px 50px;
-    }
-    .depts__progress {
-      display: block;
-    }
-    .depts__track {
-      display: flex;
-      gap: clamp(24px, 3vw, 48px);
-      width: max-content;
-      padding-right: 10vw;
     }
     .dept {
       width: clamp(300px, 28vw, 440px);
-      flex: none;
     }
     .dept__media {
-      aspect-ratio: auto;
       height: min(56vh, 600px);
-    }
-    .dept__media :global(img) {
-      width: 125%;
-      max-width: none;
-      margin-left: -12.5%;
     }
     .dept:nth-child(even) {
       margin-top: 8vh;

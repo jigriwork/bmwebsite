@@ -373,9 +373,10 @@ function initReveals() {
     });
   }
 
-  // Horizontal pinned rail (desktop)
+  // Horizontal pinned rail (desktop and phones)
+  ScrollTrigger.config({ ignoreMobileResize: true });
   const mm = gsap.matchMedia();
-  mm.add('(min-width: 900px)', () => {
+  mm.add('all', () => {
     for (const sec of $$('[data-hscroll]')) {
       const track = $('[data-hscroll-track]', sec);
       if (!track) continue;
@@ -389,6 +390,7 @@ function initReveals() {
           end: () => '+=' + dist(),
           pin: true,
           scrub: 0.8,
+          anticipatePin: 1,
           invalidateOnRefresh: true,
         },
       });
@@ -419,31 +421,14 @@ function initReveals() {
         ease: 'none',
         scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true },
       });
-    // Photos drift down and fade as you scroll, so they never rise into the header
+    // Photo row: each card rises at its own speed (away from the title) and fades
     for (const card of $$<HTMLElement>('[data-hero-float]', hero)) {
       const speed = Number(card.dataset.heroFloat || 1);
       gsap.to(card, {
-        yPercent: 18 * speed,
-        opacity: 0,
+        yPercent: -14 * speed,
+        opacity: 0.25,
         ease: 'none',
-        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom 20%', scrub: true },
-      });
-    }
-    // gentle mouse drift
-    if (finePointer) {
-      const cards = $$<HTMLElement>('[data-hero-drift]', hero);
-      const tos = cards.map((c) => ({
-        x: gsap.quickTo(c, 'x', { duration: 1.2, ease: 'power3' }),
-        y: gsap.quickTo(c, 'y', { duration: 1.2, ease: 'power3' }),
-        k: Number(c.dataset.heroDrift || 1),
-      }));
-      hero.addEventListener('pointermove', (e) => {
-        const nx = e.clientX / window.innerWidth - 0.5;
-        const ny = e.clientY / window.innerHeight - 0.5;
-        tos.forEach((t) => {
-          t.x(nx * 30 * t.k);
-          t.y(ny * 24 * t.k);
-        });
+        scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true },
       });
     }
   }

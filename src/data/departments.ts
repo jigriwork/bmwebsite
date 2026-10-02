@@ -13,7 +13,7 @@ import footAlt2 from '../assets/photos/new-sneakers.jpg';
 import accAlt from '../assets/photos/new-belt.jpg';
 import accAlt2 from '../assets/photos/new-handbag.jpg';
 import perfAlt from '../assets/photos/new-perfume.jpg';
-import perfAlt2 from '../assets/photos/story-hanger.jpg';
+import perfAlt2 from '../assets/photos/perfume-black.jpg';
 
 export interface Department {
   slug: string;
