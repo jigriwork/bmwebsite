@@ -3,7 +3,7 @@ export const site = {
   odia: 'ବ୍ରାଣ୍ଡ ମାର୍କ',
   tagline: 'Fashion & Footwear',
   city: 'Berhampur',
-  url: 'https://brandmarkfashion.com',
+  url: 'https://www.brandmarkfashion.com',
   description:
     "Brand Mark is Berhampur's premium multi-brand fashion and footwear showroom with Levi's, Jack & Jones, Nike, Adidas, Puma, Skechers, The Bear House, our own label MITTY and more. Men, women, footwear, accessories and perfumes at Spectrum Center, Old Bus Stand.",
   phone: '+91 73278 20235',

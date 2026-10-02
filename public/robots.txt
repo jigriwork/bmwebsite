@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://brandmarkfashion.com/sitemap-index.xml
+Sitemap: https://www.brandmarkfashion.com/sitemap-index.xml
