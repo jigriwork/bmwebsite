@@ -1,0 +1,98 @@
+{
+ "hero-man": {
+  "src": "https://images.unsplash.com/photo-1705514234104-b3cf64c3bf4e",
+  "alt": "a man in a black jacket and sunglasses leaning against a wall"
+ },
+ "hero-woman": {
+  "src": "https://images.unsplash.com/photo-1716504628204-47f2df8d2634",
+  "alt": "a woman in a black and gold outfit"
+ },
+ "hero-sneaker": {
+  "src": "https://images.unsplash.com/photo-1789520482092-bf7a66ef8281",
+  "alt": "Three pairs of low-top sneakers arranged on a dark surface in dim light"
+ },
+ "dept-men": {
+  "src": "https://images.unsplash.com/photo-1629708494720-91f2c75f7604",
+  "alt": "man in black button up shirt"
+ },
+ "dept-women": {
+  "src": "https://images.unsplash.com/photo-1756483488645-5973a1a92e33",
+  "alt": "Woman in ornate maroon lehenga with elaborate makeup"
+ },
+ "dept-footwear": {
+  "src": "https://images.unsplash.com/photo-1585232004423-244e0e6904e3",
+  "alt": "person holding black and orange nike athletic shoe"
+ },
+ "dept-accessories": {
+  "src": "https://images.unsplash.com/photo-1637868796504-32f45a96d5a0",
+  "alt": "a pair of shoes, a wallet, and a belt laid out on a table"
+ },
+ "dept-perfumes": {
+  "src": "https://images.unsplash.com/photo-1627823569857-4d8581dc62b2",
+  "alt": "clear glass perfume bottle on black box"
+ },
+ "occ-wedding": {
+  "src": "https://images.unsplash.com/photo-1729347917808-e3e35a462fec",
+  "alt": "A man in a white outfit standing in front of a green wall"
+ },
+ "occ-office": {
+  "src": "https://images.unsplash.com/photo-1594938291221-94f18cbb5660",
+  "alt": "man in blue and white striped dress shirt and black pants"
+ },
+ "occ-weekend": {
+  "src": "https://images.unsplash.com/photo-1776054597118-eac1f833445a",
+  "alt": "Man wearing a two-toned jacket and sunglasses"
+ },
+ "occ-festive": {
+  "src": "https://images.unsplash.com/photo-1744551358303-46edae8b374b",
+  "alt": "A man rolls up his sleeves"
+ },
+ "new-shirts": {
+  "src": "https://images.unsplash.com/photo-1603252110481-7ba873bf42ab",
+  "alt": "white and purple button up shirt"
+ },
+ "new-jackets": {
+  "src": "https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3",
+  "alt": "one cowboy hat and five jackets hanged on clothes rack"
+ },
+ "new-sneakers": {
+  "src": "https://images.unsplash.com/photo-1516767254874-281bffac9e9a",
+  "alt": "pair of brown-and-white basketball shoes"
+ },
+ "new-kurti": {
+  "src": "https://images.unsplash.com/photo-1708534419572-6e6614a53ca1",
+  "alt": "a woman sitting on the ground in a park"
+ },
+ "new-belt": {
+  "src": "https://images.unsplash.com/photo-1631160246898-58192f971b5f",
+  "alt": "black leather strap silver round analog watch"
+ },
+ "new-perfume": {
+  "src": "https://images.unsplash.com/photo-1761329842950-f3551938e4da",
+  "alt": "A bottle of valentino cologne with dramatic lighting"
+ },
+ "new-handbag": {
+  "src": "https://images.unsplash.com/photo-1705909237050-7a7625b47fac",
+  "alt": "a black leather bag on a yellow background"
+ },
+ "new-suit": {
+  "src": "https://images.unsplash.com/photo-1768696082783-4313d98341ae",
+  "alt": "Man in a black double-breasted suit and tie"
+ },
+ "story-rack": {
+  "src": "https://images.unsplash.com/photo-1636886407345-bc0007e90bbc",
+  "alt": "a rack of clothes on a wooden floor"
+ },
+ "story-hanger": {
+  "src": "https://images.unsplash.com/photo-1637999244654-2cfb11105c59",
+  "alt": "a pair of wooden clothes hangers in a dark room"
+ },
+ "women-saree": {
+  "src": "https://images.unsplash.com/photo-1708182564325-fb1d3a3864d3",
+  "alt": "a woman in a green and orange sari"
+ },
+ "men-polo": {
+  "src": "https://images.unsplash.com/photo-1610295841613-442b448da5b7",
+  "alt": "man in black and gray polo shirt wearing black sunglasses"
+ }
+}

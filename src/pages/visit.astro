@@ -1,0 +1,258 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { site, wa } from '../data/site';
+import storefront from '../assets/photos/storefront.jpg';
+
+const faqs = [
+  {
+    q: 'Do you sell online?',
+    a: 'Brand Mark is an in-store experience, so you can see, touch and try everything. Our own label MITTY is also available online at mitty.co.in.',
+  },
+  {
+    q: 'Can I check if something is in stock before I visit?',
+    a: 'Yes. Send us a WhatsApp message with the brand, style or a photo and our team will confirm sizes and colours.',
+  },
+  {
+    q: 'Can you keep options ready for me?',
+    a: "Of course. Message or call us before you come and we'll keep a selection in your size ready when you arrive.",
+  },
+  {
+    q: 'What are your timings?',
+    a: `We're ${site.hours.days.toLowerCase()}, ${site.hours.label}.`,
+  },
+  {
+    q: 'Do you offer exchanges?',
+    a: 'We support genuine exchanges as per product condition and billing. Items must be unused and unwashed, with original tags and invoice. Perfumes, innerwear and some items cannot be exchanged for hygiene reasons.',
+  },
+  {
+    q: 'Which brands do you stock?',
+    a: "Levi's, Jack & Jones, The Bear House, Rare Rabbit, United Colors of Benetton, Arrow, Mufti, Being Human, Turtle, Linen Club, Nike, Adidas, Puma, Skechers, Reebok, Lotto and our own MITTY. Availability changes with the season.",
+  },
+];
+---
+
+<Base title="Visit the Store" description={`Visit Brand Mark at ${site.address.line1}, Berhampur, Odisha. ${site.hours.days}, ${site.hours.label}. Call ${site.phone}.`}>
+  <PageHero eyebrow="Visit us" intro={`${site.address.line1}, ${site.address.city}. ${site.hours.days}, ${site.hours.label}.`} compact>
+    Come see us <span class="serif">in person.</span>
+    <div slot="after" class="vh__btns" data-fade="hero" data-delay="0.4">
+      <a href={site.mapsLink} target="_blank" rel="noopener" class="btn btn--light" data-magnetic><Icon name="pin" /> Get directions</a>
+      <a href={site.phoneHref} class="btn btn--ghost" data-magnetic><Icon name="phone" /> {site.phone}</a>
+    </div>
+  </PageHero>
+
+  <section class="vs section">
+    <div class="wrap vs__grid">
+      <div class="vs__map" data-fade>
+        <iframe title="Map to Brand Mark, Berhampur" src={site.mapsEmbed} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <div class="vs__side">
+        <figure class="media vs__photo" data-reveal>
+          <Image src={storefront} alt="The Brand Mark storefront lit up at night" widths={[550]} sizes="(min-width: 900px) 34vw, 92vw" />
+        </figure>
+        <figcaption class="muted vs__cap">Look for the lit Brand Mark sign above the glass front, next to the brand boards.</figcaption>
+        <dl class="vs__dl" data-stagger>
+          <div><dt><Icon name="pin" /> Address</dt><dd>{site.address.line1}<br />{site.address.city}, {site.address.region}</dd></div>
+          <div><dt><Icon name="clock" /> Hours</dt><dd>{site.hours.days}, {site.hours.label}<br /><span class="vs__status" data-open-status><i></i><span></span></span></dd></div>
+          <div><dt><Icon name="phone" /> Phone</dt><dd><a href={site.phoneHref}>{site.phone}</a></dd></div>
+          <div><dt><Icon name="whatsapp" /> WhatsApp</dt><dd><a href={wa('Hi Brand Mark!')} target="_blank" rel="noopener">Chat with the store</a></dd></div>
+          <div><dt><Icon name="mail" /> Email</dt><dd><a href={`mailto:${site.email}`}>{site.email}</a></dd></div>
+          <div><dt><Icon name="instagram" /> Instagram</dt><dd><a href={site.instagram} target="_blank" rel="noopener">{site.instagramHandle}</a></dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq bone section">
+    <div class="wrap faq__grid">
+      <div>
+        <p class="eyebrow" data-fade>Good to know</p>
+        <h2 class="display h2" data-split>Questions,<br /><span class="serif">answered.</span></h2>
+      </div>
+      <div class="faq__list" data-stagger>
+        {
+          faqs.map((f, i) => (
+            <details class="faq__item" open={i === 0}>
+              <summary>
+                {f.q}
+                <span class="faq__icon"><Icon name="plus" /></span>
+              </summary>
+              <p>{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section rv">
+    <div class="wrap rv__inner">
+      <p class="display h3" data-split>Shopped with us? <span class="serif">Tell Berhampur about it.</span></p>
+      <a href={site.reviewsLink} target="_blank" rel="noopener" class="btn" data-fade data-magnetic><Icon name="star" /> Review us on Google</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .vh__btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 6px;
+  }
+  .vs__grid {
+    display: grid;
+    gap: 40px;
+  }
+  .vs__map {
+    position: relative;
+    min-height: 420px;
+    background: var(--paper-2);
+  }
+  .vs__map iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    filter: grayscale(1) contrast(1.05);
+    transition: filter 0.5s;
+  }
+  .vs__map:hover iframe {
+    filter: none;
+  }
+  .vs__side {
+    display: grid;
+    gap: 14px;
+    align-content: start;
+  }
+  .vs__photo {
+    aspect-ratio: 550 / 512;
+  }
+  .vs__cap {
+    font-size: var(--fs-small);
+  }
+  .vs__dl {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 20px;
+    margin-top: 18px;
+  }
+  .vs__dl div {
+    padding-top: 12px;
+    border-top: 1px solid var(--line-l);
+  }
+  .vs__dl dt {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--fs-micro);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--stone-dark);
+    margin-bottom: 6px;
+  }
+  .vs__dl dt :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+  .vs__dl dd {
+    font-size: 0.95rem;
+    overflow-wrap: anywhere;
+  }
+  .vs__dl a:hover {
+    color: var(--stone-dark);
+  }
+  .vs__status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--fs-small);
+    color: var(--stone-dark);
+    margin-top: 4px;
+  }
+  .vs__status i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--stone);
+  }
+  :global(.vs__status.is-open) i {
+    background: #16a34a;
+  }
+  @media (min-width: 1000px) {
+    .vs__grid {
+      grid-template-columns: 1.3fr 1fr;
+      gap: clamp(32px, 4vw, 64px);
+    }
+    .vs__map {
+      min-height: 100%;
+    }
+  }
+  .faq__grid {
+    display: grid;
+    gap: 40px;
+  }
+  @media (min-width: 1000px) {
+    .faq__grid {
+      grid-template-columns: 0.8fr 1.2fr;
+      gap: clamp(40px, 6vw, 100px);
+    }
+  }
+  .faq__list {
+    border-top: 1px solid var(--line-l);
+  }
+  .faq__item {
+    border-bottom: 1px solid var(--line-l);
+  }
+  .faq__item summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding-block: 24px;
+    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+  }
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq__icon {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px var(--line-l);
+    transition: transform 0.5s var(--ease), background 0.3s, color 0.3s;
+  }
+  .faq__icon :global(svg) {
+    width: 16px;
+    height: 16px;
+  }
+  .faq__item[open] .faq__icon {
+    transform: rotate(45deg);
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .faq__item p {
+    padding-bottom: 24px;
+    max-width: 60ch;
+    color: var(--stone-dark);
+  }
+  .rv__inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 28px;
+  }
+  .rv__inner .h3 {
+    max-width: 22ch;
+  }
+</style>

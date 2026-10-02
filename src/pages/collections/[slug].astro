@@ -1,0 +1,310 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import BrandLogo from '../../components/BrandLogo.astro';
+import Icon from '../../components/Icon.astro';
+import { departments, type Department } from '../../data/departments';
+import { brands } from '../../data/brands';
+import { arrivals } from '../../data/arrivals';
+import { wa } from '../../data/site';
+
+export function getStaticPaths() {
+  return departments.map((d, i) => ({
+    params: { slug: d.slug },
+    props: { dept: d, next: departments[(i + 1) % departments.length], index: i },
+  }));
+}
+
+const { dept, next, index } = Astro.props as { dept: Department; next: Department; index: number };
+const deptBrands = brands.filter((b) => dept.brands.includes(b.slug));
+const picks = arrivals.filter((a) => a.dept === dept.slug).slice(0, 4);
+---
+
+<Base title={dept.name} description={`${dept.name} at Brand Mark Berhampur: ${dept.line.toLowerCase()}. ${dept.intro}`}>
+  <PageHero eyebrow={`Department 0${index + 1} / 05`} image={dept.image} imageAlt={dept.name} intro={dept.line}>
+    {dept.name}
+  </PageHero>
+
+  <nav class="dnav dark" aria-label="Departments">
+    <div class="wrap dnav__inner">
+      {
+        departments.map((d) => (
+          <a href={`/collections/${d.slug}`} class:list={['dnav__a', { 'is-on': d.slug === dept.slug }]} aria-current={d.slug === dept.slug ? 'page' : undefined}>
+            {d.short}
+          </a>
+        ))
+      }
+    </div>
+  </nav>
+
+  <section class="section">
+    <div class="wrap dintro">
+      <p class="dintro__text" data-scrub-words>{dept.intro}</p>
+      <div class="dintro__side">
+        <p class="eyebrow" data-fade>What you'll find</p>
+        <ul class="dintro__list" data-stagger>
+          {dept.items.map((it) => <li>{it}</li>)}
+        </ul>
+        <a class="btn btn--wa" href={wa(dept.ask)} target="_blank" rel="noopener" data-fade data-magnetic>
+          <Icon name="whatsapp" /> Check what's in stock
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {
+    deptBrands.length > 0 && (
+      <section class="dbrands dark">
+        <div class="wrap">
+          <p class="eyebrow" data-fade>Brands in this department</p>
+          <ul class="dbrands__grid" data-stagger>
+            {deptBrands.map((b) => (
+              <li class="logo-cell">
+                <a href={b.group === 'own' ? '/mitty' : '/brands'} aria-label={b.name}>
+                  <BrandLogo brand={b} size={36} />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section dgal">
+    <div class="wrap dgal__grid">
+      {
+        dept.gallery.map((img, i) => (
+          <div class:list={['dgal__item media', `dgal__item--${i}`]} data-reveal>
+            <Image src={img} alt={`${dept.name} at Brand Mark`} widths={[480, 800, 1200]} sizes="(min-width: 900px) 45vw, 92vw" />
+          </div>
+        ))
+      }
+    </div>
+
+    {
+      picks.length > 0 && (
+        <div class="wrap dpicks">
+          <div class="sec-head">
+            <h2 class="display h2" data-split>Just in</h2>
+            <a href="/new-arrivals" class="link" data-fade>All new arrivals <Icon name="arrow" /></a>
+          </div>
+          <ul class="dpicks__grid" data-stagger>
+            {picks.map((a) => (
+              <li>
+                <a href={wa(`Hi Brand Mark, is "${a.title}" available? (seen on your website)`)} target="_blank" rel="noopener" data-cursor="view" data-cursor-label="Ask">
+                  <div class="media dpicks__img">
+                    <Image src={a.image} alt={a.title} widths={[360, 560]} sizes="(min-width: 900px) 24vw, 46vw" />
+                  </div>
+                  <h3>{a.title}</h3>
+                  <p class="muted">{a.note}</p>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+  </section>
+
+  <a href={`/collections/${next.slug}`} class="dnext dark" data-cursor="view" data-cursor-label="Next">
+    <div class="dnext__bg media">
+      <Image src={next.image} alt="" widths={[800, 1400]} sizes="100vw" />
+    </div>
+    <div class="wrap dnext__inner">
+      <p class="eyebrow">Next department</p>
+      <p class="display h1">{next.name}</p>
+      <span class="dnext__arrow"><Icon name="arrow" /></span>
+    </div>
+  </a>
+</Base>
+
+<style>
+  .dnav {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    border-top: 1px solid var(--line-d);
+    border-bottom: 1px solid var(--line-d);
+  }
+  .dnav__inner {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-block: 12px;
+    scrollbar-width: none;
+  }
+  .dnav__a {
+    flex: none;
+    padding: 9px 18px;
+    border-radius: 99px;
+    font-size: var(--fs-small);
+    font-weight: 600;
+    color: var(--stone);
+    transition: color 0.3s, background 0.3s;
+  }
+  .dnav__a:hover {
+    color: var(--paper);
+  }
+  .dnav__a.is-on {
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .dintro {
+    display: grid;
+    gap: 56px;
+  }
+  .dintro__text {
+    font-size: clamp(1.6rem, 3.4vw, 3.2rem);
+    line-height: 1.14;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+  .dintro__side {
+    display: grid;
+    gap: 22px;
+    align-content: start;
+  }
+  .dintro__list li {
+    display: flex;
+    justify-content: space-between;
+    padding-block: 14px;
+    border-bottom: 1px solid var(--line-l);
+    font-weight: 500;
+  }
+  .dintro__list li::after {
+    content: '+';
+    color: var(--stone);
+  }
+  .dintro__side .btn {
+    justify-self: start;
+    margin-top: 8px;
+  }
+  @media (min-width: 900px) {
+    .dintro {
+      grid-template-columns: 1.5fr 1fr;
+      gap: clamp(48px, 7vw, 120px);
+    }
+  }
+  .dbrands {
+    padding-block: clamp(60px, 8vw, 100px);
+  }
+  .dbrands .eyebrow {
+    color: var(--amber);
+    margin-bottom: 32px;
+  }
+  .dbrands__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 170px), 1fr));
+    border-top: 1px solid var(--line-d);
+    border-left: 1px solid var(--line-d);
+  }
+  .dbrands__grid li {
+    border-right: 1px solid var(--line-d);
+    border-bottom: 1px solid var(--line-d);
+  }
+  .dbrands__grid a {
+    display: grid;
+    place-items: center;
+    height: 120px;
+    color: rgba(242, 238, 231, 0.8);
+    transition: color 0.3s, background 0.3s;
+  }
+  .dbrands__grid a:hover {
+    color: var(--ink);
+    background: var(--paper);
+  }
+  .dgal__grid {
+    display: grid;
+    gap: 16px;
+  }
+  .dgal__item {
+    aspect-ratio: 4 / 5;
+  }
+  @media (min-width: 900px) {
+    .dgal__grid {
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items: end;
+      gap: clamp(16px, 3vw, 48px);
+    }
+    .dgal__item--1 {
+      aspect-ratio: 3 / 4;
+      margin-bottom: 12vh;
+    }
+  }
+  .dpicks {
+    margin-top: clamp(80px, 10vw, 150px);
+  }
+  .dpicks__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px 16px;
+  }
+  @media (min-width: 900px) {
+    .dpicks__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  .dpicks__img {
+    aspect-ratio: 3 / 4;
+    margin-bottom: 12px;
+  }
+  .dpicks__img :global(img) {
+    transition: transform 1s var(--ease);
+  }
+  .dpicks a:hover :global(img) {
+    transform: scale(1.05);
+  }
+  .dpicks h3 {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .dpicks p {
+    font-size: var(--fs-small);
+  }
+  .dnext {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    padding-block: clamp(90px, 14vw, 200px);
+  }
+  .dnext__bg {
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+  }
+  .dnext__bg :global(img) {
+    opacity: 0.35;
+    transition: opacity 0.8s var(--ease), transform 1.4s var(--ease);
+  }
+  .dnext:hover .dnext__bg :global(img) {
+    opacity: 0.55;
+    transform: scale(1.05);
+  }
+  .dnext__inner {
+    position: relative;
+    display: grid;
+    gap: 16px;
+  }
+  .dnext__inner .eyebrow {
+    color: var(--amber);
+  }
+  .dnext__arrow {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: var(--paper);
+    color: var(--ink);
+    transition: transform 0.6s var(--ease);
+  }
+  .dnext__arrow :global(svg) {
+    width: 22px;
+    height: 22px;
+  }
+  .dnext:hover .dnext__arrow {
+    transform: translateX(14px);
+  }
+</style>

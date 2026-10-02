@@ -1,0 +1,33 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { site, wa } from '../data/site';
+---
+
+<LegalPage title="Terms of Use" updated="October 2026">
+  <h2>General</h2>
+  <p>By using this website you agree to these terms. We may update them from time to time, and the latest version will always be on this page.</p>
+
+  <h2>Products and availability</h2>
+  <ul>
+    <li>Products shown on this site are examples of what we carry. Exact styles, sizes and colours depend on current stock.</li>
+    <li>Prices, offers and availability can change without notice.</li>
+    <li>Colours may look slightly different on screen than in store.</li>
+  </ul>
+
+  <h2>Exchanges and returns</h2>
+  <ul>
+    <li>We support genuine exchanges as per product condition and billing details.</li>
+    <li>Items must be unused and unwashed, with original tags and invoice.</li>
+    <li>Requests should be made within the exchange window shared at billing.</li>
+    <li>Innerwear, perfumes and select items cannot be returned for hygiene reasons.</li>
+  </ul>
+
+  <h2>Brands and trademarks</h2>
+  <p>Brand names and logos shown on this site belong to their respective owners and are used only to show which brands are available at Brand Mark. The Brand Mark and MITTY names and logos belong to us.</p>
+
+  <h2>Photography</h2>
+  <p>Some photographs on this site are illustrative and may not show the exact products in store.</p>
+
+  <h2>Contact</h2>
+  <p>Questions? Email <a href={`mailto:${site.email}`}>{site.email}</a> or <a href={wa('Hi Brand Mark, I have a question about your terms.')} target="_blank" rel="noopener">message us on WhatsApp</a>.</p>
+</LegalPage>

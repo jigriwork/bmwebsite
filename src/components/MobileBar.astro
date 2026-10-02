@@ -1,0 +1,63 @@
+---
+import Icon from './Icon.astro';
+import { site, wa } from '../data/site';
+---
+
+<nav class="mbar" aria-label="Quick actions" data-mbar>
+  <a href={site.phoneHref}><Icon name="phone" /><span>Call</span></a>
+  <a href={wa('Hi Brand Mark! I found you on your website.')} target="_blank" rel="noopener" class="mbar__wa">
+    <Icon name="whatsapp" /><span>WhatsApp</span>
+  </a>
+  <a href={site.mapsLink} target="_blank" rel="noopener"><Icon name="pin" /><span>Directions</span></a>
+</nav>
+
+<style>
+  .mbar {
+    position: fixed;
+    left: 12px;
+    right: 12px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    z-index: 70;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 6px;
+    padding: 6px;
+    border-radius: 999px;
+    background: rgba(13, 12, 11, 0.86);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35), inset 0 0 0 1px rgba(242, 238, 231, 0.1);
+    transform: translateY(150%);
+    transition: transform 0.6s var(--ease);
+  }
+  .mbar.is-visible {
+    transform: none;
+  }
+  :global(html.menu-open) .mbar {
+    transform: translateY(150%);
+  }
+  .mbar a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 46px;
+    border-radius: 999px;
+    color: var(--paper);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .mbar a :global(svg) {
+    width: 17px;
+    height: 17px;
+  }
+  .mbar__wa {
+    background: #1f7a4a;
+  }
+  @media (min-width: 900px) {
+    .mbar {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+---
+
+<Base title="Page not found">
+  <PageHero eyebrow="Error 404" intro="This page has moved or never existed. Everything else is right where you left it.">
+    Wrong <span class="serif">aisle.</span>
+    <div slot="after" data-fade="hero" data-delay="0.4">
+      <a href="/" class="btn btn--light" data-magnetic>Back to home <Icon name="arrow" /></a>
+    </div>
+  </PageHero>
+</Base>

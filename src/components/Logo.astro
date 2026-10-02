@@ -1,0 +1,22 @@
+---
+import raw from '../assets/brand/brandmark.svg?raw';
+interface Props {
+  class?: string;
+  label?: string;
+}
+const { class: cls, label = 'Brand Mark' } = Astro.props;
+const svg = raw.replace('<svg ', `<svg role="img" aria-label="${label}" `);
+---
+
+<span class:list={['bm-logo', cls]} set:html={svg} />
+
+<style>
+  .bm-logo {
+    display: inline-block;
+    line-height: 0;
+  }
+  .bm-logo :global(svg) {
+    width: 100%;
+    height: auto;
+  }
+</style>

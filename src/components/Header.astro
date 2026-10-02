@@ -1,0 +1,303 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { nav, site, wa } from '../data/site';
+import { departments } from '../data/departments';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isActive = (href: string) =>
+  href.startsWith('/collections') ? path.startsWith('/collections') : path === href;
+---
+
+<header class="hdr" data-hdr>
+  <div class="hdr__bar wrap">
+    <a href="/" class="hdr__logo" aria-label="Brand Mark home" data-cursor="link">
+      <Logo />
+    </a>
+
+    <nav class="hdr__nav" aria-label="Main">
+      {
+        nav.map((n) => (
+          <a href={n.href} class:list={['hdr__link', { 'is-active': isActive(n.href) }]}>
+            <span data-text={n.label}>{n.label}</span>
+          </a>
+        ))
+      }
+    </nav>
+
+    <div class="hdr__right">
+      <span class="hdr__status" data-open-status>
+        <i></i><span>Open daily · 10 AM to 9:30 PM</span>
+      </span>
+      <a class="btn btn--light hdr__cta" href={wa('Hi Brand Mark! I found you on your website.')} target="_blank" rel="noopener">
+        <Icon name="whatsapp" /> <span>WhatsApp</span>
+      </a>
+      <button class="hdr__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu" data-menu-toggle>
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="menu dark" id="menu" aria-hidden="true" data-menu>
+  <div class="menu__inner wrap">
+    <nav class="menu__nav" aria-label="Mobile">
+      <a href="/" class="menu__link"><small>00</small>Home</a>
+      {
+        nav.map((n, i) => (
+          <a href={n.href} class="menu__link">
+            <small>{String(i + 1).padStart(2, '0')}</small>
+            {n.label}
+          </a>
+        ))
+      }
+    </nav>
+    <div class="menu__side">
+      <p class="eyebrow">Departments</p>
+      <ul>
+        {departments.map((d) => <li><a href={`/collections/${d.slug}`}>{d.name}</a></li>)}
+      </ul>
+      <p class="eyebrow">Visit</p>
+      <p>{site.address.line1}<br />{site.address.city}</p>
+      <p><a href={site.phoneHref}>{site.phone}</a></p>
+      <p class="odia menu__odia">{site.odia}</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .hdr {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 90;
+    color: var(--paper);
+    transition: transform 0.6s var(--ease), background-color 0.4s, backdrop-filter 0.4s;
+  }
+  .hdr.is-scrolled {
+    background: rgba(13, 12, 11, 0.94);
+    backdrop-filter: blur(16px) saturate(1.2);
+    -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  }
+  .hdr.is-hidden {
+    transform: translateY(-100%);
+  }
+  :global(html.menu-open) .hdr {
+    transform: none;
+    background: transparent;
+    backdrop-filter: none;
+  }
+  .hdr__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    height: 84px;
+    transition: height 0.4s var(--ease);
+  }
+  .hdr.is-scrolled .hdr__bar {
+    height: 68px;
+  }
+  .hdr__logo {
+    width: 132px;
+    flex: none;
+    color: var(--paper);
+  }
+  .hdr__nav {
+    display: none;
+    gap: clamp(18px, 2.2vw, 36px);
+  }
+  .hdr__link {
+    position: relative;
+    font-size: var(--fs-small);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    overflow: hidden;
+    display: inline-block;
+    height: 1.4em;
+    line-height: 1.4;
+  }
+  .hdr__link > span {
+    display: inline-block;
+    transition: transform 0.5s var(--ease);
+  }
+  .hdr__link > span::after {
+    content: attr(data-text);
+    position: absolute;
+    left: 0;
+    top: 100%;
+    color: var(--amber);
+  }
+  .hdr__link:hover > span {
+    transform: translateY(-100%);
+  }
+  .hdr__link.is-active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--amber);
+  }
+  .hdr__right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .hdr__status {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    font-size: var(--fs-micro);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(242, 238, 231, 0.75);
+  }
+  .hdr__status i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--stone);
+  }
+  .hdr__status.is-open i {
+    background: #4ade80;
+    box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.6);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    70% {
+      box-shadow: 0 0 0 8px rgba(74, 222, 128, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
+    }
+  }
+  .hdr__cta {
+    display: none;
+    min-height: 42px;
+    padding: 0 18px;
+  }
+  .hdr__burger {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-content: center;
+    gap: 7px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(242, 238, 231, 0.3);
+  }
+  .hdr__burger span {
+    width: 18px;
+    height: 1.5px;
+    background: currentColor;
+    transition: transform 0.5s var(--ease);
+  }
+  :global(html.menu-open) .hdr__burger span:first-child {
+    transform: translateY(4.25px) rotate(45deg);
+  }
+  :global(html.menu-open) .hdr__burger span:last-child {
+    transform: translateY(-4.25px) rotate(-45deg);
+  }
+
+  @media (min-width: 1100px) {
+    .hdr__nav {
+      display: flex;
+    }
+    .hdr__burger {
+      display: none;
+    }
+    .hdr__cta {
+      display: inline-flex;
+    }
+    .hdr__logo {
+      width: 150px;
+    }
+  }
+  @media (min-width: 1280px) {
+    .hdr__status {
+      display: inline-flex;
+    }
+  }
+
+  /* Fullscreen menu */
+  .menu {
+    position: fixed;
+    inset: 0;
+    z-index: 80;
+    padding-top: 110px;
+    clip-path: inset(0 0 100% 0);
+    transition: clip-path 0.8s var(--ease-in-out);
+    overflow-y: auto;
+    visibility: hidden;
+  }
+  :global(html.menu-open) .menu {
+    clip-path: inset(0 0 0 0);
+    visibility: visible;
+  }
+  .menu__inner {
+    display: grid;
+    gap: 48px;
+    padding-bottom: 120px;
+  }
+  .menu__link {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    font-weight: 800;
+    font-variation-settings: 'wdth' 125;
+    text-transform: uppercase;
+    letter-spacing: -0.03em;
+    font-size: clamp(2.3rem, 10vw, 5rem);
+    line-height: 1.02;
+    transform: translateY(40px);
+    opacity: 0;
+    transition: transform 0.8s var(--ease), opacity 0.8s var(--ease), color 0.3s;
+  }
+  .menu__link small {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    margin-top: 0.8em;
+    color: var(--stone);
+  }
+  .menu__link:hover {
+    color: var(--amber);
+  }
+  :global(html.menu-open) .menu__link {
+    transform: none;
+    opacity: 1;
+  }
+  .menu__link:nth-child(2) { transition-delay: 0.05s; }
+  .menu__link:nth-child(3) { transition-delay: 0.1s; }
+  .menu__link:nth-child(4) { transition-delay: 0.15s; }
+  .menu__link:nth-child(5) { transition-delay: 0.2s; }
+  .menu__link:nth-child(6) { transition-delay: 0.25s; }
+  .menu__link:nth-child(7) { transition-delay: 0.3s; }
+  .menu__side {
+    display: grid;
+    gap: 14px;
+    align-content: start;
+    color: rgba(242, 238, 231, 0.8);
+  }
+  .menu__side .eyebrow {
+    margin-top: 18px;
+    color: var(--stone);
+  }
+  .menu__side ul {
+    display: grid;
+    gap: 6px;
+  }
+  .menu__side a:hover {
+    color: var(--amber);
+  }
+  .menu__odia {
+    font-size: 2rem;
+    margin-top: 12px;
+    color: var(--paper);
+  }
+  @media (min-width: 900px) {
+    .menu__inner {
+      grid-template-columns: 1.6fr 1fr;
+    }
+  }
+</style>

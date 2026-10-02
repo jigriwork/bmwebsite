@@ -1,0 +1,1071 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import BrandLogo from '../components/BrandLogo.astro';
+import { site, wa } from '../data/site';
+import { brands } from '../data/brands';
+import { departments } from '../data/departments';
+import { arrivals } from '../data/arrivals';
+import { mittyProducts, mittyUrl } from '../data/mitty';
+import mittyLogo from '../assets/brand/mitty.svg?raw';
+
+import heroMan from '../assets/photos/hero-man.jpg';
+import heroWoman from '../assets/photos/dept-women.jpg';
+import heroSneaker from '../assets/photos/hero-sneaker.jpg';
+import storyRack from '../assets/photos/story-rack.jpg';
+import storyHanger from '../assets/photos/story-hanger.jpg';
+import occWedding from '../assets/photos/occ-wedding.jpg';
+import occOffice from '../assets/photos/occ-office.jpg';
+import occWeekend from '../assets/photos/occ-weekend.jpg';
+import occFestive from '../assets/photos/occ-festive.jpg';
+import sneakerWall from '../assets/photos/dept-footwear.jpg';
+import storefront from '../assets/photos/storefront.jpg';
+
+const footwearBrands = brands.filter((b) => b.group === 'footwear');
+const occasions = [
+  { name: 'Wedding season', note: 'Sherwanis, suits, ethnic sets & finishing touches', img: occWedding, ask: 'Hi Brand Mark, I need help with a wedding look.' },
+  { name: 'Office Mondays', note: 'Formal shirts, trousers, belts & leather shoes', img: occOffice, ask: 'Hi Brand Mark, I need office wear options.' },
+  { name: 'Weekend plans', note: 'Denim, jackets, polos & sneakers', img: occWeekend, ask: 'Hi Brand Mark, show me weekend casual looks.' },
+  { name: 'Festive & puja', note: 'Kurtas, ethnic sets & gifting', img: occFestive, ask: 'Hi Brand Mark, I am shopping for the festive season.' },
+];
+const yearsOfRetail = new Date().getFullYear() - site.familySince;
+---
+
+<Base>
+  <!-- ═══════════ HERO ═══════════ -->
+  <section class="hero dark grain" data-hero>
+    <div class="hero__glow" aria-hidden="true"></div>
+
+    <div class="hero__cards" aria-hidden="true">
+      <div class="hero__card hero__card--a" data-hero-float="1.2" data-hero-drift="1.4">
+        <div class="media" data-reveal="hero" data-delay="0.1">
+          <Image src={heroMan} alt="" widths={[360, 560, 760]} sizes="(min-width: 900px) 22vw, 34vw" loading="eager" fetchpriority="high" />
+        </div>
+      </div>
+      <div class="hero__card hero__card--b" data-hero-float="0.7" data-hero-drift="-1">
+        <div class="media" data-reveal="hero" data-delay="0.25">
+          <Image src={heroWoman} alt="" widths={[360, 560, 760]} sizes="(min-width: 900px) 20vw, 34vw" loading="eager" />
+        </div>
+      </div>
+      <div class="hero__card hero__card--c" data-hero-float="1.6" data-hero-drift="2">
+        <div class="media" data-reveal="hero" data-delay="0.4">
+          <Image src={heroSneaker} alt="" widths={[300, 500]} sizes="(min-width: 900px) 14vw, 28vw" loading="eager" />
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__inner wrap" data-hero-inner>
+      <p class="hero__kicker" data-fade="hero">
+        <span class="eyebrow">Fashion & Footwear · Berhampur</span>
+      </p>
+
+      <h1 class="hero__title display" data-split="hero">
+        <span class="hero__brand">Brand</span> <span class="hero__mark">Mark</span>
+      </h1>
+
+      <div class="hero__foot">
+        <p class="hero__lead" data-fade="hero" data-delay="0.35">
+          The labels you love, from <em class="serif">Levi's to Nike and The Bear House to our own MITTY,</em> under one roof at Spectrum Center.
+        </p>
+        <div class="hero__btns" data-fade="hero" data-delay="0.5">
+          <a href="#departments" class="btn btn--light" data-magnetic>Explore the store <Icon name="arrow" /></a>
+          <a href={site.mapsLink} target="_blank" rel="noopener" class="btn btn--ghost" data-magnetic><Icon name="pin" /> Directions</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__scroll" aria-hidden="true"><span>Scroll</span><i></i></div>
+  </section>
+
+  <!-- ═══════════ BRAND MARQUEE ═══════════ -->
+  <section class="brands-strip dark" aria-label="Brands available at Brand Mark">
+    <div class="wrap brands-strip__head">
+      <p class="eyebrow">Under one roof</p>
+      <a href="/brands" class="link">All {brands.length} brands <Icon name="arrow" /></a>
+    </div>
+    <div class="marquee" style="--speed:55s;--gap:84px">
+      {
+        [0, 1].map((k) => (
+          <div class="marquee__track" aria-hidden={k === 1 ? 'true' : undefined}>
+            {brands.map((b) => <BrandLogo brand={b} size={40} />)}
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ═══════════ STATEMENT + STATS ═══════════ -->
+  <section class="statement section">
+    <div class="wrap">
+      <p class="eyebrow" data-fade>Who we are</p>
+      <p class="statement__text" data-scrub-words>
+        Brand Mark is Berhampur's address for great clothes and better shoes. A family that has been in retail since {site.familySince}, a floor full of trusted labels, and a team that knows exactly what this city wears to the office, to the wedding and everywhere in between.
+      </p>
+
+      <div class="statement__grid">
+        <div class="statement__img statement__img--a">
+          <div class="media" data-reveal><Image src={storyRack} alt="Clothes on a rail" widths={[480, 800, 1100]} sizes="(min-width: 900px) 34vw, 90vw" /></div>
+        </div>
+        <ul class="stats" data-stagger>
+          <li><strong><span data-count={yearsOfRetail}>{yearsOfRetail}</span>+</strong><span>Years of family retail</span></li>
+          <li><strong><span data-count={brands.length}>{brands.length}</span></strong><span>Brands under one roof</span></li>
+          <li><strong><span data-count="5">5</span></strong><span>Departments</span></li>
+          <li><strong><span data-count="7">7</span></strong><span>Days a week, 10 AM to 9:30 PM</span></li>
+        </ul>
+        <div class="statement__img statement__img--b">
+          <div class="media" data-parallax="0.1"><Image src={storyHanger} alt="" widths={[400, 700]} sizes="(min-width: 900px) 20vw, 50vw" /></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ DEPARTMENTS (horizontal) ═══════════ -->
+  <section class="depts dark" id="departments" data-hscroll>
+    <div class="depts__head wrap">
+      <div>
+        <p class="eyebrow">The departments</p>
+        <h2 class="display h2" data-split>Five floors of style.<br /><span class="serif">One address.</span></h2>
+      </div>
+      <div class="depts__progress" aria-hidden="true"><i data-hscroll-progress></i></div>
+    </div>
+
+    <div class="depts__track" data-hscroll-track>
+      {
+        departments.map((d, i) => (
+          <a href={`/collections/${d.slug}`} class="dept" data-cursor="view" data-cursor-label="Explore">
+            <div class="dept__media media">
+              <Image src={d.image} alt={d.name} widths={[480, 760, 1100]} sizes="(min-width: 900px) 34vw, 90vw" data-hscroll-img />
+            </div>
+            <div class="dept__info">
+              <span class="dept__num">0{i + 1}</span>
+              <h3 class="display h3">{d.name}</h3>
+              <p class="muted">{d.line}</p>
+            </div>
+          </a>
+        ))
+      }
+      <div class="dept dept--end">
+        <p class="eyebrow">Not sure where to start?</p>
+        <p class="display h3">Tell us the occasion. <span class="serif">We'll do the rest.</span></p>
+        <a class="btn btn--light" href={wa('Hi Brand Mark, can you help me pick an outfit?')} target="_blank" rel="noopener" data-magnetic>
+          <Icon name="whatsapp" /> Ask a stylist
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ MITTY ═══════════ -->
+  <section class="mitty bone section" aria-labelledby="mitty-title">
+    <div class="wrap mitty__grid">
+      <div class="mitty__copy">
+        <div class="mitty__logo" set:html={mittyLogo} aria-hidden="true" data-fade />
+        <p class="eyebrow" data-fade>Our own label</p>
+        <h2 id="mitty-title" class="display h2" data-split>Made in Brahmapur.<br /><span class="serif">Worn everywhere.</span></h2>
+        <p class="lead muted" data-fade>
+          MITTY is the menswear label from the house of Go Planet and Brand Mark. Sharp shirts, easy trousers and everyday essentials, designed for comfort and confidence.
+        </p>
+        <div class="mitty__btns" data-fade>
+          <a href="/mitty" class="btn" data-magnetic>Discover MITTY <Icon name="arrow" /></a>
+          <a href={mittyUrl} target="_blank" rel="noopener" class="link">Shop online at mitty.co.in <Icon name="arrow-up" /></a>
+        </div>
+      </div>
+
+      <div class="mitty__rail" data-stagger>
+        {
+          mittyProducts.slice(0, 4).map((p, i) => (
+            <a href="/mitty" class:list={['mitty__card', `mitty__card--${i}`]} data-cursor="view" data-cursor-label="MITTY">
+              <div class="media">
+                <Image src={p.image} alt={`MITTY ${p.name} ${p.kind}`} widths={[320, 520]} sizes="(min-width: 900px) 18vw, 45vw" />
+              </div>
+              <p><strong>{p.name}</strong><span>{p.kind}</span></p>
+            </a>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ NEW IN ═══════════ -->
+  <section class="newin section">
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow" data-fade>Just landed</p>
+          <h2 class="display h2" data-split>New this week</h2>
+        </div>
+        <div class="newin__ctrl" data-fade>
+          <button class="newin__arrow" data-drag-btn="newin-rail" data-dir="-1" aria-label="Previous"><Icon name="arrow" /></button>
+          <button class="newin__arrow" data-drag-btn="newin-rail" data-dir="1" aria-label="Next"><Icon name="arrow" /></button>
+          <a href="/new-arrivals" class="link">See all <Icon name="arrow" /></a>
+        </div>
+      </div>
+    </div>
+    <div class="rail" id="newin-rail" data-drag>
+      {
+        arrivals.slice(0, 8).map((a) => (
+          <article class="pcard">
+            <a href={wa(`Hi Brand Mark, is "${a.title}" available? (seen on your website)`)} target="_blank" rel="noopener" data-cursor="view" data-cursor-label="Ask">
+              <div class="pcard__media media">
+                <Image src={a.image} alt={a.title} widths={[360, 560]} sizes="(min-width: 900px) 24vw, 72vw" draggable="false" />
+                <span class="pcard__tag">{a.tag}</span>
+              </div>
+              <h3>{a.title}</h3>
+              <p class="muted">{a.note}</p>
+            </a>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- ═══════════ OCCASIONS ═══════════ -->
+  <section class="occ dark section" data-hover-list>
+    <div class="wrap">
+      <div class="sec-head">
+        <div>
+          <p class="eyebrow" data-fade>Dressed for it</p>
+          <h2 class="display h2" data-split>Every occasion,<br /><span class="serif">sorted.</span></h2>
+        </div>
+        <p class="lead muted" data-fade>Tell us where you're headed. Our team pulls together the outfit, shoes and finishing touches before you even walk in.</p>
+      </div>
+
+      <ul class="occ__list">
+        {
+          occasions.map((o, i) => (
+            <li>
+              <a href={wa(o.ask)} target="_blank" rel="noopener" class="occ__row" data-hover-item={i}>
+                <span class="occ__num">0{i + 1}</span>
+                <span class="occ__name display">{o.name}</span>
+                <span class="occ__note muted">{o.note}</span>
+                <span class="occ__thumb media"><Image src={o.img} alt="" widths={[240]} sizes="120px" /></span>
+                <span class="occ__go"><Icon name="arrow-up" /></span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="occ__follower" data-hover-follower aria-hidden="true">
+      {occasions.map((o) => <Image src={o.img} alt="" widths={[420]} sizes="280px" data-hover-img />)}
+    </div>
+  </section>
+
+  <!-- ═══════════ SNEAKER WALL ═══════════ -->
+  <section class="kicks section">
+    <div class="wrap kicks__grid">
+      <div class="kicks__media media" data-parallax="0.08">
+        <Image src={sneakerWall} alt="Sneakers in a dark studio" widths={[600, 900, 1300]} sizes="(min-width: 900px) 50vw, 100vw" />
+      </div>
+      <div class="kicks__copy">
+        <p class="eyebrow" data-fade>Footwear</p>
+        <h2 class="display h2" data-split>The sneaker wall<br /><span class="serif">Berhampur talks about.</span></h2>
+        <p class="lead muted" data-fade>Running, training, lifestyle and everyday comfort from the biggest names in sport, in the sizes you actually need.</p>
+        <ul class="kicks__logos" data-stagger>
+          {footwearBrands.map((b) => <li class="logo-cell"><BrandLogo brand={b} size={32} /></li>)}
+        </ul>
+        <div data-fade>
+          <a href="/collections/footwear" class="btn" data-magnetic>Explore footwear <Icon name="arrow" /></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ VISIT ═══════════ -->
+  <section class="visit bone section" id="visit">
+    <div class="wrap visit__grid">
+      <div class="visit__copy">
+        <p class="eyebrow" data-fade>Visit the store</p>
+        <h2 class="display h2" data-split>Spectrum Center,<br /><span class="serif">Old Bus Stand.</span></h2>
+        <dl class="visit__dl" data-stagger>
+          <div><dt>Address</dt><dd>{site.address.line1}<br />{site.address.city}, {site.address.region}</dd></div>
+          <div><dt>Hours</dt><dd>{site.hours.days}<br />{site.hours.label}</dd></div>
+          <div><dt>Call</dt><dd><a href={site.phoneHref}>{site.phone}</a></dd></div>
+          <div><dt>Today</dt><dd><span class="status" data-open-status><i></i><span>Open daily</span></span></dd></div>
+        </dl>
+        <div class="visit__btns" data-fade>
+          <a href={site.mapsLink} target="_blank" rel="noopener" class="btn" data-magnetic><Icon name="pin" /> Open in Google Maps</a>
+          <a href={site.reviewsLink} target="_blank" rel="noopener" class="link"><Icon name="star" /> Read our Google reviews</a>
+        </div>
+      </div>
+      <div class="visit__media">
+        <figure class="visit__photo media" data-reveal>
+          <Image src={storefront} alt="The Brand Mark storefront at Spectrum Center, Berhampur, lit up at night" widths={[550]} sizes="(min-width: 900px) 30vw, 90vw" />
+        </figure>
+        <div class="visit__map" data-fade>
+          <iframe title="Map to Brand Mark, Berhampur" src={site.mapsEmbed} loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ── Hero ── */
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    overflow: hidden;
+    padding-top: 110px;
+  }
+  .hero__glow {
+    position: absolute;
+    inset: auto -20% -40% -20%;
+    height: 80%;
+    background: radial-gradient(closest-side, rgba(240, 168, 60, 0.22), transparent 70%);
+    pointer-events: none;
+  }
+  .hero__inner {
+    position: relative;
+    z-index: 2;
+    padding-bottom: clamp(28px, 5vh, 56px);
+  }
+  .hero__kicker {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: clamp(10px, 2vh, 22px);
+    color: rgba(242, 238, 231, 0.8);
+  }
+  .hero__kicker .odia {
+    font-size: 1.05rem;
+  }
+  .hero__title {
+    font-size: clamp(4.2rem, 15.4vw, 17.5rem);
+    line-height: 0.84;
+    letter-spacing: -0.055em;
+    margin-left: -0.04em;
+  }
+  .hero__brand {
+    display: inline-block;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 0.04em 0.07em 0;
+    margin-right: 0.04em;
+  }
+  .hero__foot {
+    display: grid;
+    gap: 22px;
+    margin-top: clamp(22px, 4vh, 44px);
+    padding-top: clamp(20px, 3vh, 32px);
+    border-top: 1px solid var(--line-d);
+  }
+  .hero__lead {
+    max-width: 44ch;
+    font-size: var(--fs-lead);
+    color: rgba(242, 238, 231, 0.86);
+  }
+  .hero__lead em {
+    font-size: 1.12em;
+    color: var(--paper);
+  }
+  .hero__btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  @media (min-width: 900px) {
+    .hero__foot {
+      grid-template-columns: 1fr auto;
+      align-items: end;
+    }
+  }
+
+  .hero__cards {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .hero__card {
+    position: absolute;
+    z-index: 1;
+  }
+  .hero__card .media {
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  }
+  .hero__card--a {
+    width: clamp(130px, 19vw, 330px);
+    aspect-ratio: 3 / 4;
+    top: clamp(100px, 15vh, 160px);
+    right: 3.5vw;
+    z-index: 3;
+  }
+  .hero__card--b {
+    width: clamp(110px, 11vw, 200px);
+    aspect-ratio: 4 / 5;
+    bottom: clamp(170px, 20vh, 220px);
+    left: 63vw;
+    z-index: 3;
+  }
+  .hero__card--c {
+    width: clamp(90px, 10vw, 170px);
+    aspect-ratio: 1;
+    top: 96px;
+    left: 38vw;
+  }
+  @media (max-width: 899px) {
+    .hero {
+      justify-content: flex-start;
+      padding-top: 96px;
+    }
+    .hero__cards {
+      position: relative;
+      inset: auto;
+      clip-path: none;
+      display: grid;
+      grid-template-columns: 1fr 1.3fr 0.9fr;
+      align-items: end;
+      gap: 10px;
+      padding-inline: var(--gutter);
+      margin-bottom: 28px;
+    }
+    .hero__card {
+      position: relative;
+      inset: auto;
+      width: auto;
+      z-index: 1;
+    }
+    .hero__card--a {
+      grid-column: 2;
+      grid-row: 1;
+      aspect-ratio: 3 / 4;
+    }
+    .hero__card--b {
+      grid-column: 1;
+      grid-row: 1;
+      aspect-ratio: 3 / 4;
+      margin-bottom: 18px;
+    }
+    .hero__card--c {
+      grid-column: 3;
+      grid-row: 1;
+      aspect-ratio: 3 / 4;
+      margin-bottom: 36px;
+    }
+  }
+
+  .hero__scroll {
+    position: absolute;
+    right: var(--gutter);
+    bottom: 50%;
+    z-index: 2;
+    display: none;
+    align-items: center;
+    gap: 12px;
+    writing-mode: vertical-rl;
+    font-size: var(--fs-micro);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+  .hero__scroll i {
+    width: 1px;
+    height: 60px;
+    background: linear-gradient(var(--paper), transparent);
+    animation: drip 2.2s var(--ease) infinite;
+    transform-origin: top;
+  }
+  @keyframes drip {
+    0% { transform: scaleY(0); }
+    50% { transform: scaleY(1); transform-origin: top; }
+    51% { transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  /* ── Brand strip ── */
+  .brands-strip {
+    padding-block: 34px 56px;
+    border-top: 1px solid var(--line-d);
+  }
+  .brands-strip__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    color: var(--stone);
+  }
+  .brands-strip__head .link {
+    color: var(--paper);
+  }
+  .brands-strip :global(.brand-logo) {
+    color: rgba(242, 238, 231, 0.78);
+    transition: color 0.3s;
+  }
+  .brands-strip :global(.brand-logo:hover) {
+    color: var(--amber);
+  }
+
+  /* ── Statement ── */
+  .statement__text {
+    margin-top: 28px;
+    font-size: clamp(1.7rem, 4.1vw, 4rem);
+    line-height: 1.12;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    max-width: 24ch;
+    text-wrap: balance;
+  }
+  .statement__grid {
+    display: grid;
+    gap: 40px;
+    margin-top: clamp(60px, 9vw, 130px);
+  }
+  .statement__img--a .media {
+    aspect-ratio: 4 / 5;
+  }
+  .statement__img--b .media {
+    aspect-ratio: 3 / 4;
+  }
+  .statement__img--b img {
+    scale: 1.2;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px 24px;
+    align-content: center;
+  }
+  .stats li {
+    display: grid;
+    gap: 6px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line-l);
+  }
+  .stats strong {
+    font-weight: 800;
+    font-variation-settings: 'wdth' 125;
+    font-size: clamp(2.8rem, 5vw, 4.8rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+  .stats li > span {
+    font-size: var(--fs-small);
+    color: var(--stone-dark);
+  }
+  @media (min-width: 900px) {
+    .statement__grid {
+      grid-template-columns: 1.1fr 1fr 0.6fr;
+      align-items: end;
+      gap: clamp(32px, 4vw, 72px);
+    }
+    .statement__img--b {
+      align-self: start;
+      margin-top: -140px;
+    }
+  }
+
+  /* ── Departments ── */
+  .depts {
+    position: relative;
+    padding-top: clamp(80px, 10vw, 130px);
+    padding-bottom: clamp(60px, 8vw, 100px);
+    overflow: hidden;
+  }
+  .depts__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: clamp(36px, 5vw, 64px);
+  }
+  .depts__head .eyebrow {
+    color: var(--amber);
+    margin-bottom: 18px;
+  }
+  .depts__progress {
+    display: none;
+    width: 220px;
+    height: 2px;
+    background: var(--line-d);
+  }
+  .depts__progress i {
+    display: block;
+    height: 100%;
+    background: var(--amber);
+    transform-origin: left;
+    transform: scaleX(0);
+  }
+  .depts__track {
+    display: grid;
+    gap: 48px;
+    padding-inline: var(--gutter);
+  }
+  .dept {
+    display: grid;
+    gap: 18px;
+  }
+  .dept__media {
+    aspect-ratio: 4 / 5;
+  }
+  .dept__media :global(img) {
+    transition: transform 1.2s var(--ease), filter 0.6s;
+  }
+  .dept:hover .dept__media :global(img) {
+    filter: brightness(1.08);
+  }
+  .dept__info {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4px 16px;
+    align-items: baseline;
+  }
+  .dept__num {
+    grid-row: span 2;
+    font-size: var(--fs-small);
+    color: var(--amber);
+    font-weight: 600;
+  }
+  .dept__info .h3 {
+    transition: color 0.3s;
+  }
+  .dept:hover .h3 {
+    color: var(--amber);
+  }
+  .dept--end {
+    align-content: center;
+    gap: 24px;
+    padding: 40px 0;
+  }
+  .dept--end .eyebrow {
+    color: var(--stone);
+  }
+  .dept--end .h3 {
+    font-size: clamp(1.5rem, 2.2vw, 2.1rem);
+    max-width: 16ch;
+    line-height: 1.08;
+  }
+  .dept--end .btn {
+    justify-self: start;
+  }
+  @media (min-width: 900px) {
+    .depts {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-block: 100px 50px;
+    }
+    .depts__progress {
+      display: block;
+    }
+    .depts__track {
+      display: flex;
+      gap: clamp(24px, 3vw, 48px);
+      width: max-content;
+      padding-right: 10vw;
+    }
+    .dept {
+      width: clamp(300px, 28vw, 440px);
+      flex: none;
+    }
+    .dept__media {
+      aspect-ratio: auto;
+      height: min(56vh, 600px);
+    }
+    .dept__media :global(img) {
+      width: 125%;
+      max-width: none;
+      margin-left: -12.5%;
+    }
+    .dept:nth-child(even) {
+      margin-top: 8vh;
+    }
+    .dept--end {
+      width: clamp(300px, 26vw, 400px);
+    }
+  }
+
+  /* ── MITTY ── */
+  .mitty__grid {
+    display: grid;
+    gap: 56px;
+  }
+  .mitty__copy {
+    display: grid;
+    gap: 22px;
+    align-content: start;
+  }
+  .mitty__logo {
+    width: 110px;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+  .mitty__logo :global(svg) {
+    width: 100%;
+    height: auto;
+  }
+  .mitty__btns {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px 26px;
+    margin-top: 6px;
+  }
+  .mitty__rail {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .mitty__card .media {
+    aspect-ratio: 3 / 4;
+    background: #d8d6d2;
+  }
+  .mitty__card :global(img) {
+    transition: transform 1s var(--ease);
+  }
+  .mitty__card:hover :global(img) {
+    transform: scale(1.05);
+  }
+  .mitty__card p {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    font-size: var(--fs-small);
+  }
+  .mitty__card p span {
+    color: var(--stone-dark);
+  }
+  @media (min-width: 900px) {
+    .mitty__grid {
+      grid-template-columns: 0.9fr 1.1fr;
+      align-items: center;
+      gap: clamp(40px, 6vw, 110px);
+    }
+    .mitty__card--1,
+    .mitty__card--3 {
+      translate: 0 60px;
+    }
+  }
+
+  /* ── New in rail ── */
+  .newin__ctrl {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .newin__ctrl .link {
+    margin-left: 14px;
+  }
+  .newin__arrow {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    box-shadow: inset 0 0 0 1px var(--line-l);
+    transition: background 0.3s, color 0.3s;
+  }
+  .newin__arrow:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .newin__arrow :global(svg) {
+    width: 18px;
+    height: 18px;
+  }
+  .newin__arrow:first-child :global(svg) {
+    transform: rotate(180deg);
+  }
+  .rail {
+    display: flex;
+    gap: clamp(14px, 1.6vw, 24px);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-inline: var(--gutter);
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+    cursor: grab;
+    overscroll-behavior-x: contain;
+  }
+  .rail::-webkit-scrollbar {
+    display: none;
+  }
+  :global(.rail.is-dragging) {
+    cursor: grabbing;
+    scroll-snap-type: none;
+  }
+  .pcard {
+    flex: none;
+    width: clamp(240px, 23vw, 360px);
+    scroll-snap-align: start;
+  }
+  .pcard__media {
+    aspect-ratio: 3 / 4;
+    margin-bottom: 14px;
+  }
+  .pcard__media :global(img) {
+    transition: transform 1.1s var(--ease);
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+  .pcard:hover .pcard__media :global(img) {
+    transform: scale(1.06);
+  }
+  .pcard__tag {
+    position: absolute;
+    left: 12px;
+    top: 12px;
+    padding: 6px 10px;
+    border-radius: 99px;
+    background: rgba(242, 238, 231, 0.92);
+    font-size: var(--fs-micro);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .pcard h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .pcard p {
+    font-size: var(--fs-small);
+  }
+
+  /* ── Occasions ── */
+  .occ {
+    position: relative;
+    overflow: hidden;
+  }
+  .occ .sec-head .eyebrow {
+    color: var(--amber);
+    margin-bottom: 18px;
+  }
+  .occ__list {
+    border-top: 1px solid var(--line-d);
+  }
+  .occ__row {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 6px 18px;
+    padding-block: clamp(22px, 3vw, 38px);
+    border-bottom: 1px solid var(--line-d);
+    transition: padding 0.6s var(--ease), color 0.3s;
+  }
+  .occ__num {
+    font-size: var(--fs-small);
+    color: var(--stone);
+  }
+  .occ__name {
+    font-size: clamp(1.5rem, 4.3vw, 4.4rem);
+    line-height: 1;
+    transition: transform 0.6s var(--ease), color 0.3s;
+  }
+  .occ__note {
+    grid-column: 2;
+    font-size: var(--fs-small);
+  }
+  .occ__thumb {
+    grid-row: 1 / span 2;
+    grid-column: 3;
+    width: 72px;
+    aspect-ratio: 3 / 4;
+  }
+  .occ__go {
+    display: none;
+  }
+  @media (min-width: 900px) {
+    .occ__row {
+      grid-template-columns: 70px 1.4fr 0.6fr 60px;
+    }
+    .occ__note {
+      grid-column: 3;
+    }
+    .occ__thumb {
+      display: none;
+    }
+    .occ__go {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 1px var(--line-d);
+      justify-self: end;
+      transition: background 0.4s, color 0.4s, transform 0.6s var(--ease);
+    }
+    .occ__go :global(svg) {
+      width: 20px;
+      height: 20px;
+    }
+    .occ__row:hover .occ__name {
+      transform: translateX(24px);
+      color: var(--amber);
+    }
+    .occ__row:hover .occ__go {
+      background: var(--paper);
+      color: var(--ink);
+      transform: rotate(45deg);
+    }
+  }
+  .occ__follower {
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 3;
+    width: 260px;
+    aspect-ratio: 3 / 4;
+    margin: -170px 0 0 -130px;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    overflow: hidden;
+  }
+  .occ__follower :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+  }
+  @media (hover: none), (pointer: coarse) {
+    .occ__follower {
+      display: none;
+    }
+  }
+
+  /* ── Sneaker wall ── */
+  .kicks__grid {
+    display: grid;
+    gap: 48px;
+  }
+  .kicks__media {
+    aspect-ratio: 4 / 5;
+  }
+  .kicks__media :global(img) {
+    scale: 1.18;
+  }
+  .kicks__copy {
+    display: grid;
+    gap: 24px;
+    align-content: center;
+  }
+  .kicks__logos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--line-l);
+    border-left: 1px solid var(--line-l);
+    margin-block: 10px 6px;
+  }
+  .kicks__logos li {
+    display: grid;
+    place-items: center;
+    height: 96px;
+    border-right: 1px solid var(--line-l);
+    border-bottom: 1px solid var(--line-l);
+    transition: background 0.4s, color 0.4s;
+  }
+  .kicks__logos li:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .kicks__copy .btn {
+    justify-self: start;
+  }
+  @media (min-width: 900px) {
+    .kicks__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 6vw, 110px);
+    }
+    .kicks__media {
+      aspect-ratio: auto;
+      min-height: 680px;
+    }
+  }
+
+  /* ── Visit ── */
+  .visit__grid {
+    display: grid;
+    gap: 56px;
+  }
+  .visit__copy {
+    display: grid;
+    gap: 28px;
+    align-content: start;
+  }
+  .visit__dl {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 26px 24px;
+  }
+  .visit__dl div {
+    padding-top: 14px;
+    border-top: 1px solid var(--line-l);
+  }
+  .visit__dl dt {
+    font-size: var(--fs-micro);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--stone-dark);
+    margin-bottom: 6px;
+  }
+  .visit__dl a:hover {
+    color: var(--stone-dark);
+  }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .status i {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--stone);
+  }
+  :global(.status.is-open) i {
+    background: #16a34a;
+  }
+  .visit__btns {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px 28px;
+  }
+  .visit__media {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .visit__photo {
+    aspect-ratio: 550 / 512;
+  }
+  .visit__map {
+    position: relative;
+    min-height: 280px;
+    overflow: hidden;
+    background: var(--paper);
+  }
+  .visit__map iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    filter: grayscale(1) contrast(1.05);
+    transition: filter 0.5s;
+  }
+  .visit__map:hover iframe {
+    filter: none;
+  }
+  @media (min-width: 700px) {
+    .visit__media {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (min-width: 1000px) {
+    .visit__grid {
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: clamp(40px, 6vw, 100px);
+    }
+  }
+</style>

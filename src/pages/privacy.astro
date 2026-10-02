@@ -1,0 +1,30 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import { site, wa } from '../data/site';
+---
+
+<LegalPage title="Privacy Policy" updated="October 2026">
+  <p>This website is an information site for the Brand Mark store in Berhampur. It does not ask you to create an account or take payments.</p>
+
+  <h2>Information we collect</h2>
+  <p>We only collect details you choose to share with us, such as your name and phone number when you message, call or email us, and purchase details when you shop in store.</p>
+
+  <h2>How we use it</h2>
+  <ul>
+    <li>To reply to your questions and help with your visit.</li>
+    <li>To handle purchases and exchanges.</li>
+    <li>To improve our store and service.</li>
+  </ul>
+
+  <h2>Sharing</h2>
+  <p>We do not sell your personal information. We only share it with trusted service providers (for example payment providers) when needed to complete something you asked for.</p>
+
+  <h2>Third-party services</h2>
+  <p>This site shows a Google Maps embed and links to WhatsApp, Instagram and mitty.co.in. Those services have their own privacy policies.</p>
+
+  <h2>Your choices</h2>
+  <p>You can ask us at any time to update or delete your details, subject to legal and accounting record requirements.</p>
+
+  <h2>Contact</h2>
+  <p>Email <a href={`mailto:${site.email}`}>{site.email}</a> or <a href={wa('Hi Brand Mark, I have a privacy question.')} target="_blank" rel="noopener">message us on WhatsApp</a>.</p>
+</LegalPage>

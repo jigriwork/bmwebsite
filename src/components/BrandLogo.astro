@@ -1,0 +1,21 @@
+---
+import type { Brand } from '../data/brands';
+import ratios from '../data/logo-ratios.json';
+interface Props {
+  brand: Brand;
+  /** visual size: logos are scaled to roughly equal optical area */
+  size?: number;
+  class?: string;
+}
+const { brand, size = 40, class: cls } = Astro.props;
+const ratio = (ratios as Record<string, number>)[brand.slug] ?? 3;
+const optical = Math.min(1.5, Math.max(0.45, Math.sqrt(2.6 / ratio)));
+const h = Math.round(size * optical * (brand.scale ?? 1));
+const w = Math.round(h * ratio);
+---
+
+<span
+  class:list={['logo-mask', 'brand-logo', cls]}
+  style={`--logo:url('${brand.logo}');height:${h}px;width:${w}px`}
+  role="img"
+  aria-label={brand.name}></span>

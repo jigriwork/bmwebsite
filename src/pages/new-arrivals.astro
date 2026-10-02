@@ -1,0 +1,182 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { arrivals } from '../data/arrivals';
+import { departments } from '../data/departments';
+import { wa } from '../data/site';
+
+const tabs = [{ slug: 'all', short: 'All' }, ...departments.map((d) => ({ slug: d.slug, short: d.short }))].filter(
+  (t) => t.slug === 'all' || arrivals.some((a) => a.dept === t.slug),
+);
+---
+
+<Base title="New Arrivals" description="New arrivals at Brand Mark Berhampur: fresh shirts, ethnic sets, sneakers, perfumes and accessories. Message us on WhatsApp to check sizes.">
+  <PageHero eyebrow="New in store" intro="Fresh drops across every department. Stock moves fast, so tap any piece to check sizes and availability on WhatsApp." compact>
+    Just <span class="serif">landed.</span>
+  </PageHero>
+
+  <section class="section na">
+    <div class="wrap">
+      <div class="na__tabs" role="tablist" aria-label="Filter by department" data-fade>
+        {
+          tabs.map((t, i) => (
+            <button type="button" role="tab" class:list={['na__tab', { 'is-on': i === 0 }]} aria-selected={i === 0 ? 'true' : 'false'} data-tab={t.slug}>
+              {t.short}
+            </button>
+          ))
+        }
+      </div>
+
+      <ul class="na__grid" data-na-grid>
+        {
+          arrivals.map((a) => (
+            <li class="na__item" data-dept={a.dept} data-fade>
+              <a href={wa(`Hi Brand Mark, is "${a.title}" available? (seen on your website)`)} target="_blank" rel="noopener" data-cursor="view" data-cursor-label="Ask">
+                <div class="media na__img">
+                  <Image src={a.image} alt={a.title} widths={[400, 700, 1000]} sizes="(min-width: 1000px) 31vw, (min-width: 640px) 46vw, 92vw" />
+                  <span class="na__tag">{a.tag}</span>
+                </div>
+                <div class="na__meta">
+                  <div>
+                    <h2>{a.title}</h2>
+                    <p class="muted">{a.note}</p>
+                  </div>
+                  <span class="na__ask"><Icon name="whatsapp" /> Ask</span>
+                </div>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+  const tabs = document.querySelectorAll<HTMLButtonElement>('[data-tab]');
+  const items = document.querySelectorAll<HTMLElement>('[data-na-grid] [data-dept]');
+  tabs.forEach((tab) =>
+    tab.addEventListener('click', () => {
+      const t = tab.dataset.tab;
+      tabs.forEach((b) => {
+        b.classList.toggle('is-on', b === tab);
+        b.setAttribute('aria-selected', String(b === tab));
+      });
+      items.forEach((it) => {
+        it.hidden = !(t === 'all' || it.dataset.dept === t);
+        it.style.opacity = '1';
+        it.style.transform = 'none';
+      });
+      ScrollTrigger.refresh();
+    }),
+  );
+</script>
+
+<style>
+  .na__tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    margin-bottom: 44px;
+    scrollbar-width: none;
+  }
+  .na__tab {
+    flex: none;
+    padding: 12px 20px;
+    border-radius: 99px;
+    box-shadow: inset 0 0 0 1px var(--line-l);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    transition: background 0.3s, color 0.3s;
+  }
+  .na__tab.is-on,
+  .na__tab:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .na__grid {
+    display: grid;
+    gap: 44px 18px;
+  }
+  .na__item[hidden] {
+    display: none;
+  }
+  .na__img {
+    aspect-ratio: 4 / 5;
+    margin-bottom: 14px;
+  }
+  .na__img :global(img) {
+    transition: transform 1.1s var(--ease);
+  }
+  .na__item a:hover :global(img) {
+    transform: scale(1.05);
+  }
+  .na__tag {
+    position: absolute;
+    left: 14px;
+    top: 14px;
+    padding: 6px 11px;
+    border-radius: 99px;
+    background: rgba(242, 238, 231, 0.92);
+    font-size: var(--fs-micro);
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .na__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .na__meta h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .na__meta p {
+    font-size: var(--fs-small);
+  }
+  .na__ask {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 99px;
+    box-shadow: inset 0 0 0 1px var(--line-l);
+    font-size: var(--fs-micro);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: background 0.3s, color 0.3s;
+  }
+  .na__ask :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+  .na__item a:hover .na__ask {
+    background: #1f7a4a;
+    color: #fff;
+    box-shadow: none;
+  }
+  @media (min-width: 640px) {
+    .na__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  @media (min-width: 1000px) {
+    .na__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .na__item:nth-child(3n + 2) {
+      translate: 0 70px;
+    }
+    .na__grid {
+      padding-bottom: 70px;
+    }
+  }
+</style>

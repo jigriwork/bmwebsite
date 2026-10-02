@@ -1,0 +1,163 @@
+---
+import Icon from './Icon.astro';
+import { site, wa } from '../data/site';
+import { departments } from '../data/departments';
+const year = new Date().getFullYear();
+---
+
+<footer class="ftr dark">
+  <div class="wrap">
+    <div class="ftr__cta">
+      <p class="eyebrow">Come say hello</p>
+      <h2 class="display h1" data-split>
+        See it. Try it.<br /><span class="serif">Love it in store.</span>
+      </h2>
+      <div class="ftr__btns" data-fade>
+        <a class="btn btn--light" href={site.mapsLink} target="_blank" rel="noopener" data-magnetic>
+          <Icon name="pin" /> Get directions
+        </a>
+        <a class="btn btn--ghost" href={wa('Hi Brand Mark! I have a question.')} target="_blank" rel="noopener" data-magnetic>
+          <Icon name="whatsapp" /> Chat on WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <div class="ftr__grid">
+      <div>
+        <p class="ftr__h">Visit</p>
+        <p>{site.address.line1}<br />{site.address.city}, {site.address.region}</p>
+        <p class="muted">{site.hours.days} · {site.hours.label}</p>
+      </div>
+      <div>
+        <p class="ftr__h">Talk to us</p>
+        <p><a href={site.phoneHref}>{site.phone}</a></p>
+        <p><a href={`mailto:${site.email}`}>{site.email}</a></p>
+        <p><a href={site.instagram} target="_blank" rel="noopener">Instagram {site.instagramHandle}</a></p>
+      </div>
+      <div>
+        <p class="ftr__h">Departments</p>
+        <ul>{departments.map((d) => <li><a href={`/collections/${d.slug}`}>{d.name}</a></li>)}</ul>
+      </div>
+      <div>
+        <p class="ftr__h">Brand Mark</p>
+        <ul>
+          <li><a href="/brands">Brands</a></li>
+          <li><a href="/mitty">MITTY, our label</a></li>
+          <li><a href="/new-arrivals">New arrivals</a></li>
+          <li><a href="/about">Our story</a></li>
+          <li><a href="/visit">Visit & FAQ</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="ftr__mega" aria-hidden="true" data-footer-mega>
+    <span>Brand</span><span class="ftr__mark">Mark</span>
+  </div>
+
+  <div class="wrap ftr__base">
+    <span>© {year} Brand Mark, Berhampur. All rights reserved.</span>
+    <span class="odia">{site.odia}</span>
+    <span><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a></span>
+  </div>
+</footer>
+
+<style>
+  .ftr {
+    position: relative;
+    padding-top: clamp(90px, 12vw, 180px);
+    overflow: hidden;
+  }
+  .ftr__cta {
+    display: grid;
+    gap: 28px;
+    padding-bottom: clamp(70px, 9vw, 130px);
+    border-bottom: 1px solid var(--line-d);
+  }
+  .ftr__cta .eyebrow {
+    color: var(--amber);
+  }
+  .ftr__cta h2 {
+    max-width: 14ch;
+  }
+  .ftr__btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .ftr__grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 24px;
+    padding-block: 64px;
+    font-size: 0.95rem;
+    color: rgba(242, 238, 231, 0.82);
+  }
+  .ftr__grid p + p {
+    margin-top: 6px;
+  }
+  .ftr__grid ul {
+    display: grid;
+    gap: 6px;
+  }
+  .ftr__grid a {
+    transition: color 0.3s;
+  }
+  .ftr__grid a:hover {
+    color: var(--amber);
+  }
+  .ftr__h {
+    font-size: var(--fs-micro);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--stone);
+    margin-bottom: 14px;
+  }
+  @media (min-width: 900px) {
+    .ftr__grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  .ftr__mega {
+    display: flex;
+    justify-content: center;
+    gap: 0.04em;
+    font-weight: 800;
+    font-variation-settings: 'wdth' 125;
+    text-transform: uppercase;
+    letter-spacing: -0.05em;
+    font-size: clamp(2.4rem, 10.6vw, 15rem);
+    line-height: 0.8;
+    white-space: nowrap;
+    padding-inline: 1vw;
+    user-select: none;
+  }
+  .ftr__mega span {
+    display: inline-block;
+    padding: 0.08em 0.06em 0.02em;
+  }
+  .ftr__mega span:first-child {
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .ftr__mark {
+    color: var(--paper);
+  }
+  .ftr__base {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px 24px;
+    padding-block: 28px calc(28px + env(safe-area-inset-bottom));
+    font-size: var(--fs-small);
+    color: var(--stone);
+  }
+  .ftr__base a:hover {
+    color: var(--paper);
+  }
+  @media (max-width: 899px) {
+    .ftr__base {
+      padding-bottom: calc(96px + env(safe-area-inset-bottom));
+    }
+  }
+</style>

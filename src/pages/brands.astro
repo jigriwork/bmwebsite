@@ -1,0 +1,202 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import BrandLogo from '../components/BrandLogo.astro';
+import Icon from '../components/Icon.astro';
+import { brands, groupLabel, type BrandGroup } from '../data/brands';
+import { wa } from '../data/site';
+
+const filters: { key: 'all' | BrandGroup; label: string }[] = [
+  { key: 'all', label: 'All' },
+  { key: 'own', label: 'Our label' },
+  { key: 'clothing', label: 'Clothing' },
+  { key: 'footwear', label: 'Footwear' },
+];
+---
+
+<Base title="Brands" description={`${brands.length} brands under one roof at Brand Mark Berhampur: Levi's, Jack & Jones, The Bear House, Rare Rabbit, Arrow, Nike, Adidas, Puma, Skechers, Reebok, Lotto and our own label MITTY.`}>
+  <PageHero eyebrow="The brands" intro="International icons, India's favourite labels and our own MITTY. Stock changes with the season, so message us to check styles and sizes before you visit." compact>
+    {brands.length} labels.<br /><span class="serif">One roof.</span>
+  </PageHero>
+
+  <section class="bw section">
+    <div class="wrap">
+      <div class="bw__filters" role="tablist" aria-label="Filter brands" data-fade>
+        {
+          filters.map((f, i) => (
+            <button type="button" role="tab" class:list={['bw__chip', { 'is-on': i === 0 }]} aria-selected={i === 0 ? 'true' : 'false'} data-filter={f.key}>
+              {f.label}
+              <sup>{f.key === 'all' ? brands.length : brands.filter((b) => b.group === f.key).length}</sup>
+            </button>
+          ))
+        }
+      </div>
+
+      <ul class="bw__grid" data-stagger data-brand-grid>
+        {
+          brands.map((b) => (
+            <li class:list={['bw__card', { 'bw__card--own': b.group === 'own' }]} data-group={b.group}>
+              {b.group === 'own' ? (
+                <a href="/mitty" class="bw__inner">
+                  <span class="bw__logo logo-cell"><BrandLogo brand={b} size={46} /></span>
+                  <span class="bw__meta">
+                    <strong>{b.name}</strong>
+                    <span>{b.carries}</span>
+                  </span>
+                  <span class="bw__group">{groupLabel[b.group]}</span>
+                </a>
+              ) : (
+                <a href={wa(`Hi Brand Mark, what's in stock from ${b.name} right now?`)} target="_blank" rel="noopener" class="bw__inner">
+                  <span class="bw__logo logo-cell"><BrandLogo brand={b} size={40} /></span>
+                  <span class="bw__meta">
+                    <strong>{b.name}</strong>
+                    <span>{b.carries}</span>
+                  </span>
+                  <span class="bw__group">{groupLabel[b.group]}</span>
+                </a>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+
+      <div class="bw__note" data-fade>
+        <p class="display h3">Looking for a label <span class="serif">you don't see here?</span></p>
+        <a class="btn btn--wa" href={wa('Hi Brand Mark, do you stock this brand: ')} target="_blank" rel="noopener" data-magnetic>
+          <Icon name="whatsapp" /> Ask us on WhatsApp
+        </a>
+      </div>
+      <p class="bw__legal muted">All trademarks and logos belong to their respective owners and are shown to indicate brands available at Brand Mark.</p>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const grid = document.querySelector('[data-brand-grid]');
+  const chips = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  chips.forEach((chip) =>
+    chip.addEventListener('click', () => {
+      const f = chip.dataset.filter;
+      chips.forEach((c) => {
+        c.classList.toggle('is-on', c === chip);
+        c.setAttribute('aria-selected', String(c === chip));
+      });
+      grid?.querySelectorAll<HTMLElement>('[data-group]').forEach((card) => {
+        const show = f === 'all' || card.dataset.group === f;
+        card.hidden = !show;
+      });
+    }),
+  );
+</script>
+
+<style>
+  .bw__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 40px;
+  }
+  .bw__chip {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 12px 20px;
+    border-radius: 99px;
+    box-shadow: inset 0 0 0 1px var(--line-l);
+    font-size: var(--fs-small);
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    transition: background 0.3s, color 0.3s;
+  }
+  .bw__chip sup {
+    font-size: 0.65rem;
+    opacity: 0.6;
+  }
+  .bw__chip.is-on,
+  .bw__chip:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .bw__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+    border-top: 1px solid var(--line-l);
+    border-left: 1px solid var(--line-l);
+  }
+  .bw__card {
+    border-right: 1px solid var(--line-l);
+    border-bottom: 1px solid var(--line-l);
+  }
+  .bw__card[hidden] {
+    display: none;
+  }
+  .bw__inner {
+    position: relative;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    gap: 16px;
+    height: 100%;
+    min-height: 280px;
+    padding: 26px;
+    transition: background 0.5s var(--ease), color 0.5s var(--ease);
+  }
+  .bw__inner:hover {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .bw__card--own .bw__inner {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .bw__card--own .bw__inner:hover {
+    background: var(--ink-3);
+  }
+  .bw__logo {
+    display: grid;
+    place-items: center;
+    min-height: 130px;
+    transition: transform 0.6s var(--ease);
+  }
+  .bw__inner:hover .bw__logo {
+    transform: scale(1.06);
+  }
+  .bw__meta {
+    display: grid;
+    gap: 2px;
+    font-size: var(--fs-small);
+  }
+  .bw__meta strong {
+    font-size: 1rem;
+  }
+  .bw__meta span {
+    opacity: 0.65;
+  }
+  .bw__group {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    font-size: 0.625rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+  .bw__card--own .bw__group {
+    color: var(--amber);
+    opacity: 1;
+  }
+  .bw__note {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: clamp(60px, 8vw, 110px);
+  }
+  .bw__note .h3 {
+    max-width: 20ch;
+  }
+  .bw__legal {
+    margin-top: 48px;
+    font-size: var(--fs-micro);
+  }
+</style>

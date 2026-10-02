@@ -1,0 +1,200 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { mittyProducts, mittyUrl } from '../data/mitty';
+import { site, wa } from '../data/site';
+import mittyLogo from '../assets/brand/mitty.svg?raw';
+import banner from '../assets/mitty/banner-elegance.png';
+---
+
+<Base title="MITTY, our own label" description="MITTY is the menswear label from the house of Go Planet and Brand Mark, Berhampur. Shirts, trousers, jeans and essentials. Try it in store or shop online at mitty.co.in.">
+  <section class="mh dark grain">
+    <div class="wrap mh__inner">
+      <div class="mh__logo" set:html={mittyLogo} role="img" aria-label="MITTY" data-fade="hero" />
+      <p class="eyebrow" data-fade="hero">Our own label · Since the house of Go Planet</p>
+      <h1 class="display h1" data-split="hero">Made in Brahmapur.<br /><span class="serif">Worn everywhere.</span></h1>
+      <div class="mh__btns" data-fade="hero" data-delay="0.3">
+        <a href={mittyUrl} target="_blank" rel="noopener" class="btn btn--light" data-magnetic>Shop online <Icon name="arrow-up" /></a>
+        <a href={wa('Hi Brand Mark, I want to try MITTY in store.')} target="_blank" rel="noopener" class="btn btn--ghost" data-magnetic><Icon name="whatsapp" /> Try it in store</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap mstory">
+      <p class="eyebrow" data-fade>The story</p>
+      <p class="mstory__text" data-scrub-words>
+        MITTY was born on our own shop floor. After decades of watching what Berhampur actually wears, we made the shirts and trousers our customers kept asking for: clean cuts, honest fabrics, colours that work from Monday to Sunday, and prices that make sense.
+      </p>
+      <ul class="mstory__pillars" data-stagger>
+        <li><strong>Smart</strong><span>Sharp collars and slim, easy fits that look right at work and after.</span></li>
+        <li><strong>Comfortable</strong><span>Breathable cottons and stretch blends made for Odisha weather.</span></li>
+        <li><strong>Confident</strong><span>Rich, versatile colours that pair with everything in your wardrobe.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="mgrid bone section">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="display h2" data-split>The MITTY edit</h2>
+        <a href={mittyUrl} target="_blank" rel="noopener" class="link" data-fade>See everything at mitty.co.in <Icon name="arrow-up" /></a>
+      </div>
+      <ul class="mgrid__list" data-stagger>
+        {
+          mittyProducts.map((p) => (
+            <li>
+              <a href={mittyUrl} target="_blank" rel="noopener" data-cursor="view" data-cursor-label="Shop">
+                <div class="media mgrid__img">
+                  <Image src={p.image} alt={`MITTY ${p.name} ${p.kind}`} widths={[320, 520, 760]} sizes="(min-width: 1000px) 24vw, 46vw" />
+                </div>
+                <h3>{p.name}</h3>
+                <p class="muted">{p.kind}</p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="mbanner dark">
+    <div class="mbanner__img media" data-parallax="0.06">
+      <Image src={banner} alt="MITTY Modern Elegance campaign" widths={[800, 1300, 1672]} sizes="100vw" />
+    </div>
+    <div class="wrap mbanner__cta">
+      <p class="display h2" data-split>Find your fit <span class="serif">at Brand Mark.</span></p>
+      <p class="lead muted" data-fade>The full MITTY range is on the floor at {site.address.line1}, {site.city}. Try every size, every colour, with our team to help.</p>
+      <div class="mh__btns" data-fade>
+        <a href={site.mapsLink} target="_blank" rel="noopener" class="btn btn--light" data-magnetic><Icon name="pin" /> Get directions</a>
+        <a href={mittyUrl} target="_blank" rel="noopener" class="link">mitty.co.in <Icon name="arrow-up" /></a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .mh {
+    position: relative;
+    min-height: 92svh;
+    display: flex;
+    align-items: flex-end;
+    padding: 150px 0 clamp(56px, 8vw, 110px);
+    overflow: hidden;
+  }
+  .mh::before {
+    content: '';
+    position: absolute;
+    right: -10vw;
+    top: 8vh;
+    width: 60vw;
+    aspect-ratio: 1;
+    background: radial-gradient(closest-side, rgba(240, 168, 60, 0.16), transparent 70%);
+  }
+  .mh__inner {
+    position: relative;
+    display: grid;
+    gap: 26px;
+  }
+  .mh__logo {
+    width: clamp(120px, 16vw, 220px);
+    color: var(--paper);
+    margin-bottom: 10px;
+  }
+  .mh__logo :global(svg) {
+    width: 100%;
+    height: auto;
+  }
+  .mh .eyebrow {
+    color: var(--amber);
+  }
+  .mh__btns {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 24px;
+  }
+  .mstory__text {
+    margin-top: 24px;
+    font-size: clamp(1.6rem, 3.8vw, 3.6rem);
+    line-height: 1.12;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    max-width: 26ch;
+  }
+  .mstory__pillars {
+    display: grid;
+    gap: 28px;
+    margin-top: clamp(56px, 8vw, 110px);
+  }
+  .mstory__pillars li {
+    display: grid;
+    gap: 8px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line-l);
+  }
+  .mstory__pillars strong {
+    font-weight: 800;
+    font-variation-settings: 'wdth' 125;
+    text-transform: uppercase;
+    font-size: 1.4rem;
+    letter-spacing: -0.02em;
+  }
+  .mstory__pillars span {
+    color: var(--stone-dark);
+    max-width: 34ch;
+  }
+  @media (min-width: 900px) {
+    .mstory__pillars {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .mgrid__list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 14px;
+  }
+  @media (min-width: 1000px) {
+    .mgrid__list {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  .mgrid__img {
+    aspect-ratio: 3 / 4;
+    background: #d8d6d2;
+    margin-bottom: 12px;
+  }
+  .mgrid__img :global(img) {
+    transition: transform 1s var(--ease);
+  }
+  .mgrid__list a:hover :global(img) {
+    transform: scale(1.05);
+  }
+  .mgrid h3 {
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  .mgrid p {
+    font-size: var(--fs-small);
+  }
+  .mbanner {
+    overflow: hidden;
+  }
+  .mbanner__img {
+    aspect-ratio: 1672 / 941;
+    max-height: 90vh;
+    width: 100%;
+  }
+  .mbanner__img :global(img) {
+    scale: 1.12;
+  }
+  .mbanner__cta {
+    display: grid;
+    gap: 24px;
+    padding-block: clamp(70px, 9vw, 130px);
+  }
+  .mbanner__cta .h2 {
+    max-width: 18ch;
+  }
+</style>

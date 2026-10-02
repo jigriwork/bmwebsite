@@ -1,0 +1,86 @@
+---
+/**
+ * First visit: logo intro (preloader).
+ * Later navigations: a short wipe between pages.
+ * Driven by src/scripts/motion.ts.
+ */
+import Logo from './Logo.astro';
+import { site } from '../data/site';
+---
+
+<div class="curtain" data-curtain aria-hidden="true">
+  <div class="curtain__panel"></div>
+  <div class="curtain__content">
+    <div class="curtain__logo" data-curtain-logo><Logo /></div>
+    <p class="curtain__meta">
+      <span>{site.tagline}</span><span class="odia">{site.odia}</span><span>{site.city}</span>
+    </p>
+  </div>
+  <div class="curtain__count" data-curtain-count>0</div>
+</div>
+
+<style>
+  .curtain {
+    position: fixed;
+    inset: 0;
+    z-index: 150;
+    pointer-events: none;
+    color: var(--paper);
+    display: none;
+  }
+  :global(html.curtain-on) .curtain {
+    display: block;
+    pointer-events: all;
+  }
+  .curtain__panel {
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+  }
+  .curtain__content {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 22px;
+  }
+  .curtain__logo {
+    width: min(64vw, 380px);
+    clip-path: inset(0 100% 0 0);
+  }
+  .curtain__meta {
+    display: flex;
+    gap: 18px;
+    font-size: var(--fs-micro);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--stone);
+    opacity: 0;
+  }
+  .curtain__meta .odia {
+    letter-spacing: 0;
+    font-size: 0.85rem;
+    color: var(--paper);
+  }
+  .curtain__count {
+    position: absolute;
+    right: var(--gutter);
+    bottom: 24px;
+    font-weight: 800;
+    font-variation-settings: 'wdth' 125;
+    font-size: clamp(3rem, 9vw, 7rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: var(--ink-3);
+    -webkit-text-stroke: 1px rgba(242, 238, 231, 0.2);
+  }
+  :global(html.curtain-nav) .curtain__count,
+  :global(html.curtain-nav) .curtain__meta {
+    display: none;
+  }
+  :global(html.curtain-nav) .curtain__logo {
+    clip-path: none;
+    width: min(40vw, 200px);
+  }
+</style>

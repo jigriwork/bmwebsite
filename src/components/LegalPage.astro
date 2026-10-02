@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from './PageHero.astro';
+interface Props {
+  title: string;
+  updated: string;
+}
+const { title, updated } = Astro.props;
+---
+
+<Base title={title}>
+  <PageHero eyebrow={`Last updated ${updated}`} compact>{title}</PageHero>
+  <section class="section">
+    <div class="wrap legal">
+      <slot />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .legal {
+    max-width: 760px;
+    margin-inline: auto;
+    display: grid;
+    gap: 18px;
+  }
+  .legal :global(h2) {
+    margin-top: 28px;
+    font-size: 1.35rem;
+    font-weight: 700;
+  }
+  .legal :global(p),
+  .legal :global(li) {
+    color: var(--stone-dark);
+  }
+  .legal :global(ul) {
+    list-style: disc;
+    padding-left: 1.2rem;
+    display: grid;
+    gap: 6px;
+  }
+  .legal :global(a) {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    color: var(--ink);
+  }
+</style>

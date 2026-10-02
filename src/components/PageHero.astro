@@ -1,0 +1,77 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+interface Props {
+  eyebrow: string;
+  intro?: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
+  compact?: boolean;
+}
+const { eyebrow, intro, image, imageAlt = '', compact = false } = Astro.props;
+---
+
+<section class:list={['phero dark grain', { 'phero--compact': compact, 'phero--img': !!image }]}>
+  {
+    image && (
+      <div class="phero__bg media" data-parallax="0.12">
+        <Image src={image} alt={imageAlt} widths={[640, 1024, 1600]} sizes="100vw" loading="eager" fetchpriority="high" />
+      </div>
+    )
+  }
+  <div class="wrap phero__inner">
+    <p class="eyebrow" data-fade="hero">{eyebrow}</p>
+    <h1 class="display h1" data-split="hero"><slot /></h1>
+    {intro && <p class="lead phero__intro" data-fade="hero" data-delay="0.3">{intro}</p>}
+    <slot name="after" />
+  </div>
+</section>
+
+<style>
+  .phero {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: 78svh;
+    padding: 150px 0 clamp(48px, 7vw, 96px);
+    overflow: hidden;
+  }
+  .phero--compact {
+    min-height: 0;
+    padding-top: clamp(150px, 20vw, 230px);
+  }
+  .phero--img {
+    min-height: 92svh;
+  }
+  .phero__bg {
+    position: absolute;
+    inset: 0;
+    background: var(--ink);
+  }
+  .phero__bg :global(img) {
+    scale: 1.25;
+    opacity: 0.62;
+  }
+  .phero__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(13, 12, 11, 0.55) 0%, rgba(13, 12, 11, 0) 35%, rgba(13, 12, 11, 0.85) 100%);
+  }
+  .phero__inner {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    gap: 24px;
+  }
+  .phero__inner .eyebrow {
+    color: var(--amber);
+  }
+  .phero h1 {
+    max-width: 16ch;
+  }
+  .phero__intro {
+    color: rgba(242, 238, 231, 0.84);
+    max-width: 46ch;
+  }
+</style>

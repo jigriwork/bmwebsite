@@ -1,0 +1,163 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+import storefront from '../assets/photos/storefront.jpg';
+import rack from '../assets/photos/new-jackets.jpg';
+import shirts from '../assets/photos/new-shirts.jpg';
+import hero from '../assets/photos/story-rack.jpg';
+
+const timeline = [
+  { year: String(site.familySince), title: 'A family in retail', text: 'Our family opens its first shop in Berhampur and learns the trade the only way that works: one customer at a time.' },
+  { year: String(site.goPlanetSince), title: 'Go Planet', text: 'Go Planet brings branded fashion to the city and becomes a name families trust for festivals, weddings and everyday wear.' },
+  { year: 'Then', title: 'Brand Mark', text: 'A bigger, better space at Spectrum Center, Old Bus Stand. More brands, a proper sneaker wall, and room to try things on without rushing.' },
+  { year: 'Now', title: 'MITTY', text: 'Our own menswear label, designed from everything our customers taught us. On our floor and online at mitty.co.in.' },
+];
+---
+
+<Base title="Our Story" description={`Brand Mark is a family business with roots in Berhampur retail since ${site.familySince}. From Go Planet to Brand Mark and our own label MITTY.`}>
+  <PageHero eyebrow="Our story" image={hero} intro={`A family business with roots in Berhampur retail since ${site.familySince}.`}>
+    Dressing Berhampur <span class="serif">for decades.</span>
+  </PageHero>
+
+  <section class="section">
+    <div class="wrap ab">
+      <p class="ab__lead" data-scrub-words>
+        Brand Mark grew out of a simple idea. People in Berhampur deserve the same brands, the same choice and the same care as any big city store, without leaving home. So we built a store where you can see it, try it and get honest advice from people who know you.
+      </p>
+    </div>
+  </section>
+
+  <section class="tl dark section">
+    <div class="wrap">
+      <p class="eyebrow" data-fade>The journey</p>
+      <ol class="tl__list">
+        {
+          timeline.map((t) => (
+            <li class="tl__item" data-fade>
+              <span class="tl__year display">{t.year}</span>
+              <div>
+                <h2 class="tl__title">{t.title}</h2>
+                <p class="muted">{t.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap vals">
+      <div class="vals__imgs">
+        <div class="media vals__a" data-reveal><Image src={storefront} alt="The Brand Mark storefront in Berhampur" widths={[550]} sizes="(min-width: 900px) 30vw, 90vw" /></div>
+        <div class="media vals__b" data-parallax="0.08"><Image src={shirts} alt="" widths={[400, 700]} sizes="(min-width: 900px) 20vw, 45vw" /></div>
+        <div class="media vals__c" data-reveal data-delay="0.2"><Image src={rack} alt="" widths={[400, 700]} sizes="(min-width: 900px) 20vw, 45vw" /></div>
+      </div>
+      <div class="vals__copy">
+        <p class="eyebrow" data-fade>What we stand for</p>
+        <h2 class="display h2" data-split>Real brands.<br /><span class="serif">Real advice.</span></h2>
+        <ul class="vals__list" data-stagger>
+          <li><strong>Genuine labels</strong><span>Every brand on our floor is the real thing. No copies, no compromises.</span></li>
+          <li><strong>Honest styling</strong><span>We'll tell you what suits you, even when it's the cheaper option.</span></li>
+          <li><strong>Local knowledge</strong><span>We know the weddings, the festivals and the weather. We stock for them.</span></li>
+          <li><strong>Easy visits</strong><span>Message us first and we'll keep your sizes ready when you walk in.</span></li>
+        </ul>
+        <a class="btn" href="/visit" data-fade data-magnetic>Plan your visit <Icon name="arrow" /></a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .ab__lead {
+    font-size: clamp(1.6rem, 3.9vw, 3.8rem);
+    line-height: 1.12;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    max-width: 26ch;
+  }
+  .tl .eyebrow {
+    color: var(--amber);
+  }
+  .tl__list {
+    list-style: none;
+    margin-top: 40px;
+    border-top: 1px solid var(--line-d);
+  }
+  .tl__item {
+    display: grid;
+    gap: 12px 40px;
+    padding-block: clamp(28px, 4vw, 48px);
+    border-bottom: 1px solid var(--line-d);
+  }
+  .tl__year {
+    font-size: clamp(3rem, 8vw, 7rem);
+    line-height: 0.9;
+    color: var(--paper);
+  }
+  .tl__title {
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .tl__item p {
+    max-width: 52ch;
+  }
+  @media (min-width: 900px) {
+    .tl__item {
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+    }
+  }
+  .vals {
+    display: grid;
+    gap: 56px;
+  }
+  .vals__imgs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .vals__a {
+    grid-column: span 2;
+    aspect-ratio: 550 / 512;
+  }
+  .vals__b,
+  .vals__c {
+    aspect-ratio: 3 / 4;
+  }
+  .vals__b :global(img) {
+    scale: 1.18;
+  }
+  .vals__copy {
+    display: grid;
+    gap: 24px;
+    align-content: start;
+  }
+  .vals__list {
+    display: grid;
+    gap: 4px;
+  }
+  .vals__list li {
+    display: grid;
+    gap: 4px;
+    padding-block: 16px;
+    border-bottom: 1px solid var(--line-l);
+  }
+  .vals__list span {
+    color: var(--stone-dark);
+  }
+  .vals__copy .btn {
+    justify-self: start;
+  }
+  @media (min-width: 1000px) {
+    .vals {
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(40px, 6vw, 110px);
+      align-items: center;
+    }
+  }
+</style>
