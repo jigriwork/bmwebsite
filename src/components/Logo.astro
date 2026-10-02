@@ -1,7 +1,7 @@
 ---
 /**
- * The Brand Mark logo in its original colours: black frame, black BRAND block
- * with white letters, black MARK, on a white plate. Optional tagline underneath.
+ * The Brand Mark logo in its original black-on-transparent form.
+ * Optional tagline underneath.
  */
 import raw from '../assets/brand/brandmark.svg?raw';
 interface Props {
@@ -20,11 +20,10 @@ const tagH = tagline ? 74 : 0;
 const vbW = w + pad * 2;
 const vbH = h + pad * 2 + tagH;
 const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${-pad} ${-pad} ${vbW} ${vbH}" role="img" aria-label="${label}">
-  <rect x="${-pad}" y="${-pad}" width="${vbW}" height="${vbH}" fill="#ffffff"/>
   <path fill="#0d0c0b" fill-rule="evenodd" d="${path}"/>
   ${
     tagline
-      ? `<text x="${w / 2}" y="${h + 56}" text-anchor="middle" font-family="Archivo Variable, Archivo, sans-serif" font-weight="700" font-size="50" letter-spacing="3" fill="none" stroke="#0d0c0b" stroke-width="1.8">FASHION &amp; FOOTWEAR</text>`
+      ? `<text x="${w / 2}" y="${h + 56}" text-anchor="middle" font-family="Archivo Variable, Archivo, sans-serif" font-weight="700" font-size="50" letter-spacing="3" fill="none" stroke="#0d0c0b" stroke-width="2">BRAND MARK</text>`
       : ''
   }
 </svg>`;
@@ -40,5 +39,6 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${-pad} ${-pad} ${
   .bm-logo :global(svg) {
     width: 100%;
     height: auto;
+    background: transparent;
   }
 </style>
