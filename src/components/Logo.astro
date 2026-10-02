@@ -1,39 +1,25 @@
 ---
 /**
- * The Brand Mark logo in its original colours: black frame, black BRAND block
- * with white letters, black MARK, on a white plate. Optional tagline underneath.
+ * Brand Mark logo matching the supplied black/white brand lockup.
  */
-import raw from '../assets/brand/brandmark.svg?raw';
 interface Props {
   class?: string;
   label?: string;
   tagline?: boolean;
 }
-const { class: cls, label = 'Brand Mark', tagline = false } = Astro.props;
 
-const vb = raw.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/)!;
-const w = Number(vb[1]);
-const h = Number(vb[2]);
-const path = raw.match(/<path[^>]*\sd="([^"]+)"/)![1];
-const pad = 14;
-const tagH = tagline ? 74 : 0;
-const vbW = w + pad * 2;
-const vbH = h + pad * 2 + tagH;
-const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${-pad} ${-pad} ${vbW} ${vbH}" role="img" aria-label="${label}">
-  <defs>
-    <style>
-      .bm-bg { fill: #ffffff; }
-      .bm-path { fill: #0d0c0b; }
-    </style>
-  </defs>
-  <rect class="bm-bg" x="${-pad}" y="${-pad}" width="${vbW}" height="${vbH}" rx="8" ry="8"/>
-  <path class="bm-path" fill-rule="evenodd" d="${path}"/>
-  ${
-    tagline
-      ? `<text x="${w / 2}" y="${h + 56}" text-anchor="middle" font-family="Archivo Variable, Archivo, sans-serif" font-weight="700" font-size="50" letter-spacing="3" fill="none" stroke="#0d0c0b" [...]`
-      : ''
-  }
-</svg>`;
+const { class: cls, label = 'Brand Mark', tagline = true } = Astro.props;
+
+const svg = `
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 910 520" role="img" aria-label="${label}">
+    <rect width="910" height="520" fill="#000000"/>
+    <rect x="120" y="90" width="670" height="220" fill="#ffffff"/>
+    <rect x="120" y="90" width="335" height="220" fill="#000000"/>
+    <text x="287" y="230" fill="#ffffff" text-anchor="middle" font-family="Archivo Variable, Archivo, sans-serif" font-weight="800" font-size="104" letter-spacing="-4">BRAND</text>
+    <text x="620" y="230" fill="#000000" text-anchor="middle" font-family="Archivo Variable, Archivo, sans-serif" font-weight="800" font-size="104" letter-spacing="-4">MARK</text>
+    ${tagline ? `<text x="455" y="390" fill="#ffffff" text-anchor="middle" font-family="Archivo Variable, Archivo, sans-serif" font-weight="700" font-size="42" letter-spacing="2">FASHION &amp; FOOTWEAR</text>` : ''}
+  </svg>
+`;
 ---
 
 <span class:list={['bm-logo', cls]} set:html={svg} />
@@ -43,8 +29,11 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${-pad} ${-pad} ${
     display: inline-block;
     line-height: 0;
   }
+
   .bm-logo :global(svg) {
+    display: block;
     width: 100%;
     height: auto;
+    background: transparent;
   }
 </style>
