@@ -161,6 +161,35 @@ window.addEventListener('pageshow', (e) => {
   }
 });
 
+/* ───────────── Hero slideshow ───────────── */
+const show = $('[data-slideshow]');
+if (show) {
+  const slides = $$('[data-slide]', show);
+  const bars = $$('[data-slide-bar]', show);
+  const label = $('[data-slide-label]', show);
+  let current = 0;
+  const go = (n: number) => {
+    slides[current].classList.remove('is-active');
+    bars[current]?.classList.remove('is-active');
+    current = n % slides.length;
+    slides[current].classList.add('is-active');
+    const bar = bars[current];
+    if (bar) {
+      bar.classList.remove('is-active');
+      void bar.offsetWidth; // restart the progress animation
+      bar.classList.add('is-active');
+    }
+    if (label) label.textContent = slides[current].dataset.label || '';
+  };
+  if (!reduce && slides.length > 1) {
+    let timer = window.setInterval(() => go(current + 1), 5500);
+    document.addEventListener('visibilitychange', () => {
+      window.clearInterval(timer);
+      if (!document.hidden) timer = window.setInterval(() => go(current + 1), 5500);
+    });
+  }
+}
+
 /* ───────────── Cursor ───────────── */
 if (finePointer && !reduce) {
   const cursor = document.createElement('div');
@@ -421,16 +450,14 @@ function initReveals() {
         ease: 'none',
         scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true },
       });
-    // Photo row: each card rises at its own speed (away from the title) and fades
-    for (const card of $$<HTMLElement>('[data-hero-float]', hero)) {
-      const speed = Number(card.dataset.heroFloat || 1);
-      gsap.to(card, {
-        yPercent: -14 * speed,
-        opacity: 0.25,
+    // Photo panel drifts slower than the page for depth
+    const visual = $('[data-slideshow]', hero);
+    if (visual)
+      gsap.to(visual, {
+        yPercent: 14,
         ease: 'none',
         scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true },
       });
-    }
   }
 
   // Footer wordmark rise

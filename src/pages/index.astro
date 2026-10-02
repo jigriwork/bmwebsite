@@ -11,12 +11,11 @@ import { arrivals } from '../data/arrivals';
 import { mittyProducts, mittyUrl } from '../data/mitty';
 import mittyLogo from '../assets/brand/mitty.svg?raw';
 
-import heroMan from '../assets/photos/hero-man.jpg';
-import heroWoman from '../assets/photos/dept-women.jpg';
-import heroSneaker from '../assets/photos/hero-sneaker.jpg';
 import storyRack from '../assets/photos/story-rack.jpg';
+import hero1 from '../assets/photos/hero-1-menswear.jpg';
+import hero2 from '../assets/photos/hero-2-ethnic.jpg';
+import hero3 from '../assets/photos/hero-3-tailoring.jpg';
 import storyShelves from '../assets/photos/story-shelves.jpg';
-import heroShoes from '../assets/photos/shoes-leather.jpg';
 import occWedding from '../assets/photos/occ-wedding.jpg';
 import occOffice from '../assets/photos/occ-office.jpg';
 import occWeekend from '../assets/photos/occ-weekend.jpg';
@@ -31,51 +30,55 @@ const occasions = [
   { name: 'Weekend plans', note: 'Denim, jackets, polos & sneakers', img: occWeekend, ask: 'Hi Brand Mark, show me weekend casual looks.' },
   { name: 'Festive & puja', note: 'Kurtas, ethnic sets & gifting', img: occFestive, ask: 'Hi Brand Mark, I am shopping for the festive season.' },
 ];
+const slides = [
+  { img: hero1, label: 'Menswear', pos: '50% 20%' },
+  { img: hero2, label: "Women's ethnic", pos: '50% 30%' },
+  { img: hero3, label: 'Tailoring', pos: '50% 25%' },
+];
 const yearsOfRetail = new Date().getFullYear() - site.familySince;
 ---
 
 <Base>
   <!-- ═══════════ HERO ═══════════ -->
-  <section class="hero dark grain" data-hero>
-    <div class="hero__glow" aria-hidden="true"></div>
-
-    <div class="hero__cards wrap" aria-hidden="true">
+  <section class="hero dark" data-hero>
+    <div class="hero__visual" data-slideshow aria-hidden="true">
       {
-        [
-          { img: heroWoman, cls: 'b', d: 0.05, sp: 0.6 },
-          { img: heroMan, cls: 'a', d: 0.15, sp: 1.2 },
-          { img: heroSneaker, cls: 'c', d: 0.25, sp: 0.4 },
-          { img: heroShoes, cls: 'd', d: 0.35, sp: 0.9 },
-        ].map((c, i) => (
-          <div class={`hero__card hero__card--${c.cls}`} data-hero-float={c.sp}>
-            <div class="media" data-reveal="hero" data-delay={c.d}>
-              <Image src={c.img} alt="" widths={[300, 500, 760]} sizes="(min-width: 900px) 24vw, 32vw" loading="eager" fetchpriority={i < 2 ? 'high' : 'auto'} />
-            </div>
-          </div>
+        slides.map((sl, i) => (
+          <figure class:list={['hero__slide', { 'is-active': i === 0 }]} data-slide data-label={sl.label}>
+            <Image
+              src={sl.img}
+              alt=""
+              widths={[480, 800, 1200, 1600]}
+              sizes="(min-width: 900px) 46vw, 100vw"
+              loading={i === 0 ? 'eager' : 'lazy'}
+              fetchpriority={i === 0 ? 'high' : 'auto'}
+              style={`object-position:${sl.pos}`}
+            />
+          </figure>
         ))
       }
-    </div>
-
-    <div class="hero__inner wrap" data-hero-inner>
-      <p class="hero__kicker" data-fade="hero">
-        <span class="eyebrow">Fashion & Footwear · Berhampur</span>
-      </p>
-
-      <h1 class="hero__title display" data-split="hero">
-        <span class="hero__brand">Brand</span> <span class="hero__mark">Mark</span>
-      </h1>
-
-      <div class="hero__foot">
-        <p class="hero__lead" data-fade="hero" data-delay="0.35">
-          The labels you love, from <em class="serif">Levi's to Nike and The Bear House to our own MITTY,</em> under one roof at Spectrum Center.
-        </p>
-        <div class="hero__btns" data-fade="hero" data-delay="0.5">
-          <a href="#departments" class="btn btn--light" data-magnetic>Explore the store <Icon name="arrow" /></a>
-          <a href={site.mapsLink} target="_blank" rel="noopener" class="btn btn--ghost" data-magnetic><Icon name="pin" /> Directions</a>
-        </div>
+      <div class="hero__shade"></div>
+      <div class="hero__meta">
+        <span data-slide-label>{slides[0].label}</span>
+        <span class="hero__bars">
+          {slides.map((_, i) => <i class:list={{ 'is-active': i === 0 }} data-slide-bar></i>)}
+        </span>
       </div>
     </div>
 
+    <div class="hero__content wrap" data-hero-inner>
+      <p class="eyebrow hero__kicker" data-fade="hero">Fashion & Footwear · Berhampur</p>
+      <h1 class="hero__title display" data-split="hero">
+        <span class="hero__brand">Brand</span><br /><span class="hero__mark">Mark</span>
+      </h1>
+      <p class="hero__lead" data-fade="hero" data-delay="0.35">
+        The labels you love, from <em class="serif">Levi's to Nike and The Bear House to our own MITTY,</em> under one roof at Spectrum Center.
+      </p>
+      <div class="hero__btns" data-fade="hero" data-delay="0.5">
+        <a href="#departments" class="btn btn--light btn--ic" data-magnetic>Explore the store <span class="btn__ic"><Icon name="arrow" /></span></a>
+        <a href={site.mapsLink} target="_blank" rel="noopener" class="link hero__dir"><Icon name="pin" /> Get directions</a>
+      </div>
+    </div>
   </section>
 
   <!-- ═══════════ BRAND MARQUEE ═══════════ -->
@@ -309,108 +312,108 @@ const yearsOfRetail = new Date().getFullYear() - site.familySince;
     position: relative;
     min-height: 100svh;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    align-items: flex-end;
     overflow: hidden;
-    padding-top: 100px;
   }
-  .hero__glow {
+  .hero__visual {
     position: absolute;
-    inset: auto -20% -40% -20%;
-    height: 80%;
-    background: radial-gradient(closest-side, rgba(240, 168, 60, 0.22), transparent 70%);
-    pointer-events: none;
+    inset: 0;
+    background: var(--ink-2);
   }
-  /* Photo row: sits above the title and never overlaps it */
-  .hero__cards {
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr 1.25fr 0.85fr;
-    align-items: end;
-    gap: 10px;
-    margin-bottom: clamp(18px, 3vh, 34px);
+  .hero__slide {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    opacity: 0;
+    transition: opacity 1.6s var(--ease-in-out);
   }
-  .hero__card .media {
+  .hero__slide.is-active {
+    opacity: 1;
+  }
+  .hero__slide :global(img) {
     width: 100%;
     height: 100%;
+    object-fit: cover;
+    transform: scale(1.12);
+    transition: transform 7s linear;
   }
-  .hero__card--b {
-    aspect-ratio: 3 / 4;
+  .hero__slide.is-active :global(img) {
+    transform: scale(1);
   }
-  .hero__card--a {
-    aspect-ratio: 3 / 4.3;
+  .hero__shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(13, 12, 11, 0.55) 0%, rgba(13, 12, 11, 0) 22%),
+      linear-gradient(0deg, rgba(13, 12, 11, 0.96) 0%, rgba(13, 12, 11, 0.75) 38%, rgba(13, 12, 11, 0) 70%);
   }
-  .hero__card--c {
-    aspect-ratio: 3 / 3.4;
+  .hero__meta {
+    position: absolute;
+    right: var(--gutter);
+    top: 104px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    font-size: var(--fs-micro);
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(242, 238, 231, 0.85);
   }
-  .hero__card--d {
-    display: none;
+  .hero__bars {
+    display: flex;
+    gap: 6px;
   }
-  @media (min-width: 900px) {
-    .hero__cards {
-      grid-template-columns: 1fr 1.2fr 0.8fr 1fr;
-      gap: clamp(12px, 1.4vw, 24px);
-    }
-    .hero__card {
-      aspect-ratio: auto !important;
-    }
-    .hero__card--b {
-      height: clamp(180px, 30vh, 330px);
-    }
-    .hero__card--a {
-      height: clamp(220px, 40vh, 440px);
-    }
-    .hero__card--c {
-      height: clamp(140px, 22vh, 250px);
-    }
-    .hero__card--d {
-      display: block;
-      height: clamp(170px, 28vh, 310px);
+  .hero__bars i {
+    position: relative;
+    width: 34px;
+    height: 2px;
+    background: rgba(242, 238, 231, 0.25);
+    overflow: hidden;
+  }
+  .hero__bars i::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--amber);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  .hero__bars i.is-active::after {
+    animation: bar 5.5s linear forwards;
+  }
+  @keyframes bar {
+    to {
+      transform: scaleX(1);
     }
   }
-  .hero__inner {
+  .hero__content {
     position: relative;
     z-index: 2;
-    padding-bottom: clamp(28px, 5vh, 56px);
+    display: grid;
+    gap: clamp(16px, 2.4vh, 26px);
+    padding-top: 120px;
+    padding-bottom: clamp(32px, 6vh, 64px);
   }
   .hero__kicker {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 16px;
-    margin-bottom: clamp(10px, 2vh, 20px);
-    color: rgba(242, 238, 231, 0.8);
+    color: var(--amber);
   }
   .hero__title {
-    font-size: clamp(4rem, 17vw, 7rem);
+    font-size: clamp(3.9rem, 17.5vw, 7rem);
     line-height: 0.86;
     letter-spacing: -0.055em;
     margin-left: -0.04em;
   }
-  @media (min-width: 900px) {
-    .hero__title {
-      font-size: clamp(5rem, 10.2vw, 15rem);
-      white-space: nowrap;
-    }
-  }
-  .hero__brand {
-    display: inline-block;
-    background: var(--paper);
-    color: var(--ink);
-    padding: 0.04em 0.07em 0;
-    margin-right: 0.04em;
-  }
-  .hero__foot {
-    display: grid;
-    gap: 22px;
-    margin-top: clamp(20px, 3.5vh, 40px);
-    padding-top: clamp(18px, 3vh, 30px);
-    border-top: 1px solid var(--line-d);
+  .hero__mark {
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--paper);
   }
   .hero__lead {
-    max-width: 44ch;
+    max-width: 40ch;
     font-size: var(--fs-lead);
-    color: rgba(242, 238, 231, 0.86);
+    color: rgba(242, 238, 231, 0.88);
   }
   .hero__lead em {
     font-size: 1.12em;
@@ -419,17 +422,42 @@ const yearsOfRetail = new Date().getFullYear() - site.familySince;
   .hero__btns {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    align-items: center;
+    gap: 16px 28px;
+    margin-top: 6px;
   }
+  .hero__dir :global(svg) {
+    width: 15px;
+    height: 15px;
+  }
+
   @media (min-width: 900px) {
-    .hero__foot {
-      grid-template-columns: 1fr auto;
-      align-items: end;
+    .hero {
+      align-items: center;
     }
-  }
-  @media (max-height: 700px) and (min-width: 900px) {
-    .hero__cards {
-      display: none;
+    /* Split layout: copy on the left, photo panel on the right */
+    .hero__visual {
+      left: auto;
+      width: 46vw;
+    }
+    .hero__shade {
+      background:
+        linear-gradient(90deg, var(--ink) 0%, rgba(13, 12, 11, 0) 22%),
+        linear-gradient(0deg, rgba(13, 12, 11, 0.45) 0%, rgba(13, 12, 11, 0) 30%);
+    }
+    .hero__meta {
+      top: auto;
+      bottom: 40px;
+    }
+    .hero__content {
+      padding-top: 130px;
+      padding-bottom: 80px;
+    }
+    .hero__content > * {
+      max-width: 50vw;
+    }
+    .hero__title {
+      font-size: clamp(4.5rem, 8.4vw, 12rem);
     }
   }
 

@@ -147,12 +147,12 @@ const year = new Date().getFullYear();
     display: inline-block;
     padding: 0.08em 0.06em 0.02em;
   }
-  .ftr__mega span:first-child {
-    background: var(--paper);
-    color: var(--ink);
+  .ftr__mega span {
+    color: var(--paper);
   }
   .ftr__mark {
-    color: var(--paper);
+    color: transparent !important;
+    -webkit-text-stroke: 1.5px var(--paper);
   }
   .ftr__base {
     display: flex;

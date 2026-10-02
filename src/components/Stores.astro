@@ -31,7 +31,7 @@ import mittyLogo from '../assets/brand/mitty.svg?raw';
 
       <li class="store">
         <span class="store__tag">Since {goPlanet.since}</span>
-        <div class="store__logo"><span class="logo-mask store__mask" style={`--logo:url('${goPlanet.logo}');aspect-ratio:1.925`} role="img" aria-label="Go Planet"></span></div>
+        <div class="store__logo"><img src="/logos/goplanet-color.png" alt="Go Planet" class="store__gp" width="500" height="500" loading="lazy" /></div>
         <p class="store__line">Where the Brand Mark story began. Fashion for men and women, ethnic wear, footwear and fragrances, plus Brand Mark Luxe online.</p>
         <p class="store__addr"><Icon name="pin" /> {goPlanet.address}</p>
         <div class="store__links">
@@ -54,7 +54,7 @@ import mittyLogo from '../assets/brand/mitty.svg?raw';
       <li class="store store--soon">
         <span class="store__tag store__tag--soon"><i></i> Coming soon</span>
         <p class="store__soon display">New<br />location</p>
-        <p class="store__line">We're growing. A new Brand Mark store is on its way. Same brands, same care, new address.</p>
+        <p class="store__line">We're growing. A new location is on its way. Same brands, same care, new address.</p>
         <div class="store__links">
           <a href={site.instagram} target="_blank" rel="noopener" class="link"><Icon name="instagram" /> Follow for the reveal</a>
         </div>
@@ -150,9 +150,10 @@ import mittyLogo from '../assets/brand/mitty.svg?raw';
     width: 100%;
     height: auto;
   }
-  .store__mask {
-    height: 92px;
-    color: var(--paper);
+  .store__gp {
+    width: 150px;
+    height: auto;
+    margin: -24px 0 -24px -18px;
   }
   .store__line {
     font-size: 0.95rem;

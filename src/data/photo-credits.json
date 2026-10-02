@@ -1,8 +1,4 @@
 {
- "hero-man": {
-  "src": "https://images.unsplash.com/photo-1705514234104-b3cf64c3bf4e",
-  "alt": "a man in a black jacket and sunglasses leaning against a wall"
- },
  "hero-woman": {
   "src": "https://images.unsplash.com/photo-1716504628204-47f2df8d2634",
   "alt": "a woman in a black and gold outfit"
@@ -83,6 +79,10 @@
   "src": "https://images.unsplash.com/photo-1636886407345-bc0007e90bbc",
   "alt": "a rack of clothes on a wooden floor"
  },
+ "story-hanger": {
+  "src": "https://images.unsplash.com/photo-1637999244654-2cfb11105c59",
+  "alt": "a pair of wooden clothes hangers in a dark room"
+ },
  "women-saree": {
   "src": "https://images.unsplash.com/photo-1708182564325-fb1d3a3864d3",
   "alt": "a woman in a green and orange sari"
@@ -99,8 +99,16 @@
   "src": "https://images.unsplash.com/photo-1598634222670-87c5f558119c",
   "alt": "clear glass perfume bottle with black background"
  },
- "shoes-leather": {
-  "src": "https://images.unsplash.com/photo-1708515792135-09a95d8e9119",
-  "alt": "a pair of brown shoes sitting on top of a black cloth"
+ "hero-1-menswear": {
+  "src": "https://images.unsplash.com/photo-1786540610338-0fec664e7db4",
+  "alt": "A man with a beard wearing a brown jacket over a white shirt"
+ },
+ "hero-2-ethnic": {
+  "src": "https://images.unsplash.com/photo-1756483510768-60fed6aaa44f",
+  "alt": "Woman in elaborate red outfit with dramatic makeup"
+ },
+ "hero-3-tailoring": {
+  "src": "https://images.unsplash.com/photo-1676278746103-c5a62b7faab9",
+  "alt": "a man in a suit standing in front of a window"
  }
 }

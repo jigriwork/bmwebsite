@@ -1,11 +1,33 @@
 ---
+/**
+ * The Brand Mark logo in its original colours: black frame, black BRAND block
+ * with white letters, black MARK, on a white plate. Optional tagline underneath.
+ */
 import raw from '../assets/brand/brandmark.svg?raw';
 interface Props {
   class?: string;
   label?: string;
+  tagline?: boolean;
 }
-const { class: cls, label = 'Brand Mark' } = Astro.props;
-const svg = raw.replace('<svg ', `<svg role="img" aria-label="${label}" `);
+const { class: cls, label = 'Brand Mark', tagline = false } = Astro.props;
+
+const vb = raw.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/)!;
+const w = Number(vb[1]);
+const h = Number(vb[2]);
+const path = raw.match(/<path[^>]*\sd="([^"]+)"/)![1];
+const pad = 14;
+const tagH = tagline ? 74 : 0;
+const vbW = w + pad * 2;
+const vbH = h + pad * 2 + tagH;
+const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${-pad} ${-pad} ${vbW} ${vbH}" role="img" aria-label="${label}">
+  <rect x="${-pad}" y="${-pad}" width="${vbW}" height="${vbH}" fill="#ffffff"/>
+  <path fill="#0d0c0b" fill-rule="evenodd" d="${path}"/>
+  ${
+    tagline
+      ? `<text x="${w / 2}" y="${h + 56}" text-anchor="middle" font-family="Archivo Variable, Archivo, sans-serif" font-weight="700" font-size="50" letter-spacing="3" fill="none" stroke="#0d0c0b" stroke-width="1.8">FASHION &amp; FOOTWEAR</text>`
+      : ''
+  }
+</svg>`;
 ---
 
 <span class:list={['bm-logo', cls]} set:html={svg} />
