@@ -1,14 +1,19 @@
 ---
+/**
+ * The Brand Mark logo. The tagline is white by default for dark backgrounds;
+ * pass tone="ink" on light backgrounds so FASHION & FOOTWEAR stays visible.
+ */
 interface Props {
   class?: string;
   label?: string;
+  tone?: 'light' | 'ink';
 }
 
-const { class: cls, label = 'Brand Mark' } = Astro.props;
-const logoSrc = '/brand/Brand%20Mark%20logo_20261002_223741_0000.png';
+const { class: cls, label = 'Brand Mark', tone = 'light' } = Astro.props;
+const logoSrc = tone === 'ink' ? '/brand/brandmark-logo-ink.png' : '/brand/brandmark-logo.png';
 ---
 
-<img class:list={['bm-logo', cls]} src={logoSrc} alt={label} />
+<img class:list={['bm-logo', cls]} src={logoSrc} alt={label} width="474" height="173" />
 
 <style>
   .bm-logo {

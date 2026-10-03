@@ -1,0 +1,795 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { brands } from '../data/brands';
+import { site } from '../data/site';
+---
+
+<Base
+  title="Brand Rush: Play the Brand Game"
+  description="Brand Rush by Brand Mark Berhampur. 30 seconds, 17 brands. Tap the logo we call out, build a streak and challenge your friends on WhatsApp."
+>
+  <section class="rush dark grain">
+    <div class="wrap rush__inner">
+      <header class="rush__head">
+        <p class="eyebrow">Brand Rush · The Brand Mark game</p>
+        <h1 class="display h1">Know your <span class="serif">brands?</span></h1>
+        <p class="lead rush__lead">
+          30 seconds on the clock. Tap the logo we call out, keep your streak alive to multiply your score, then dare your friends to beat it.
+        </p>
+      </header>
+
+      <div class="board" data-rush data-state="intro">
+        <div class="board__hud">
+          <div class="board__stat"><small>Score</small><b data-score>0</b></div>
+          <div class="board__stat"><small>Combo</small><b data-mult>x1</b></div>
+          <div class="board__stat"><small>Time</small><b data-time>30.0</b></div>
+          <button class="board__mute" type="button" aria-pressed="false" aria-label="Mute sound" data-mute>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M4 9h4l5-4v14l-5-4H4z" />
+              <path class="board__wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" />
+              <path class="board__x" d="m16 9 6 6m0-6-6 6" />
+            </svg>
+          </button>
+        </div>
+        <div class="board__bar" aria-hidden="true"><i data-bar></i></div>
+
+        <div class="board__stage">
+          <!-- Intro -->
+          <div class="board__screen board__screen--intro">
+            <p class="board__challenge" data-challenge hidden></p>
+            <ol class="board__rules">
+              <li><b>01</b> We call out a brand.</li>
+              <li><b>02</b> Tap its logo, fast.</li>
+              <li><b>03</b> 5 in a row raises your combo, up to x4.</li>
+              <li><b>04</b> A wrong tap costs you 2 seconds.</li>
+            </ol>
+            <button class="btn btn--ic board__start" type="button" data-start>
+              Start game <span class="btn__ic"><Icon name="arrow" /></span>
+            </button>
+            <p class="board__best" data-best-wrap hidden>Your best: <b data-best>0</b></p>
+          </div>
+
+          <!-- Countdown -->
+          <div class="board__screen board__screen--count" aria-live="assertive">
+            <span class="board__count" data-count>3</span>
+          </div>
+
+          <!-- Play -->
+          <div class="board__play">
+            <p class="board__call" aria-live="polite"><small>Tap</small><span data-target>Nike</span></p>
+            <div class="board__grid" data-grid></div>
+          </div>
+
+          <!-- Game over -->
+          <div class="board__screen board__screen--over" aria-live="polite">
+            <p class="eyebrow">Time's up</p>
+            <p class="board__final" data-final>0</p>
+            <p class="board__rank" data-rank>Window Shopper</p>
+            <p class="board__note" data-note></p>
+            <div class="board__btns">
+              <a class="btn btn--wa" href="#" target="_blank" rel="noopener" data-wa><Icon name="whatsapp" /> Challenge on WhatsApp</a>
+              <button class="btn btn--light" type="button" data-again>Play again</button>
+              <button class="btn btn--ghost" type="button" data-share hidden>Share</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rush-cta bone section">
+    <div class="wrap rush-cta__inner">
+      <div>
+        <p class="eyebrow">Every logo in the game</p>
+        <h2 class="display h2">Is on our shelves.<br /><span class="serif">Come see them for real.</span></h2>
+      </div>
+      <div class="rush-cta__side">
+        <p class="lead muted">
+          All {brands.length} brands from Brand Rush are in store at {site.address.line1}, Berhampur. {site.hours.days}, {site.hours.label}.
+        </p>
+        <div class="rush-cta__btns">
+          <a href="/brands" class="btn">See all brands <Icon name="arrow" /></a>
+          <a href={site.mapsLink} target="_blank" rel="noopener" class="btn btn--ghost"><Icon name="pin" /> Get directions</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  import { brands } from '../data/brands';
+  import ratios from '../data/logo-ratios.json';
+
+  const DURATION = 30;
+  const PENALTY = 2;
+  const BEST_KEY = 'bm-rush-best';
+  const MUTE_KEY = 'bm-rush-muted';
+
+  const shortName: Record<string, string> = { ucb: 'Benetton' };
+  const ranks: [number, string][] = [
+    [700, 'Brand Mark Legend'],
+    [450, 'Brand Insider'],
+    [250, 'Style Regular'],
+    [100, 'Weekend Browser'],
+    [0, 'Window Shopper'],
+  ];
+
+  const board = document.querySelector<HTMLElement>('[data-rush]')!;
+  const q = <T extends HTMLElement = HTMLElement>(s: string) => board.querySelector<T>(s)!;
+  const el = {
+    score: q('[data-score]'),
+    mult: q('[data-mult]'),
+    time: q('[data-time]'),
+    bar: q('[data-bar]'),
+    count: q('[data-count]'),
+    target: q('[data-target]'),
+    grid: q('[data-grid]'),
+    final: q('[data-final]'),
+    rank: q('[data-rank]'),
+    note: q('[data-note]'),
+    best: q('[data-best]'),
+    bestWrap: q('[data-best-wrap]'),
+    challenge: q('[data-challenge]'),
+    wa: q<HTMLAnchorElement>('[data-wa]'),
+    share: q<HTMLButtonElement>('[data-share]'),
+    mute: q<HTMLButtonElement>('[data-mute]'),
+  };
+
+  const store = {
+    get(k: string) {
+      try {
+        return localStorage.getItem(k);
+      } catch {
+        return null;
+      }
+    },
+    set(k: string, v: string) {
+      try {
+        localStorage.setItem(k, v);
+      } catch {}
+    },
+  };
+
+  /* ───── Friend's challenge from the share link ───── */
+  const beatParam = Number(new URLSearchParams(location.search).get('beat'));
+  const beat = Number.isFinite(beatParam) && beatParam > 0 ? Math.min(Math.floor(beatParam), 9999) : 0;
+  if (beat) {
+    el.challenge.textContent = `A friend scored ${beat}. Can you beat it?`;
+    el.challenge.hidden = false;
+  }
+
+  let best = Number(store.get(BEST_KEY)) || 0;
+  const showBest = () => {
+    el.best.textContent = String(best);
+    el.bestWrap.hidden = best === 0;
+  };
+  showBest();
+
+  /* ───── Sound ───── */
+  let muted = store.get(MUTE_KEY) === '1';
+  let ctx: AudioContext | null = null;
+  const setMute = (m: boolean) => {
+    muted = m;
+    el.mute.setAttribute('aria-pressed', String(m));
+    el.mute.setAttribute('aria-label', m ? 'Unmute sound' : 'Mute sound');
+    store.set(MUTE_KEY, m ? '1' : '0');
+  };
+  setMute(muted);
+  el.mute.addEventListener('click', () => setMute(!muted));
+
+  function tone(freq: number, dur = 0.09, type: OscillatorType = 'sine', gain = 0.08) {
+    if (muted) return;
+    try {
+      ctx ??= new AudioContext();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = type;
+      o.frequency.value = freq;
+      g.gain.setValueAtTime(gain, ctx.currentTime);
+      g.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + dur);
+      o.connect(g).connect(ctx.destination);
+      o.start();
+      o.stop(ctx.currentTime + dur);
+    } catch {}
+  }
+
+  /* ───── Game state ───── */
+  type Brand = (typeof brands)[number];
+  let state: 'intro' | 'count' | 'play' | 'over' = 'intro';
+  let score = 0;
+  let streak = 0;
+  let hits = 0;
+  let endAt = 0;
+  let target: Brand = brands[0];
+  let raf = 0;
+
+  const setState = (s: typeof state) => {
+    state = s;
+    board.dataset.state = s;
+  };
+  const multiplier = () => Math.min(4, 1 + Math.floor(streak / 5));
+  const tileCount = () => (hits < 6 ? 4 : hits < 14 ? 6 : 9);
+  const shuffle = <T,>(a: T[]) => {
+    const r = [...a];
+    for (let i = r.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [r[i], r[j]] = [r[j], r[i]];
+    }
+    return r;
+  };
+
+  function tile(b: Brand) {
+    const ratio = (ratios as Record<string, number>)[b.slug] ?? 3;
+    const optical = Math.min(1.5, Math.max(0.45, Math.sqrt(2.6 / ratio))) * (b.scale ?? 1);
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'board__tile';
+    btn.setAttribute('aria-label', b.name);
+    btn.innerHTML = `<span class="logo-mask" style="--logo:url('${b.logo}');--r:${ratio};--o:${optical}"></span>`;
+    btn.addEventListener('pointerdown', (e) => pick(b, btn, e));
+    btn.addEventListener('click', (e) => {
+      // keyboard activation (pointer taps are handled on pointerdown for speed)
+      if ((e as PointerEvent).pointerType === '' || e.detail === 0) pick(b, btn, e);
+    });
+    return btn;
+  }
+
+  function nextRound() {
+    const pool = brands.filter((b) => b !== target);
+    target = pool[Math.floor(Math.random() * pool.length)];
+    const others = shuffle(brands.filter((b) => b !== target)).slice(0, tileCount() - 1);
+    const options = shuffle([target, ...others]);
+    el.grid.dataset.n = String(options.length);
+    el.grid.replaceChildren(...options.map(tile));
+    el.target.textContent = shortName[target.slug] ?? target.name;
+    el.target.parentElement!.classList.remove('is-new');
+    void el.target.offsetWidth;
+    el.target.parentElement!.classList.add('is-new');
+  }
+
+  function pop(text: string, x: number, y: number, bad = false) {
+    const r = board.getBoundingClientRect();
+    const p = document.createElement('span');
+    p.className = `board__pop${bad ? ' is-bad' : ''}`;
+    p.textContent = text;
+    p.style.left = `${x - r.left}px`;
+    p.style.top = `${y - r.top}px`;
+    board.append(p);
+    p.addEventListener('animationend', () => p.remove());
+  }
+
+  function pick(b: Brand, btn: HTMLButtonElement, e: Event) {
+    if (state !== 'play') return;
+    e.preventDefault();
+    const rect = btn.getBoundingClientRect();
+    const pe = e as PointerEvent;
+    const x = pe.clientX || rect.left + rect.width / 2;
+    const y = pe.clientY || rect.top + rect.height / 2;
+
+    if (b === target) {
+      streak++;
+      hits++;
+      const m = multiplier();
+      const pts = 10 * m;
+      score += pts;
+      pop(`+${pts}`, x, y);
+      tone(520 + m * 130, 0.08, 'triangle');
+      if (streak % 5 === 0 && streak <= 15) {
+        setTimeout(() => tone(1040 + m * 120, 0.12, 'triangle'), 70);
+        board.classList.remove('is-combo');
+        void board.offsetWidth;
+        board.classList.add('is-combo');
+      }
+      nextRound();
+    } else {
+      streak = 0;
+      endAt -= PENALTY * 1000;
+      btn.classList.remove('is-wrong');
+      void btn.offsetWidth;
+      btn.classList.add('is-wrong');
+      pop(`-${PENALTY}s`, x, y, true);
+      tone(150, 0.2, 'sawtooth', 0.05);
+      navigator.vibrate?.(60);
+    }
+    hud();
+  }
+
+  function hud() {
+    el.score.textContent = String(score);
+    el.mult.textContent = `x${multiplier()}`;
+    board.dataset.mult = String(multiplier());
+  }
+
+  function tick() {
+    const left = Math.max(0, (endAt - performance.now()) / 1000);
+    el.time.textContent = left.toFixed(1);
+    el.bar.style.transform = `scaleX(${left / DURATION})`;
+    board.classList.toggle('is-low', left <= 5);
+    if (left <= 0) return finish();
+    raf = requestAnimationFrame(tick);
+  }
+
+  function start() {
+    score = 0;
+    streak = 0;
+    hits = 0;
+    hud();
+    el.time.textContent = DURATION.toFixed(1);
+    el.bar.style.transform = 'scaleX(1)';
+    board.classList.remove('is-low');
+    setState('count');
+    board.scrollIntoView({ block: 'center', behavior: 'smooth' });
+
+    let n = 3;
+    const step = () => {
+      if (n > 0) {
+        el.count.textContent = String(n);
+        tone(440, 0.1);
+      } else {
+        el.count.textContent = 'Go';
+        tone(880, 0.16, 'triangle');
+      }
+      el.count.classList.remove('is-in');
+      void el.count.offsetWidth;
+      el.count.classList.add('is-in');
+      if (n-- > 0) setTimeout(step, 650);
+      else
+        setTimeout(() => {
+          setState('play');
+          nextRound();
+          endAt = performance.now() + DURATION * 1000;
+          raf = requestAnimationFrame(tick);
+        }, 450);
+    };
+    step();
+  }
+
+  function finish() {
+    cancelAnimationFrame(raf);
+    setState('over');
+    el.grid.replaceChildren();
+    tone(660, 0.12, 'triangle');
+    setTimeout(() => tone(440, 0.22, 'triangle'), 120);
+
+    const isBest = score > best;
+    if (isBest) {
+      best = score;
+      store.set(BEST_KEY, String(best));
+    }
+    showBest();
+
+    const rank = ranks.find(([min]) => score >= min)![1];
+    el.final.textContent = String(score);
+    el.rank.textContent = rank;
+
+    const notes: string[] = [];
+    if (beat)
+      notes.push(
+        score > beat
+          ? `You beat your friend's ${beat}!`
+          : score === beat
+            ? `Tied with your friend's ${beat}.`
+            : `${beat - score} points short of your friend's ${beat}.`,
+      );
+    if (isBest && score > 0) notes.push('New personal best.');
+    else if (best) notes.push(`Your best: ${best}`);
+    el.note.textContent = notes.join(' ');
+
+    const link = `${location.origin}/play?beat=${score}`;
+    const text = `I scored ${score} on Brand Rush by Brand Mark Berhampur (${rank}). Think you know your brands better? Beat me: ${link}`;
+    el.wa.href = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    if (navigator.share) {
+      el.share.hidden = false;
+      el.share.onclick = () => navigator.share({ title: 'Brand Rush', text, url: link }).catch(() => {});
+    }
+  }
+
+  q('[data-start]').addEventListener('click', start);
+  q('[data-again]').addEventListener('click', start);
+</script>
+
+<style is:global>
+  .rush {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(120px, 15vw, 170px) 0 clamp(110px, 10vw, 140px);
+  }
+  .rush::before {
+    content: '';
+    position: absolute;
+    inset: auto -20% -30% 30%;
+    height: 80%;
+    background: radial-gradient(closest-side, rgba(240, 168, 60, 0.16), transparent);
+    pointer-events: none;
+  }
+  .rush__inner {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    gap: clamp(32px, 5vw, 64px);
+  }
+  .rush__head {
+    display: grid;
+    gap: 20px;
+    align-content: start;
+  }
+  .rush__head .eyebrow {
+    color: var(--amber);
+  }
+  .rush__lead {
+    color: rgba(242, 238, 231, 0.8);
+  }
+  @media (min-width: 1100px) {
+    .rush__inner {
+      grid-template-columns: 0.85fr 1.15fr;
+      align-items: center;
+    }
+  }
+
+  /* ───── Board ───── */
+  .board {
+    position: relative;
+    display: grid;
+    gap: 14px;
+    padding: clamp(14px, 2.4vw, 26px);
+    background: var(--ink-2);
+    box-shadow: inset 0 0 0 1px var(--line-d);
+    border-radius: 14px;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .board.is-combo {
+    animation: combo 0.6s var(--ease);
+  }
+  @keyframes combo {
+    30% {
+      box-shadow: inset 0 0 0 2px var(--amber), 0 0 60px rgba(240, 168, 60, 0.35);
+    }
+  }
+  .board__hud {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) auto;
+    align-items: end;
+    gap: 10px;
+  }
+  .board__stat {
+    display: grid;
+    gap: 2px;
+  }
+  .board__stat small {
+    font-size: var(--fs-micro);
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--stone);
+  }
+  .board__stat b {
+    font-size: clamp(1.4rem, 3.4vw, 2rem);
+    font-weight: 800;
+    font-variation-settings: 'wdth' 125;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .board[data-mult='2'] [data-mult],
+  .board[data-mult='3'] [data-mult],
+  .board[data-mult='4'] [data-mult] {
+    color: var(--amber);
+  }
+  .board.is-low [data-time] {
+    color: #ff6b5a;
+  }
+  .board__mute {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px var(--line-d);
+    color: var(--paper);
+  }
+  .board__mute svg {
+    width: 20px;
+    height: 20px;
+  }
+  .board__x {
+    display: none;
+  }
+  .board__mute[aria-pressed='true'] .board__x {
+    display: inline;
+  }
+  .board__mute[aria-pressed='true'] .board__wave {
+    display: none;
+  }
+  .board__bar {
+    height: 4px;
+    border-radius: 4px;
+    background: var(--line-d);
+    overflow: hidden;
+  }
+  .board__bar i {
+    display: block;
+    height: 100%;
+    background: var(--amber);
+    transform-origin: left;
+  }
+  .board.is-low .board__bar i {
+    background: #ff6b5a;
+  }
+
+  .board__stage {
+    position: relative;
+    display: grid;
+    min-height: clamp(380px, 58svh, 520px);
+  }
+  .board__screen,
+  .board__play {
+    grid-area: 1 / 1;
+    display: none;
+  }
+  .board[data-state='intro'] .board__screen--intro,
+  .board[data-state='count'] .board__screen--count,
+  .board[data-state='over'] .board__screen--over {
+    display: grid;
+  }
+  .board[data-state='play'] .board__play {
+    display: grid;
+  }
+
+  /* Intro */
+  .board__screen--intro {
+    align-content: center;
+    justify-items: start;
+    gap: 22px;
+    padding: clamp(6px, 2vw, 24px);
+  }
+  .board__challenge {
+    padding: 10px 16px;
+    border-radius: 99px;
+    background: rgba(240, 168, 60, 0.14);
+    color: var(--amber);
+    font-weight: 600;
+  }
+  .board__rules {
+    list-style: none;
+    display: grid;
+    gap: 12px;
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+  }
+  .board__rules li {
+    display: flex;
+    gap: 14px;
+    align-items: baseline;
+  }
+  .board__rules b {
+    font-size: var(--fs-micro);
+    letter-spacing: 0.12em;
+    color: var(--amber);
+  }
+  @media (max-width: 1099px) {
+    .board__screen--intro {
+      align-content: start;
+      padding-top: 18px;
+    }
+  }
+  .board__best {
+    color: var(--stone);
+    font-size: var(--fs-small);
+  }
+  .board__best b {
+    color: var(--paper);
+  }
+
+  /* Countdown */
+  .board__screen--count {
+    place-items: center;
+  }
+  .board__count {
+    font-size: clamp(6rem, 22vw, 12rem);
+    font-weight: 800;
+    font-variation-settings: 'wdth' 125;
+    text-transform: uppercase;
+    line-height: 1;
+    color: var(--amber);
+  }
+  .board__count.is-in {
+    animation: count-in 0.6s var(--ease);
+  }
+  @keyframes count-in {
+    from {
+      transform: scale(1.8);
+      opacity: 0;
+    }
+  }
+
+  /* Play */
+  .board__play {
+    grid-template-rows: auto 1fr;
+    gap: 14px;
+  }
+  .board__call {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    min-height: 1.2em;
+    font-size: clamp(1.6rem, 4.2vw, 2.6rem);
+    font-weight: 800;
+    font-variation-settings: 'wdth' 125;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .board__call small {
+    font-family: var(--f-serif);
+    font-style: italic;
+    font-weight: 400;
+    text-transform: none;
+    font-variation-settings: normal;
+    color: var(--amber);
+  }
+  .board__call.is-new span {
+    animation: call-in 0.35s var(--ease);
+  }
+  @keyframes call-in {
+    from {
+      transform: translateY(40%);
+      opacity: 0;
+    }
+  }
+  .board__grid {
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 1fr;
+  }
+  .board__grid[data-n='9'] {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  @media (min-width: 700px) {
+    .board__grid[data-n='6'] {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  .board__tile {
+    container-type: size;
+    display: grid;
+    place-items: center;
+    min-height: 0;
+    border-radius: 10px;
+    background: var(--ink-3);
+    color: var(--paper);
+    box-shadow: inset 0 0 0 1px var(--line-d);
+    transition: transform 0.15s var(--ease), background 0.2s, box-shadow 0.2s;
+    animation: tile-in 0.3s var(--ease) both;
+  }
+  .board__tile:nth-child(2) { animation-delay: 0.02s; }
+  .board__tile:nth-child(3) { animation-delay: 0.04s; }
+  .board__tile:nth-child(4) { animation-delay: 0.06s; }
+  .board__tile:nth-child(5) { animation-delay: 0.08s; }
+  .board__tile:nth-child(6) { animation-delay: 0.1s; }
+  .board__tile:nth-child(7) { animation-delay: 0.12s; }
+  .board__tile:nth-child(8) { animation-delay: 0.14s; }
+  .board__tile:nth-child(9) { animation-delay: 0.16s; }
+  @keyframes tile-in {
+    from {
+      transform: scale(0.9);
+      opacity: 0;
+    }
+  }
+  .board__tile:hover {
+    box-shadow: inset 0 0 0 1px var(--amber);
+  }
+  .board__tile:active {
+    transform: scale(0.96);
+  }
+  .board__tile:focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: 2px;
+  }
+  .board__tile .logo-mask {
+    height: calc(var(--o) * 26cqh);
+    width: calc(var(--o) * 26cqh * var(--r));
+    max-width: 78cqw;
+  }
+  .board__tile.is-wrong {
+    background: rgba(255, 107, 90, 0.18);
+    box-shadow: inset 0 0 0 1px #ff6b5a;
+    animation: shake 0.35s;
+  }
+  @keyframes shake {
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+  }
+
+  .board__pop {
+    position: absolute;
+    z-index: 5;
+    pointer-events: none;
+    translate: -50% -50%;
+    font-weight: 800;
+    font-size: 1.5rem;
+    font-variation-settings: 'wdth' 125;
+    color: var(--amber);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+    animation: pop 0.7s var(--ease) forwards;
+  }
+  .board__pop.is-bad {
+    color: #ff6b5a;
+  }
+  @keyframes pop {
+    to {
+      transform: translateY(-60px);
+      opacity: 0;
+    }
+  }
+
+  /* Game over */
+  .board__screen--over {
+    align-content: center;
+    justify-items: center;
+    text-align: center;
+    gap: 10px;
+    padding: 12px;
+  }
+  .board__screen--over .eyebrow {
+    color: var(--stone);
+  }
+  .board__final {
+    font-size: clamp(5rem, 18vw, 9rem);
+    font-weight: 800;
+    font-variation-settings: 'wdth' 125;
+    line-height: 0.95;
+    font-variant-numeric: tabular-nums;
+    animation: count-in 0.7s var(--ease);
+  }
+  .board__rank {
+    font-family: var(--f-serif);
+    font-style: italic;
+    font-size: clamp(1.6rem, 3.4vw, 2.2rem);
+    color: var(--amber);
+  }
+  .board__note {
+    color: rgba(242, 238, 231, 0.75);
+    min-height: 1.5em;
+  }
+  .board__btns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 14px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .board__tile,
+    .board__count.is-in,
+    .board__call.is-new span,
+    .board__final {
+      animation: none;
+    }
+  }
+
+  /* ───── CTA ───── */
+  .rush-cta__inner {
+    display: grid;
+    gap: 32px;
+  }
+  .rush-cta__side {
+    display: grid;
+    gap: 24px;
+    align-content: end;
+  }
+  .rush-cta__btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  @media (min-width: 900px) {
+    .rush-cta__inner {
+      grid-template-columns: 1.2fr 1fr;
+      align-items: end;
+    }
+  }
+</style>

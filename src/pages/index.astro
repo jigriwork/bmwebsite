@@ -274,6 +274,20 @@ const yearsOfRetail = new Date().getFullYear() - site.familySince;
     </div>
   </section>
 
+  <!-- ═══════════ BRAND RUSH ═══════════ -->
+  <section class="game-band" aria-labelledby="game-title">
+    <div class="wrap game-band__inner">
+      <div class="game-band__copy">
+        <p class="eyebrow" data-fade>New · Play Brand Rush</p>
+        <h2 class="display h2" id="game-title" data-split>30 seconds.<br /><span class="serif">How well do you know your brands?</span></h2>
+      </div>
+      <div class="game-band__side" data-fade>
+        <p>Tap the right logo, build your combo and challenge your friends on WhatsApp.</p>
+        <a href="/play" class="btn btn--ic" data-magnetic>Play now <span class="btn__ic"><Icon name="arrow" /></span></a>
+      </div>
+    </div>
+  </section>
+
   <!-- ═══════════ FAMILY OF STORES ═══════════ -->
   <Stores />
 
@@ -1048,6 +1062,44 @@ const yearsOfRetail = new Date().getFullYear() - site.familySince;
     .visit__grid {
       grid-template-columns: 0.9fr 1.1fr;
       gap: clamp(40px, 6vw, 100px);
+    }
+  }
+  /* ───── Brand Rush teaser ───── */
+  .game-band {
+    background: var(--amber);
+    color: var(--ink);
+    padding-block: clamp(56px, 8vw, 110px);
+  }
+  .game-band__inner {
+    display: grid;
+    gap: 28px;
+  }
+  .game-band__copy {
+    display: grid;
+    gap: 18px;
+  }
+  .game-band__side {
+    display: grid;
+    gap: 22px;
+    justify-items: start;
+    align-content: end;
+    font-size: var(--fs-lead);
+    max-width: 36ch;
+  }
+  .game-band .btn::before {
+    background: var(--paper);
+  }
+  .game-band .btn--ic:hover .btn__ic {
+    background: var(--amber);
+    color: var(--ink);
+  }
+  @media (min-width: 900px) {
+    .game-band__inner {
+      grid-template-columns: 1.4fr 1fr;
+      align-items: end;
+    }
+    .game-band__side {
+      justify-self: end;
     }
   }
 </style>

@@ -49,5 +49,6 @@ export const nav = [
   { href: '/mitty', label: 'MITTY' },
   { href: '/new-arrivals', label: 'New In' },
   { href: '/about', label: 'Our Story' },
+  { href: '/play', label: 'Play' },
   { href: '/visit', label: 'Visit' },
 ];
